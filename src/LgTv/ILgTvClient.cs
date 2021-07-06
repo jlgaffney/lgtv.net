@@ -15,7 +15,7 @@ namespace LgTv
 
         Task ControlButton(object ok);
 
-        Task<LgWebOsMouseService> GetMouse();
+        Task<ILgWebOsMouseService> GetMouse();
 
         Task<IEnumerable<Channel>> ChannelList();
 

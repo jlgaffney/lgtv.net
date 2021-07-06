@@ -76,7 +76,7 @@ namespace LgTv
             return null;
         }
 
-        public async Task<LgWebOsMouseService> GetMouse()
+        public async Task<ILgWebOsMouseService> GetMouse()
         {
             if (_mouseConnection != null)
             {
