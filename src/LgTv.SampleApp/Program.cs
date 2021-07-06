@@ -21,9 +21,6 @@ namespace LgTv.SampleApp
             await client.MakeHandShake();
 
 
-            var mouse = await client.GetMouse();
-            
-
             // Volume control
             await client.VolumeDown();
             await client.VolumeUp();
@@ -37,10 +34,13 @@ namespace LgTv.SampleApp
             var apps = await client.GetApps();
 
 
-            (await client.GetMouse()).SendButton(ButtonType.UP);
-            (await client.GetMouse()).SendButton(ButtonType.LEFT);
-            (await client.GetMouse()).SendButton(ButtonType.RIGHT);
-            (await client.GetMouse()).SendButton(ButtonType.DOWN);
+            using (var mouse = await client.GetMouse())
+            {
+                mouse.SendButton(ButtonType.UP);
+                mouse.SendButton(ButtonType.LEFT);
+                mouse.SendButton(ButtonType.RIGHT);
+                mouse.SendButton(ButtonType.DOWN);
+            }
 
 
             await client.TurnOff();
