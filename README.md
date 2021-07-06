@@ -14,32 +14,34 @@ Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standa
 
 ## Usage
 ```C#
-    // Initialization
-    var client = new LgTvClient(new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
-    
-    await client.Connect();
-    await client.MakeHandShake();
+// Initalization
+var client = new LgTvClient(new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
+
+await client.Connect();
+await client.MakeHandShake();
 
 
-    var mouse = await client.GetMouse();
-    
-
-    // Volume
-    await client.VolumeDown();
-    await client.VolumeUp();
-
-    // Playback
-    await client.Pause();
-    await client.Play();
+// Volume control
+await client.VolumeDown();
+await client.VolumeUp();
 
 
-    var apps = await client.GetApps();
-    
-    
-    (await client.GetMouse()).SendButton(ButtonType.BACK);
-    (await client.GetMouse()).SendButton(ButtonType.UP);
-    (await client.GetMouse()).SendButton(ButtonType.LEFT);
+// Playback control
+await client.Pause();
+await client.Play();
 
 
-    await client.TurnOff();
+var apps = await client.GetApps();
+
+
+using (var mouse = await client.GetMouse())
+{
+    mouse.SendButton(ButtonType.UP);
+    mouse.SendButton(ButtonType.LEFT);
+    mouse.SendButton(ButtonType.RIGHT);
+    mouse.SendButton(ButtonType.DOWN);
+}
+
+
+await client.TurnOff();
 ```
