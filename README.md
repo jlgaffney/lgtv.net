@@ -1,7 +1,7 @@
 # lgtv.net
 LG TV WebOS API for .NET
 
-For now, there is only API, example app will be added in the future.
+Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standard 2.0.
 
 ## inspiration: 
 * https://github.com/msloth/lgtv.js/blob/master/index.js
@@ -14,17 +14,32 @@ For now, there is only API, example app will be added in the future.
 
 ## Usage
 ```C#
- // Initalization
-    var _instance =  new LgTvApi(ip,new LgTvApiCore(), new ClientKeyStore(ip));
-    await _instance.Connect();
-    await _instance.MakeHandShake();
-    await _instance.GetMouse();
+    // Initialization
+    var client = new LgTvClient(new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
+    
+    await client.Connect();
+    await client.MakeHandShake();
 
-//control
-    await _instance.VolumeDown();
-    await _instance.TurnOff();
-    ......
-    (await _instance.GetMouse()).SendButton(ButtonType.RED);
-    (await _instance.GetMouse()).SendButton(ButtonType.LEFT);
-    ..
+
+    var mouse = await client.GetMouse();
+    
+
+    // Volume
+    await client.VolumeDown();
+    await client.VolumeUp();
+
+    // Playback
+    await client.Pause();
+    await client.Play();
+
+
+    var apps = await client.GetApps();
+    
+    
+    (await client.GetMouse()).SendButton(ButtonType.BACK);
+    (await client.GetMouse()).SendButton(ButtonType.UP);
+    (await client.GetMouse()).SendButton(ButtonType.LEFT);
+
+
+    await client.TurnOff();
 ```

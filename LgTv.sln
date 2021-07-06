@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleApp", "src\LgTv.SampleApp\LgTv.SampleApp.csproj", "{087A34D2-12D9-4B80-9748-6048A6C635FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv", "src\LgTv\LgTv.csproj", "{A7045512-E91E-4956-9D61-11008E2977CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{087A34D2-12D9-4B80-9748-6048A6C635FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087A34D2-12D9-4B80-9748-6048A6C635FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087A34D2-12D9-4B80-9748-6048A6C635FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087A34D2-12D9-4B80-9748-6048A6C635FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7045512-E91E-4956-9D61-11008E2977CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7045512-E91E-4956-9D61-11008E2977CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7045512-E91E-4956-9D61-11008E2977CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7045512-E91E-4956-9D61-11008E2977CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D9A29E8-DC4F-469C-BB03-2E2B52345301}
+	EndGlobalSection
+EndGlobal

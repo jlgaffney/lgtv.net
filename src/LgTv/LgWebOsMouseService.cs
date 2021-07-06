@@ -19,15 +19,15 @@ namespace LgTv
 
     public class LgWebOsMouseService : IDisposable
     {
-        private readonly LgTvApiCore _connection;
-        public LgWebOsMouseService(LgTvApiCore connection)
+        private readonly ILgTvConnection _connection;
+        public LgWebOsMouseService(ILgTvConnection connection)
         {
             _connection = connection;
         }
 
         public async Task<bool> Connect(string uri)
         {
-            var ctx = _connection.Connect(new Uri(uri), ignoreReceiver: true);
+            var ctx = _connection.Connect(new Uri(uri));
             return (await ctx);
         }
         public void SendButton(int number)
@@ -36,7 +36,7 @@ namespace LgTv
         }
         public void SendButton(ButtonType bt)
         {
-            _connection.SendMessageAsync($"type:button\nname:{bt.ToString()}\n\n");
+            _connection.SendMessageAsync($"type:button\nname:{bt}\n\n");
         }
 
 
