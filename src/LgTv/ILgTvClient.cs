@@ -10,8 +10,6 @@ namespace LgTv
 
         Task MakeHandShake();
         
-        Task TurnOn();
-
         Task TurnOff();
 
 

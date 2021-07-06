@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using LgTv.Extensions;
 
 namespace LgTv
 {
@@ -42,13 +40,6 @@ namespace LgTv
             _connection = connection;
             _keyStore = keyStore;
 
-            var ipAddress = hostname;
-            if (!ipAddress.IsIPAddress())
-            {
-                ipAddress = IPAddressResolver.GetIPAddress(ipAddress);
-            }
-
-            _macAddress = MacAddressResolver.GetMacAddress(ipAddress);
             _webSocketUri = new Uri(FormattableString.Invariant($"ws://{hostname}:{port}"));
         }
 
@@ -71,15 +62,6 @@ namespace LgTv
 
             dynamic result = await _connection.SendCommandAsync(BEFORE_PAIR_HAND_SHAKE);
             await _keyStore.SetClientKey(result.clientKey);
-        }
-
-        public async Task TurnOn()
-        {
-            var wakeOnLan = new WakeOnLan(_macAddress);
-
-            await wakeOnLan.Wake();
-
-            //await _connection.SendCommandAsync(new RequestMessage("", "ssap://system/turnOn"));
         }
 
         public async Task TurnOff()
@@ -356,36 +338,5 @@ namespace LgTv
         {
            _connection?.Dispose();
         }
-
-
-
-        /*private string GetMacAddressByIpAddress(string ipAddress)
-        {
-            var allNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-
-            // grab all online interfaces
-            var query = allNetworkInterfaces
-                .Where(n =>
-                    n.OperationalStatus == OperationalStatus.Up && // only grabbing what's online
-                    n.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                .Select(_ => new
-                {
-                    PhysicalAddress = _.GetPhysicalAddress(),
-                    IPProperties = _.GetIPProperties(),
-                });
-
-            // grab the first interface that has a unicast address that matches your search string
-            var address = query.FirstOrDefault(q => q.IPProperties.UnicastAddresses.Any(ua => ua.Address.ToString() == ipAddress));
-
-            if (address == null)
-            {
-                return null;
-            }
-
-            var macAddress = address.PhysicalAddress;
-
-            // return the mac address with formatting (eg "00-00-00-00-00-00")
-            return string.Join("-", macAddress.GetAddressBytes().Select(b => b.ToString("X2")));
-        }*/
     }
 }
