@@ -17,7 +17,6 @@ namespace LgTv
         private readonly ILgTvConnection _connection;
         private readonly IClientKeyStore _keyStore;
 
-        private readonly string _macAddress;
         private readonly Uri _webSocketUri;
 
         private LgWebOsMouseService _mouseConnection;
