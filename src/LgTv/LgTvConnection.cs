@@ -37,17 +37,14 @@ namespace LgTv
 
         private async Task Run()
         {
-            // TODO Is buffer large enough?
             var bufferBytes = new byte[2048];
             var bufferSegment = new ArraySegment<byte>(bufferBytes);
 
             var messageStream = new MemoryStream();
             var messageLength = 0;
-            while (true)
+            while (true) // TODO Stop loop when connection is closed or disposed
             {
                 var receiveResult = await _connection.ReceiveAsync(bufferSegment, CancellationToken.None);
-
-                //var messagePartMemory = bufferSegment.AsMemory(0, receiveResult.Count);
 
                 await messageStream.WriteAsync(bufferBytes, 0, receiveResult.Count);
                 messageLength += receiveResult.Count;
