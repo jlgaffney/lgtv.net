@@ -9,75 +9,74 @@ namespace LgTv
         Task<bool> Connect();
 
         Task MakeHandShake();
+
         
         Task TurnOff();
 
 
-        Task ControlButton(object ok);
-
         Task<ILgWebOsMouseService> GetMouse();
 
-        Task<IEnumerable<Channel>> ChannelList();
-
-        Task<Channel> GetChannel();
 
         Task ShowToast();
 
+        
+        Task<int> GetVolume();
 
-        Task<string> LaunchApp(string appId, Uri uri);
-
-
-
-        Task VolumeDown();
+        Task<bool> IsMuted();
 
         Task VolumeUp();
 
-        Task ChannelInfo();
+        Task VolumeDown();
 
-        Task SetChannel(string channelId);
+        Task SetVolume(int value);
 
         Task SetMute(bool value);
 
         Task ToggleMute();
 
-        Task<bool> IsMuted();
 
-        Task SetVolume(int value);
+        Task<IEnumerable<Channel>> GetChannels();
 
-        Task Play();
+        Task<Channel> GetCurrentChannel();
 
-        Task Pause();
+        Task GetChannelProgramInfo();
 
         Task ChannelUp();
 
         Task ChannelDown();
 
+        Task SetChannel(string id);
+
+
+        Task Play();
+
+        Task Pause();
+
         Task Stop();
+
+
+        Task<IEnumerable<App>> GetApps();
+
+        Task<string> LaunchApp(string id, Uri uri = null);
+
+        Task<string> LaunchYouTube(string videoId);
+
+        Task<string> LaunchYouTube(Uri uri);
+
+        Task<string> LaunchWebBrowser(Uri uri);
+
+        Task<string> CloseApp(string id);
+
+
+        Task<IEnumerable<ExternalInput>> GetInputs();
+
+        Task SetInput(string id);
+
 
         Task TurnOn3D();
 
         Task TurnOff3D();
 
         Task<bool> IsTurnedOn3D();
-
-        Task<int> GetVolume();
-
-        Task<IEnumerable<ExternalInput>> GetInputList();
-
-        Task SetInput(string id);
-        
-        Task<IEnumerable<App>> GetApps();
-
-        Task<string> LaunchApp(string appId);
-
-        Task<string> CloseApp(string appId);
-
-        Task<string> OpenWebBrowser(Uri uri);
-
-        Task<string> LaunchYouTube(string videoId);
-
-        Task<string> LaunchYouTube(Uri uri);
-
-        Task CloseAsync();
     }
 }
