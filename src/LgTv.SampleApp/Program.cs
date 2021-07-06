@@ -9,7 +9,7 @@ namespace LgTv.SampleApp
 
         private static readonly string ClientKeyStoreFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), ClientKeyStoreFileName);
 
-        private const string TvHostname = "192.168.1.196";
+        private const string TvHostname = "ENTER_HOSTNAME_OR_IP_ADDRESS";
         private const int TvPort = 3000;
 
         public static async Task Main(string[] args)
@@ -20,21 +20,27 @@ namespace LgTv.SampleApp
             await client.Connect();
             await client.MakeHandShake();
 
+
             var mouse = await client.GetMouse();
             
-            //control
+
+            // Volume control
             await client.VolumeDown();
             await client.VolumeUp();
 
+
+            // Playback control
             await client.Pause();
             await client.Play();
 
+
             var apps = await client.GetApps();
-            
-            
-            (await client.GetMouse()).SendButton(ButtonType.BACK);
+
+
             (await client.GetMouse()).SendButton(ButtonType.UP);
             (await client.GetMouse()).SendButton(ButtonType.LEFT);
+            (await client.GetMouse()).SendButton(ButtonType.RIGHT);
+            (await client.GetMouse()).SendButton(ButtonType.DOWN);
 
 
             await client.TurnOff();
