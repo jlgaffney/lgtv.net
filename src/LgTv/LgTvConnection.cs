@@ -14,6 +14,8 @@ namespace LgTv
 {
     public class LgTvConnection : ILgTvConnection
     {
+        private const int BufferSize = 2048;
+
         private readonly ConcurrentDictionary<string, TaskCompletionSource<dynamic>> _tokens = new ConcurrentDictionary<string, TaskCompletionSource<dynamic>>();
 
         private ClientWebSocket _connection;
@@ -37,7 +39,7 @@ namespace LgTv
 
         private async Task Run()
         {
-            var bufferBytes = new byte[2048];
+            var bufferBytes = new byte[BufferSize];
             var bufferSegment = new ArraySegment<byte>(bufferBytes);
 
             var messageStream = new MemoryStream();
@@ -59,6 +61,8 @@ namespace LgTv
                 messageStream.Position = 0;
                 await messageStream.ReadAsync(messageBytes, 0, messageLength);
 
+                messageLength = 0;
+                Array.Clear(bufferBytes, 0, BufferSize);
                 messageStream.Dispose();
                 messageStream = new MemoryStream();
 
@@ -149,11 +153,11 @@ namespace LgTv
         public async Task CloseAsync()
         {
             await _connection.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-            Dispose();
         }
 
         public void Dispose()
         {
+            CloseAsync().GetAwaiter().GetResult();
             _connection?.Dispose();
             _connection = null;
         }
