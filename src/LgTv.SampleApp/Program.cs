@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using LgTv.Mouse;
 
 namespace LgTv.SampleApp
 {
@@ -22,16 +23,16 @@ namespace LgTv.SampleApp
 
 
             // Volume control
-            await client.VolumeDown();
-            await client.VolumeUp();
+            await client.Volume.VolumeDown();
+            await client.Volume.VolumeUp();
 
 
             // Playback control
-            await client.Pause();
-            await client.Play();
+            await client.Playback.Pause();
+            await client.Playback.Play();
 
 
-            var apps = await client.GetApps();
+            var apps = await client.Apps.GetApps();
 
 
             using (var mouse = await client.GetMouse())
@@ -43,7 +44,7 @@ namespace LgTv.SampleApp
             }
 
 
-            await client.TurnOff();
+            await client.Power.TurnOff();
         }
     }
 }

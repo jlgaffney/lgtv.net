@@ -1,4 +1,4 @@
-namespace LgTv
+namespace LgTv.Channels
 {
     public class Channel
     {

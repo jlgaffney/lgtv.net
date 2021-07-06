@@ -1,82 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using LgTv.Apps;
+using LgTv.Channels;
+using LgTv.Display;
+using LgTv.Inputs;
+using LgTv.Mouse;
+using LgTv.Playback;
+using LgTv.Power;
+using LgTv.Volume;
 
 namespace LgTv
 {
+    public enum ControlButtons
+    {
+        Up, Down, Left, Right,
+        OK,
+        Back,
+        Exit
+    }
+
     public interface ILgTvClient : IDisposable
     {
         Task<bool> Connect();
 
         Task MakeHandShake();
 
-        
-        Task TurnOff();
 
-
-        Task<ILgWebOsMouseService> GetMouse();
+        Task<ILgWebOsMouseClient> GetMouse();
 
 
         Task ShowToast();
 
-        
-        Task<int> GetVolume();
 
-        Task<bool> IsMuted();
+        ILgTvPowerClient Power { get; }
 
-        Task VolumeUp();
+        ILgTvVolumeClient Volume { get; }
 
-        Task VolumeDown();
+        ILgTvChannelClient Channels { get; }
 
-        Task SetVolume(int value);
+        ILgTvPlaybackClient Playback { get; }
 
-        Task SetMute(bool value);
+        ILgTvAppClient Apps { get; }
 
-        Task ToggleMute();
+        ILgTvInputClient Inputs { get; }
 
-
-        Task<IEnumerable<Channel>> GetChannels();
-
-        Task<Channel> GetCurrentChannel();
-
-        Task GetChannelProgramInfo();
-
-        Task ChannelUp();
-
-        Task ChannelDown();
-
-        Task SetChannel(string id);
-
-
-        Task Play();
-
-        Task Pause();
-
-        Task Stop();
-
-
-        Task<IEnumerable<App>> GetApps();
-
-        Task<string> LaunchApp(string id, Uri uri = null);
-
-        Task<string> LaunchYouTube(string videoId);
-
-        Task<string> LaunchYouTube(Uri uri);
-
-        Task<string> LaunchWebBrowser(Uri uri);
-
-        Task<string> CloseApp(string id);
-
-
-        Task<IEnumerable<ExternalInput>> GetInputs();
-
-        Task SetInput(string id);
-
-
-        Task TurnOn3D();
-
-        Task TurnOff3D();
-
-        Task<bool> IsTurnedOn3D();
+        ILgTvDisplayClient Display { get; }
     }
 }

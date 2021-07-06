@@ -1,9 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LgTv
+namespace LgTv.Mouse
 {
-    public interface ILgWebOsMouseService : IDisposable
+    public enum ButtonType
+    {
+        HOME,
+        BACK,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        RED,
+        BLUE,
+        YELLOW,
+        GREEN
+    }
+
+    public interface ILgWebOsMouseClient : IDisposable
     {
         Task<bool> Connect(string uri);
 

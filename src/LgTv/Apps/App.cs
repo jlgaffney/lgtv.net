@@ -1,4 +1,4 @@
-namespace LgTv
+namespace LgTv.Apps
 {
     public class App
     {

@@ -1,4 +1,4 @@
-namespace LgTv
+namespace LgTv.Inputs
 {
     public class ExternalInput
     {

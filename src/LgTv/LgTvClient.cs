@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using LgTv.Apps;
+using LgTv.Channels;
+using LgTv.Display;
+using LgTv.Inputs;
+using LgTv.Mouse;
+using LgTv.Playback;
+using LgTv.Power;
+using LgTv.Volume;
 
 namespace LgTv
 {
-    public enum ControlButtons
-    {
-        Back,Down,Left,Right,
-        OK,
-        Exit
-    }
-
     public class LgTvClient : ILgTvClient
     {
         private readonly ILgTvConnection _connection;
@@ -35,6 +34,14 @@ namespace LgTv
             _keyStore = keyStore;
 
             _webSocketUri = new Uri(FormattableString.Invariant($"ws://{hostname}:{port}"));
+
+            Power = new LgTvPowerClient(_connection);
+            Volume = new LgTvVolumeClient(_connection);
+            Channels = new LgTvChannelClient(_connection);
+            Playback = new LgTvPlaybackClient(_connection);
+            Apps = new LgTvAppClient(_connection);
+            Inputs = new LgTvInputClient(_connection);
+            Display = new LgTvDisplayClient(_connection);
         }
 
         
@@ -58,21 +65,15 @@ namespace LgTv
             result = await _connection.SendCommandAsync(BEFORE_PAIR_HAND_SHAKE);
             await _keyStore.SetClientKey(result.clientKey);
         }
+        
 
-
-        public async Task TurnOff()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("", "ssap://system/turnOff"));
-        }
-
-
-        public async Task<ILgWebOsMouseService> GetMouse()
+        public async Task<ILgWebOsMouseClient> GetMouse()
         {
             var requestMessage = new RequestMessage("ssap://com.webos.service.networkinput/getPointerInputSocket", new { });
             var response = await _connection.SendCommandAsync(requestMessage);
             var socketPath = (string) response.socketPath;
            
-            var mouseConnection = new LgWebOsMouseService(new LgTvConnection());
+            var mouseConnection = new LgWebOsMouseClient(new LgTvConnection());
             
             await mouseConnection.Connect(socketPath);
             
@@ -87,243 +88,19 @@ namespace LgTv
         }
 
 
-        public async Task<int> GetVolume()
-        {
-            // {
-            //     "type": "response",
-            //     "id": "status_1",
-            //     "payload": {
-            //         "muted": false,
-            //         "scenario": "mastervolume_tv_speaker",
-            //         "active": false,
-            //         "action": "requested",
-            //         "volume": 7,
-            //         "returnValue": true,
-            //         "subscribed": true
-            //     }
-            // }
-            var requestMessage = new RequestMessage("status", "ssap://audio/getVolume");
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (bool) response.muted ? -1 : (int) response.volume;
-        }
+        public ILgTvPowerClient Power { get; }
 
-        public async Task<bool> IsMuted()
-        {
-            var requestMessage = new RequestMessage("status", "ssap://audio/getStatus");
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (bool) response.mute;
-        }
-
-        public async Task VolumeUp()
-        {
-            var requestMessage = new RequestMessage("volumeup", "ssap://audio/volumeUp");
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-        public async Task VolumeDown()
-        {
-            var requestMessage = new RequestMessage("volumedown", "ssap://audio/volumeDown");
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-        public async Task SetVolume(int value)
-        {
-            if (value < 0 || value > 100)
-            {
-                return;
-            }
-
-            var requestMessage = new RequestMessage("ssap://audio/setVolume", new { volume = value });
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-        public async Task SetMute(bool value)
-        {
-            var requestMessage = new RequestMessage("ssap://audio/setMute", new { mute = value });
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-        public async Task ToggleMute()
-        {
-            await SetMute(!await IsMuted());
-        }
-
-
-        public async Task<IEnumerable<Channel>> GetChannels()
-        {
-            var requestMessage = new RequestMessage("channels", "ssap://tv/getChannelList");
-            var response = await _connection.SendCommandAsync(requestMessage);
-            
-            var channels = new List<Channel>();
-            foreach (var c in response.channelList)
-            {
-                channels.Add(new Channel
-                {
-                    Id = c.channelId,
-                    Name = c.channelName,
-                    Number = int.Parse((string) c.channelNumber)
-                });
-            }
-
-            return channels.OrderBy(x => x.Number);
-        }
-
-        public async Task<Channel> GetCurrentChannel()
-        {
-            var requestMessage = new RequestMessage("channels", "ssap://tv/getCurrentChannel");
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            if (response.channelId == null)
-            {
-                return null;
-            }
-
-            return new Channel
-            {
-                Id = response.channelId,
-                Name = response.channelName,
-                Number = int.Parse(response.channelNumber)
-            };
-        }
+        public ILgTvVolumeClient Volume { get; }
         
-        public async Task GetChannelProgramInfo()
-        {
-            var requestMessage = new RequestMessage("programinfo", "ssap://tv/getChannelProgramInfo");
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-        public async Task ChannelUp()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("channelUp", "ssap://tv/channelUp"));
-        }
-
-        public async Task ChannelDown()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("channelDown", "ssap://tv/channelDown"));
-        }
-
-        public async Task SetChannel(string channelId)
-        {
-            var requestMessage = new RequestMessage("ssap://tv/openChannel", new { channelId });
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-
-        public async Task Play()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("play", "ssap://media.controls/play"));
-        }
-
-        public async Task Pause()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("pause", "ssap://media.controls/pause"));
-        }
-
-        public async Task Stop()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("stop", "ssap://media.controls/stop"));
-        }
-
-
-        public async Task<IEnumerable<App>> GetApps()
-        {
-            var requestMessage = new RequestMessage("launcher", "ssap://com.webos.applicationManager/listLaunchPoints");
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            var apps = new List<App>();
-            foreach (var c in response.launchPoints)
-            {
-                apps.Add(new App
-                {
-                    Id = c.id,
-                    LaunchPointId = c.launchPointId,
-                    Title = c.title,
-                    Icon = c.icon
-                });
-            }
-
-            return apps.OrderBy(x => x.Title);
-        }
-
-        public async Task<string> LaunchApp(string appId, Uri uri = null)
-        {
-            dynamic requestPayload = new { id = appId };
-            if (uri != null)
-            {
-                requestPayload.@params = new { contentTarget = uri.ToString() };
-            }
-
-            var requestMessage = new RequestMessage("ssap://system.launcher/launch", requestPayload);
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (string) response.sessionId;
-        }
-
-        public async Task<string> LaunchYouTube(string videoId)
-        {
-            return await LaunchYouTube(new Uri($"http://www.youtube.com/tv?v={videoId}"));
-        }
-
-        public async Task<string> LaunchYouTube(Uri uri)
-        {
-            return await LaunchApp("youtube.leanback.v4", uri);
-        }
-
-        public async Task<string> LaunchWebBrowser(Uri uri)
-        {
-            var requestMessage = new RequestMessage("ssap://system.launcher/open", new { target = uri.ToString() });
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (string) response.sessionId;
-        }
-
-        public async Task<string> CloseApp(string appId)
-        {
-            var requestMessage = new RequestMessage("ssap://system.launcher/close", new { id = appId });
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (string) response.sessionId;
-        }
-
-
-        public async Task<IEnumerable<ExternalInput>> GetInputs()
-        {
-            var requestMessage = new RequestMessage("input", "ssap://tv/getExternalInputList");
-            var results = await _connection.SendCommandAsync(requestMessage);
-
-            var inputs = new List<ExternalInput>();
-            foreach (var result in results)
-            {
-                inputs.Add(new ExternalInput(result.id, result.label)
-                {
-                    Icon = result.icon
-                });
-            }
-
-            return inputs.OrderBy(x => x.Label);
-        }
-
-        public async Task SetInput(string id)
-        {
-            var requestMessage = new RequestMessage("ssap://tv/switchInput", new { inputId = id });
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-
-        public async Task TurnOn3D()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("3d", "ssap://com.webos.service.tv.display/set3DOn"));
-        }
-
-        public async Task TurnOff3D()
-        {
-            await _connection.SendCommandAsync(new RequestMessage("3d", "ssap://com.webos.service.tv.display/set3DOff"));
-        }
-
-        public async Task<bool> IsTurnedOn3D()
-        {
-            //Response: { returnValue: true,  status3D: { status: true, pattern: ’2Dto3D’ } }
-            var requestMessage = new RequestMessage("status3D", "ssap://com.webos.service.tv.display/get3DStatus");
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (bool) response.status3D.status;
-        }
+        public ILgTvChannelClient Channels { get; }
+        
+        public ILgTvPlaybackClient Playback { get; }
+        
+        public ILgTvAppClient Apps { get; }
+        
+        public ILgTvInputClient Inputs { get; }
+        
+        public ILgTvDisplayClient Display { get; }
 
 
 

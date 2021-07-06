@@ -1,27 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LgTv
+namespace LgTv.Mouse
 {
-    public enum ButtonType
-    {
-        HOME,
-        BACK,
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        RED,
-        BLUE,
-        YELLOW,
-        GREEN
-    }
-
-    public class LgWebOsMouseService : ILgWebOsMouseService
+    internal class LgWebOsMouseClient : ILgWebOsMouseClient
     {
         private readonly ILgTvConnection _connection;
 
-        public LgWebOsMouseService(ILgTvConnection connection)
+        public LgWebOsMouseClient(
+            ILgTvConnection connection)
         {
             _connection = connection;
         }
