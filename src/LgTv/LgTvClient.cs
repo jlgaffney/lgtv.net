@@ -33,7 +33,7 @@ namespace LgTv
         {
             _connection = connection;
             _keyStore = keyStore;
-            
+
             _webSocketUri = new Uri(FormattableString.Invariant($"ws://{hostname}:{port}"));
         }
 
@@ -69,8 +69,8 @@ namespace LgTv
         public async Task<ILgWebOsMouseService> GetMouse()
         {
             var requestMessage = new RequestMessage("ssap://com.webos.service.networkinput/getPointerInputSocket", new { });
-            var result = await _connection.SendCommandAsync(requestMessage);
-            var socketPath = (string) result.socketPath;
+            var response = await _connection.SendCommandAsync(requestMessage);
+            var socketPath = (string) response.socketPath;
            
             var mouseConnection = new LgWebOsMouseService(new LgTvConnection());
             
@@ -152,10 +152,10 @@ namespace LgTv
         public async Task<IEnumerable<Channel>> GetChannels()
         {
             var requestMessage = new RequestMessage("channels", "ssap://tv/getChannelList");
-            var result = await _connection.SendCommandAsync(requestMessage);
+            var response = await _connection.SendCommandAsync(requestMessage);
             
             var channels = new List<Channel>();
-            foreach (var c in result.channelList)
+            foreach (var c in response.channelList)
             {
                 channels.Add(new Channel
                 {
@@ -171,13 +171,18 @@ namespace LgTv
         public async Task<Channel> GetCurrentChannel()
         {
             var requestMessage = new RequestMessage("channels", "ssap://tv/getCurrentChannel");
-            var result = await _connection.SendCommandAsync(requestMessage);
+            var response = await _connection.SendCommandAsync(requestMessage);
+
+            if (response.channelId == null)
+            {
+                return null;
+            }
 
             return new Channel
             {
-                Id = result.channelId,
-                Name = result.channelName,
-                Number = int.Parse(result.channelNumber)
+                Id = response.channelId,
+                Name = response.channelName,
+                Number = int.Parse(response.channelNumber)
             };
         }
         
@@ -223,10 +228,10 @@ namespace LgTv
         public async Task<IEnumerable<App>> GetApps()
         {
             var requestMessage = new RequestMessage("launcher", "ssap://com.webos.applicationManager/listLaunchPoints");
-            var results = await _connection.SendCommandAsync(requestMessage);
+            var response = await _connection.SendCommandAsync(requestMessage);
 
             var apps = new List<App>();
-            foreach (var c in results.launchPoints)
+            foreach (var c in response.launchPoints)
             {
                 apps.Add(new App
                 {
