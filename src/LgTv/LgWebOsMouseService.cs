@@ -28,34 +28,33 @@ namespace LgTv
 
         public async Task<bool> Connect(string uri)
         {
-            var ctx = _connection.Connect(new Uri(uri));
-            return (await ctx);
+            return await _connection.Connect(new Uri(uri));
         }
 
-        public void SendButton(int number)
+        public async Task SendButton(int number)
         {
-            _connection.SendMessageAsync($"type:button\nname:{number}\n\n");
+            await _connection.SendMessageAsync($"type:button\nname:{number}\n\n");
         }
 
-        public void SendButton(ButtonType bt)
+        public async Task SendButton(ButtonType bt)
         {
-            _connection.SendMessageAsync($"type:button\nname:{bt}\n\n");
+            await _connection.SendMessageAsync($"type:button\nname:{bt}\n\n");
         }
 
 
-        public void Move(double dx, double dy, bool drag = false)
+        public async Task Move(double dx, double dy, bool drag = false)
         {
-            _connection.SendMessageAsync($"type:move\ndx:{dx}\ndy:{dy}\ndown:{(drag ? 1 : 0)}\n\n");
+            await _connection.SendMessageAsync($"type:move\ndx:{dx}\ndy:{dy}\ndown:{(drag ? 1 : 0)}\n\n");
         }
 
-        public void Scroll(double dx, double dy)
+        public async Task Scroll(double dx, double dy)
         {
-            _connection.SendMessageAsync($"type:scroll\ndx:{dx}\ndy:{dy}\n\n");
+            await _connection.SendMessageAsync($"type:scroll\ndx:{dx}\ndy:{dy}\n\n");
         }
 
-        public void Click()
+        public async Task Click()
         {
-            _connection.SendMessageAsync("type:click\n\n");
+            await _connection.SendMessageAsync("type:click\n\n");
         }
 
         public void Dispose()

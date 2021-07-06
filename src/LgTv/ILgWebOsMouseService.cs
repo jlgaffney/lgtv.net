@@ -7,15 +7,15 @@ namespace LgTv
     {
         Task<bool> Connect(string uri);
 
-        void SendButton(int number);
+        Task SendButton(int number);
 
-        void SendButton(ButtonType bt);
+        Task SendButton(ButtonType bt);
 
 
-        void Move(double dx, double dy, bool drag = false);
+        Task Move(double dx, double dy, bool drag = false);
 
-        void Scroll(double dx, double dy);
+        Task Scroll(double dx, double dy);
 
-        void Click();
+        Task Click();
     }
 }

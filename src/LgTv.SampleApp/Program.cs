@@ -36,10 +36,10 @@ namespace LgTv.SampleApp
 
             using (var mouse = await client.GetMouse())
             {
-                mouse.SendButton(ButtonType.UP);
-                mouse.SendButton(ButtonType.LEFT);
-                mouse.SendButton(ButtonType.RIGHT);
-                mouse.SendButton(ButtonType.DOWN);
+                await mouse.SendButton(ButtonType.UP);
+                await mouse.SendButton(ButtonType.LEFT);
+                await mouse.SendButton(ButtonType.RIGHT);
+                await mouse.SendButton(ButtonType.DOWN);
             }
 
 
