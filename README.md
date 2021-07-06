@@ -14,7 +14,7 @@ Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standa
 
 ## Usage
 ```C#
-// Initalization
+// Initialization
 var client = new LgTvClient(new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
 
 await client.Connect();
