@@ -16,7 +16,7 @@ namespace LgTv.SampleApp
         public static async Task Main(string[] args)
         {
             // Initalization
-            var client = new LgTvClient(new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
+            var client = new LgTvClient(() => new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
             
             await client.Connect();
             await client.MakeHandShake();
