@@ -21,14 +21,15 @@ namespace LgTv.Apps
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var apps = new List<App>();
-            foreach (var c in response.launchPoints)
+            foreach (var app in response.launchPoints)
             {
                 apps.Add(new App
                 {
-                    Id = c.id,
-                    LaunchPointId = c.launchPointId,
-                    Title = c.title,
-                    Icon = c.icon
+                    Id = app.id,
+                    LaunchPointId = app.launchPointId,
+                    Title = app.title,
+                    Icon = app.icon,
+                    LargeIcon = app.largeIcon
                 });
             }
 
