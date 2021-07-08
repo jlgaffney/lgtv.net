@@ -4,8 +4,8 @@ namespace LgTv
 {
     public interface IClientKeyStore
     {
-        Task<string> GetClientKey();
+        Task<string> GetClientKey(string ipAddress);
 
-        Task SetClientKey(string key);
+        Task SetClientKey(string ipAddress, string key);
     }
 }

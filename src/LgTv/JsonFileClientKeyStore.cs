@@ -11,18 +11,13 @@ namespace LgTv
 
         private readonly string _clientKeyStoreJsonFilePath;
 
-        private readonly string _hostname;
-
         public JsonFileClientKeyStore(
-            string clientKeyStoreJsonFilePath,
-            string hostname)
+            string clientKeyStoreJsonFilePath)
         {
             _clientKeyStoreJsonFilePath = clientKeyStoreJsonFilePath;
-
-            _hostname = hostname;
         }
 
-        public async Task<string> GetClientKey()
+        public async Task<string> GetClientKey(string ipAddress)
         {
             await Task.CompletedTask;
 
@@ -40,12 +35,12 @@ namespace LgTv
 
             var json = JObject.Parse(clientKeyStoreFileContents);
 
-            var key = json[_hostname]?[ClientKeyJsonPropertyName]?.ToObject<string>();
+            var key = json[ipAddress]?[ClientKeyJsonPropertyName]?.ToObject<string>();
 
             return key;
         }
 
-        public async Task SetClientKey(string key)
+        public async Task SetClientKey(string ipAddress, string key)
         {
             await Task.CompletedTask;
 
@@ -63,7 +58,7 @@ namespace LgTv
 
             var json = JObject.Parse(clientKeyStoreFileContents);
 
-            json[_hostname] = new JObject
+            json[ipAddress] = new JObject
             {
                 [ClientKeyJsonPropertyName] = key
             };

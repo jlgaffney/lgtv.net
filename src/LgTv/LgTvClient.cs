@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using LgTv.Apps;
 using LgTv.Channels;
 using LgTv.Display;
+using LgTv.Extensions;
 using LgTv.Inputs;
 using LgTv.Mouse;
 using LgTv.Playback;
@@ -20,6 +21,8 @@ namespace LgTv
         private readonly ILgTvConnection _connection;
         private readonly IClientKeyStore _keyStore;
 
+        private readonly string _ipAddress;
+
         private readonly Uri _webSocketUri;
 
         public LgTvClient(
@@ -33,6 +36,12 @@ namespace LgTv
             _keyStore = keyStore;
 
             _webSocketUri = new Uri(FormattableString.Invariant($"ws://{hostname}:{port}"));
+
+            _ipAddress = hostname;
+            if (!_ipAddress.IsIPAddress())
+            {
+                _ipAddress = IPAddressResolver.GetIPAddress(_ipAddress);
+            }
 
             Power = new LgTvPowerClient(_connection);
             Volume = new LgTvVolumeClient(_connection);
@@ -51,18 +60,18 @@ namespace LgTv
 
         public async Task MakeHandShake()
         {
-            var currentPairKey = await _keyStore.GetClientKey();
+            var currentPairKey = await _keyStore.GetClientKey(_ipAddress);
             dynamic result;
             if (currentPairKey != null)
             {
                 var key = AfterPairHandShake.Replace("CLIENTKEYGOESHERE", currentPairKey);
                 result = await _connection.SendCommandAsync(key);
-                await _keyStore.SetClientKey((string) result.clientKey);
+                await _keyStore.SetClientKey(_ipAddress, (string) result.clientKey);
                 return;
             }
 
             result = await _connection.SendCommandAsync(BeforePairHandShake);
-            await _keyStore.SetClientKey(result.clientKey);
+            await _keyStore.SetClientKey(_ipAddress, result.clientKey);
         }
         
 
