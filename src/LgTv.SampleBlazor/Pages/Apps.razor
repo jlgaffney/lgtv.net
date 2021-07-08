@@ -1,0 +1,42 @@
+﻿@page "/apps"
+@inject ILgTvClient Client
+@inject NavigationManager NavigationManager
+
+<h3>Apps</h3>
+
+@if (_apps == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var app in _apps)
+            {
+                <tr @onclick="() => NavigateToApp(app.Id)">
+                    <td>@app.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private LgTv.Apps.App[] _apps;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _apps = (await Client.Apps.GetApps()).ToArray();
+    }
+
+    private void NavigateToApp(string appId)
+    {
+        NavigationManager.NavigateTo($"app/{appId}");
+    }
+}

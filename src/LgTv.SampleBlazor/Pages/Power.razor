@@ -1,0 +1,15 @@
+﻿@page "/power"
+@inject ILgTvClient Client
+
+<h3>Power</h3>
+
+<br />
+
+<button class="btn btn-primary" @onclick="TurnOff">Off</button>
+
+@code {
+    private async Task TurnOff()
+    {
+        await Client.Power.TurnOff();
+    }
+}

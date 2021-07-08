@@ -1,0 +1,34 @@
+﻿@page "/app/{Id}"
+@inject ILgTvClient Client
+
+<h3>App</h3>
+
+@if (_app == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <img src="@_app.LargeIcon"/>
+
+    <h4>@_app.Title</h4>
+    
+    <button class="btn btn-primary" @onclick="LaunchApp">Launch</button>
+}
+
+@code {
+    private LgTv.Apps.App _app;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _app = (await Client.Apps.GetApps()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task LaunchApp()
+    {
+        await Client.Apps.LaunchApp(_app.Id);
+    }
+}

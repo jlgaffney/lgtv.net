@@ -1,0 +1,27 @@
+﻿@page "/playback"
+@inject ILgTvClient Client
+
+<h3>Playback</h3>
+
+<br />
+
+<button class="btn btn-primary" @onclick="Play">Play</button>
+<button class="btn btn-primary" @onclick="Pause">Pause</button>
+<button class="btn btn-primary" @onclick="Stop">Stop</button>
+
+@code {
+    private async Task Play()
+    {
+        await Client.Playback.Play();
+    }
+
+    private async Task Pause()
+    {
+        await Client.Playback.Pause();
+    }
+
+    private async Task Stop()
+    {
+        await Client.Playback.Stop();
+    }
+}

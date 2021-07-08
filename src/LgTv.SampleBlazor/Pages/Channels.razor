@@ -1,0 +1,42 @@
+﻿@page "/channels"
+@inject ILgTvClient Client
+@inject NavigationManager NavigationManager
+
+<h3>Channels</h3>
+
+@if (_channels == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var channel in _channels)
+            {
+                <tr @onclick="() => NavigateToChannel(channel.Id)">
+                    <td>@channel.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private LgTv.Channels.Channel[] _channels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _channels = (await Client.Channels.GetChannels()).ToArray();
+    }
+
+    private void NavigateToChannel(string channelId)
+    {
+        NavigationManager.NavigateTo($"channel/{channelId}");
+    }
+}

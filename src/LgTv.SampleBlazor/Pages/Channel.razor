@@ -1,0 +1,32 @@
+﻿@page "/channel/{Id}"
+@inject ILgTvClient Client
+
+<h3>Channel</h3>
+
+@if (_channel == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h4>@_channel.Name</h4>
+
+    <button class="btn btn-primary" @onclick="SelectChannel">Select</button>
+}
+
+@code {
+    private LgTv.Channels.Channel _channel;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _channel = (await Client.Channels.GetChannels()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task SelectChannel()
+    {
+        await Client.Channels.SetChannel(_channel.Id);
+    }
+}

@@ -1,0 +1,42 @@
+﻿@page "/inputs"
+@inject ILgTvClient Client
+@inject NavigationManager NavigationManager
+
+<h3>Inputs</h3>
+
+@if (_inputs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var input in _inputs)
+            {
+                <tr @onclick="() => NavigateToInput(input.Id)">
+                    <td>@input.Label</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private LgTv.Inputs.ExternalInput[] _inputs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _inputs = (await Client.Inputs.GetInputs()).ToArray();
+    }
+
+    private void NavigateToInput(string inputId)
+    {
+        NavigationManager.NavigateTo($"input/{inputId}");
+    }
+}

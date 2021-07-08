@@ -1,0 +1,32 @@
+﻿@page "/input/{Id}"
+@inject ILgTvClient Client
+
+<h3>Input</h3>
+
+@if (_input == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h4>@_input.Label</h4>
+
+    <button class="btn btn-primary" @onclick="SelectInput">Select</button>
+}
+
+@code {
+    private LgTv.Inputs.ExternalInput _input;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _input = (await Client.Inputs.GetInputs()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task SelectInput()
+    {
+        await Client.Inputs.SetInput(_input.Id);
+    }
+}

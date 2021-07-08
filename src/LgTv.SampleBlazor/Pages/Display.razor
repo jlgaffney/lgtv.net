@@ -1,0 +1,21 @@
+﻿@page "/display"
+@inject ILgTvClient Client
+
+<h3>Display</h3>
+
+<br />
+
+<button class="btn btn-primary" @onclick="TurnOn3D">3D On</button>
+<button class="btn btn-primary" @onclick="TurnOff3D">3D Off</button>
+
+@code {
+    private async Task TurnOn3D()
+    {
+        await Client.Display.TurnOn3D();
+    }
+
+    private async Task TurnOff3D()
+    {
+        await Client.Display.TurnOff3D();
+    }
+}
