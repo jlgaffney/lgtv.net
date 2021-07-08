@@ -32,7 +32,7 @@ namespace LgTv
 
             IsConnected?.Invoke(true);
 
-            Task.Run(async () => { await Run(); });
+            _ = Run();
 
             return true;
         }
@@ -44,9 +44,14 @@ namespace LgTv
 
             var messageStream = new MemoryStream();
             var messageLength = 0;
-            while (true) // TODO Stop loop when connection is closed or disposed
+            while (true) // TODO Stop loop when connection is disposed
             {
                 var receiveResult = await _connection.ReceiveAsync(bufferSegment, CancellationToken.None);
+
+                if (receiveResult.MessageType == WebSocketMessageType.Close)
+                {
+                    break;
+                }
 
                 await messageStream.WriteAsync(bufferBytes, 0, receiveResult.Count);
                 messageLength += receiveResult.Count;
