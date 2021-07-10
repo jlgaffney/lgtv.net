@@ -14,7 +14,7 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        // TODO Fix WebSocket CORS error
+        // TODO Remove origin header from request, so proxy service is not required
         await Client.Connect();
         await Client.MakeHandShake();
     }
