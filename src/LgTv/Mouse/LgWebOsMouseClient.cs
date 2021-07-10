@@ -23,9 +23,9 @@ namespace LgTv.Mouse
             await _connection.SendMessageAsync($"type:button\nname:{number}\n\n");
         }
 
-        public async Task SendButton(ButtonType bt)
+        public async Task SendButton(string name)
         {
-            await _connection.SendMessageAsync($"type:button\nname:{bt}\n\n");
+            await _connection.SendMessageAsync($"type:button\nname:{name}\n\n");
         }
 
 
