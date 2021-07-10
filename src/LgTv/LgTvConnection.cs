@@ -14,7 +14,7 @@ namespace LgTv
 {
     public class LgTvConnection : ILgTvConnection
     {
-        private const int BufferSize = 2048;
+        private const int BufferSize = 4096;
 
         private readonly ConcurrentDictionary<string, TaskCompletionSource<dynamic>> _tokens = new ConcurrentDictionary<string, TaskCompletionSource<dynamic>>();
 
@@ -163,15 +163,8 @@ namespace LgTv
 
         public void Dispose()
         {
-            CloseAsync().GetAwaiter().GetResult();
             _socket?.Dispose();
             _socket = null;
-        }
-
-
-        private static void Log(RawRequestMessage message)
-        {
-
         }
     }
 }
