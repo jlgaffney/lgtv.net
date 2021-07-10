@@ -1,8 +1,61 @@
 ﻿@page "/mouse"
+@using LgTv.Mouse
+@implements IDisposable
 @inject ILgTvClient Client
 
 <h3>Mouse</h3>
 
-@code {
+<button class="btn btn-primary" @onclick="OkButton">OK</button>
+<button class="btn btn-primary" @onclick="BackButton">Back</button>
 
+<br />
+
+<button class="btn btn-primary" @onclick="UpButton">Up</button>
+<button class="btn btn-primary" @onclick="DownButton">Down</button>
+<button class="btn btn-primary" @onclick="LeftButton">Left</button>
+<button class="btn btn-primary" @onclick="RightButton">Right</button>
+
+@code {
+    private ILgWebOsMouseClient _mouse;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _mouse = await Client.GetMouse();
+    }
+
+    private async Task OkButton()
+    {
+        await _mouse.SendButton(ButtonType.Ok);
+    }
+
+    private async Task BackButton()
+    {
+        await _mouse.SendButton(ButtonType.Back);
+    }
+
+    private async Task UpButton()
+    {
+        await _mouse.SendButton(ButtonType.Up);
+    }
+
+    private async Task DownButton()
+    {
+        await _mouse.SendButton(ButtonType.Down);
+    }
+
+    private async Task LeftButton()
+    {
+        await _mouse.SendButton(ButtonType.Left);
+    }
+
+    private async Task RightButton()
+    {
+        await _mouse.SendButton(ButtonType.Right);
+    }
+
+
+    public void Dispose()
+    {
+        _mouse?.Dispose();
+    }
 }
