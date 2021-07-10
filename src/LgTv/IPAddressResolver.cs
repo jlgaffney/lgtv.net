@@ -2,7 +2,7 @@
 
 namespace LgTv
 {
-    public class IPAddressResolver
+    internal class IPAddressResolver
     {
         public static string GetIPAddress(string hostname)
         {
