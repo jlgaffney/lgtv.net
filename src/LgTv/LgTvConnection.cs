@@ -18,7 +18,7 @@ namespace LgTv
 
         private readonly ConcurrentDictionary<string, TaskCompletionSource<dynamic>> _tokens = new ConcurrentDictionary<string, TaskCompletionSource<dynamic>>();
 
-        private ClientWebSocket _connection;
+        private ClientWebSocket _socket;
         private int _commandCount;
 
         public event IsConnectedDelegate IsConnected;
@@ -26,9 +26,9 @@ namespace LgTv
         public async Task<bool> Connect(Uri uri)
         {
             _commandCount = 0;
-            _connection = new ClientWebSocket();
+            _socket = new ClientWebSocket();
 
-            await _connection.ConnectAsync(uri, CancellationToken.None);
+            await _socket.ConnectAsync(uri, CancellationToken.None);
 
             IsConnected?.Invoke(true);
 
@@ -46,7 +46,7 @@ namespace LgTv
             var messageLength = 0;
             while (true) // TODO Stop loop when connection is disposed
             {
-                var receiveResult = await _connection.ReceiveAsync(bufferSegment, CancellationToken.None);
+                var receiveResult = await _socket.ReceiveAsync(bufferSegment, CancellationToken.None);
 
                 if (receiveResult.MessageType == WebSocketMessageType.Close)
                 {
@@ -119,7 +119,7 @@ namespace LgTv
 
         public async Task SendMessageAsync(string message)
         {
-            await _connection.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);
+            await _socket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         public Task<dynamic> SendCommandAsync(string message)
@@ -146,7 +146,8 @@ namespace LgTv
 
         public Task<dynamic> SendCommandAsync(RequestMessage message)
         {
-            var rawMessage = new RawRequestMessage(message, ++_commandCount);
+            Interlocked.Increment(ref _commandCount);
+            var rawMessage = new RawRequestMessage(message, _commandCount);
             var serialized = JsonConvert.SerializeObject(rawMessage, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
@@ -157,14 +158,14 @@ namespace LgTv
 
         public async Task CloseAsync()
         {
-            await _connection.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+            await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
         }
 
         public void Dispose()
         {
             CloseAsync().GetAwaiter().GetResult();
-            _connection?.Dispose();
-            _connection = null;
+            _socket?.Dispose();
+            _socket = null;
         }
 
 
