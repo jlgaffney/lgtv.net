@@ -16,8 +16,13 @@ namespace LgTv.SampleApp
         public static async Task Main(string[] args)
         {
             // Initalization
-            var client = new LgTvClient(() => new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
-            
+            var client = new LgTvClient(() =>
+                new LgTvConnection(),
+                new JsonFileClientKeyStore(ClientKeyStoreFilePath),
+                new LgTvClientConfiguration(
+                    null,
+                    new HostConfiguration(true, TvHostname, LgTvClient.DefaultSecurePort)));
+
             await client.Connect();
             await client.MakeHandShake();
 
@@ -35,12 +40,18 @@ namespace LgTv.SampleApp
             var apps = await client.Apps.GetApps();
 
 
+            var channels = await client.Channels.GetChannels();
+
+
+            var inputs = await client.Inputs.GetInputs();
+
+
             using (var mouse = await client.GetMouse())
             {
-                await mouse.SendButton(ButtonType.UP);
-                await mouse.SendButton(ButtonType.LEFT);
-                await mouse.SendButton(ButtonType.RIGHT);
-                await mouse.SendButton(ButtonType.DOWN);
+                await mouse.SendButton(ButtonType.Up);
+                await mouse.SendButton(ButtonType.Left);
+                await mouse.SendButton(ButtonType.Right);
+                await mouse.SendButton(ButtonType.Down);
             }
 
 
