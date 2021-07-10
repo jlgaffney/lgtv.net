@@ -57,7 +57,7 @@ namespace LgTv
                 _ipAddress = IPAddressResolver.GetIPAddress(_ipAddress);
             }
 
-            Power = new LgTvPowerClient(_connection);
+            Power = new LgTvPowerClient(_connection, _ipAddress);
             Volume = new LgTvVolumeClient(_connection);
             Channels = new LgTvChannelClient(_connection);
             Playback = new LgTvPlaybackClient(_connection);
