@@ -21,6 +21,8 @@ namespace LgTv.Power
         
         public async Task TurnOn()
         {
+            // TODO Fix, it isn't working on my TV
+
             if (Environment.OSVersion.IsBrowserPlatform())
             {
                 throw new PlatformNotSupportedException();
