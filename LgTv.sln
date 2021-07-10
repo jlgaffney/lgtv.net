@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleApp", "src\LgTv.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv", "src\LgTv\LgTv.csproj", "{A7045512-E91E-4956-9D61-11008E2977CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LgTv.SampleBlazor", "src\LgTv.SampleBlazor\LgTv.SampleBlazor.csproj", "{807B9F00-FE8D-475A-912B-07F1ADD2001B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazor", "src\LgTv.SampleBlazor\LgTv.SampleBlazor.csproj", "{807B9F00-FE8D-475A-912B-07F1ADD2001B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazorProxy", "src\LgTv.SampleBlazorProxy\LgTv.SampleBlazorProxy.csproj", "{1076A662-437A-4DE5-A11F-EF60E4974653}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.WebSocketProxy", "src\AspNetCore.WebSocketProxy\AspNetCore.WebSocketProxy.csproj", "{714EB535-FA17-4009-826D-9FC83CD28836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{807B9F00-FE8D-475A-912B-07F1ADD2001B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{807B9F00-FE8D-475A-912B-07F1ADD2001B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{807B9F00-FE8D-475A-912B-07F1ADD2001B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1076A662-437A-4DE5-A11F-EF60E4974653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1076A662-437A-4DE5-A11F-EF60E4974653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1076A662-437A-4DE5-A11F-EF60E4974653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1076A662-437A-4DE5-A11F-EF60E4974653}.Release|Any CPU.Build.0 = Release|Any CPU
+		{714EB535-FA17-4009-826D-9FC83CD28836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{714EB535-FA17-4009-826D-9FC83CD28836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{714EB535-FA17-4009-826D-9FC83CD28836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{714EB535-FA17-4009-826D-9FC83CD28836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
