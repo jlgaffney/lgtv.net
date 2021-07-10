@@ -20,7 +20,6 @@ namespace LgTv.SampleApp
                 new LgTvConnection(),
                 new JsonFileClientKeyStore(ClientKeyStoreFilePath),
                 new LgTvClientConfiguration(
-                    null,
                     new HostConfiguration(true, TvHostname, LgTvClient.DefaultSecurePort)));
 
             await client.Connect();

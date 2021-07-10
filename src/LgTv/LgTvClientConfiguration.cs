@@ -4,7 +4,7 @@
     {
         public LgTvClientConfiguration(
             HostConfiguration tv,
-            HostConfiguration proxy)
+            HostConfiguration proxy = null)
         {
             Tv = tv;
             Proxy = proxy;

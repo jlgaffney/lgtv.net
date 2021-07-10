@@ -27,8 +27,8 @@ namespace LgTv.SampleBlazor
                 provider.GetService<Func<ILgTvConnection>>(),
                 provider.GetService<IClientKeyStore>(),
                 new LgTvClientConfiguration(
-                    new HostConfiguration(true, ProxyHost, ProxyPort),
-                    new HostConfiguration(false, TvHost, LgTvClient.DefaultInsecurePort))));
+                    new HostConfiguration(false, TvHost, LgTvClient.DefaultInsecurePort),
+                    new HostConfiguration(true, ProxyHost, ProxyPort))));
 
             await builder.Build().RunAsync();
         }
