@@ -1,0 +1,21 @@
+﻿@page "/audio"
+@inject ILgTvClient Client
+
+<h3>Audio</h3>
+
+<br />
+
+<button class="btn btn-primary" @onclick="VolumeUp">Volume Up</button>
+<button class="btn btn-primary" @onclick="VolumeDown">Volume Down</button>
+
+@code {
+    private async Task VolumeUp()
+    {
+        await Client.Audio.VolumeUp();
+    }
+
+    private async Task VolumeDown()
+    {
+        await Client.Audio.VolumeDown();
+    }
+}
