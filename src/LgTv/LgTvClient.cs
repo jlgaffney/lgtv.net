@@ -32,6 +32,29 @@ namespace LgTv
         public LgTvClient(
             Func<ILgTvConnection> connectionFactory,
             IClientKeyStore keyStore,
+            bool secure,
+            string host,
+            int port)
+            : this(connectionFactory,
+                keyStore,
+                new HostConfiguration(secure, host, port))
+        {
+        }
+
+        public LgTvClient(
+            Func<ILgTvConnection> connectionFactory,
+            IClientKeyStore keyStore,
+            HostConfiguration tvHostConfiguration)
+            : this(
+                connectionFactory,
+                keyStore,
+                new LgTvClientConfiguration(tvHostConfiguration))
+        {
+        }
+
+        public LgTvClient(
+            Func<ILgTvConnection> connectionFactory,
+            IClientKeyStore keyStore,
             LgTvClientConfiguration configuration)
         {
             if (configuration == null)

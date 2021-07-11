@@ -15,20 +15,19 @@ namespace LgTv.SampleApp
 
         public static async Task Main(string[] args)
         {
-            // Initalization
-            var client = new LgTvClient(() =>
-                new LgTvConnection(),
+            // Initialization
+            var client = new LgTvClient(
+                () => new LgTvConnection(),
                 new JsonFileClientKeyStore(ClientKeyStoreFilePath),
-                new LgTvClientConfiguration(
-                    new HostConfiguration(true, TvHostname, LgTvClient.DefaultSecurePort)));
+                false, TvHostname, TvPort);
 
             await client.Connect();
             await client.MakeHandShake();
 
 
             // Volume control
-            await client.Volume.VolumeDown();
-            await client.Volume.VolumeUp();
+            await client.Audio.VolumeDown();
+            await client.Audio.VolumeUp();
 
 
             // Playback control
@@ -36,13 +35,11 @@ namespace LgTv.SampleApp
             await client.Playback.Play();
 
 
-            var apps = await client.Apps.GetApps();
-
-
             var channels = await client.Channels.GetChannels();
 
-
             var inputs = await client.Inputs.GetInputs();
+
+            var apps = await client.Apps.GetApps();
 
 
             using (var mouse = await client.GetMouse())
