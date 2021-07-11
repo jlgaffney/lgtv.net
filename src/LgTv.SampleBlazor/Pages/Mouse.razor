@@ -12,10 +12,10 @@
 <br />
 <br />
 
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Up)">Up</button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Down)">Down</button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Left)">Left</button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Right)">Right</button>
+<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Up)"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Down)"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Left)"><span class="oi oi-caret-left" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Right)"><span class="oi oi-caret-right" aria-hidden="true"></span></button>
 
 @code {
     private ILgWebOsMouseClient _mouse;
