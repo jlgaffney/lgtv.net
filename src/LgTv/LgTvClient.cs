@@ -6,6 +6,7 @@ using LgTv.Display;
 using LgTv.Extensions;
 using LgTv.Inputs;
 using LgTv.Mouse;
+using LgTv.Notifications;
 using LgTv.Playback;
 using LgTv.Power;
 using LgTv.Volume;
@@ -64,6 +65,7 @@ namespace LgTv
             Apps = new LgTvAppClient(_connection);
             Inputs = new LgTvInputClient(_connection);
             Display = new LgTvDisplayClient(_connection);
+            Notifications = new LgTvNotificationClient(_connection);
         }
 
         
@@ -116,6 +118,8 @@ namespace LgTv
         public ILgTvInputClient Inputs { get; }
         
         public ILgTvDisplayClient Display { get; }
+
+        public ILgTvNotificationClient Notifications { get; }
 
 
 
