@@ -33,6 +33,8 @@ namespace AspNetCore.WebSocketProxy
                         await Task.WhenAll(
                             ForwardMessages(clientSocket, serverSocket),
                             ForwardMessages(serverSocket, clientSocket));
+
+                        return;
                     }
                 }
 
