@@ -15,23 +15,30 @@ Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standa
 ## Usage
 ```C#
 // Initialization
-var client = new LgTvClient(new LgTvConnection(), new JsonFileClientKeyStore(ClientKeyStoreFilePath, TvHostname), TvHostname, TvPort);
+var client = new LgTvClient(
+    () => new LgTvConnection(),
+    new JsonFileClientKeyStore(ClientKeyStoreFilePath),
+    false, TvHostname, TvPort);
 
 await client.Connect();
 await client.MakeHandShake();
 
 
 // Volume control
-await client.VolumeDown();
-await client.VolumeUp();
+await client.Audio.VolumeDown();
+await client.Audio.VolumeUp();
 
 
 // Playback control
-await client.Pause();
-await client.Play();
+await client.Playback.Pause();
+await client.Playback.Play();
 
 
-var apps = await client.GetApps();
+var channels = await client.Channels.GetChannels();
+
+var inputs = await client.Inputs.GetInputs();
+
+var apps = await client.Apps.GetApps();
 
 
 using (var mouse = await client.GetMouse())
@@ -43,5 +50,5 @@ using (var mouse = await client.GetMouse())
 }
 
 
-await client.TurnOff();
+await client.Power.TurnOff();
 ```
