@@ -26,5 +26,15 @@ namespace LgTv.Playback
         {
             await _connection.SendCommandAsync(new RequestMessage("stop", "ssap://media.controls/stop"));
         }
+
+        public async Task FastForward()
+        {
+            await _connection.SendCommandAsync(new RequestMessage("stop", "ssap://media.controls/fastForward"));
+        }
+
+        public async Task Rewind()
+        {
+            await _connection.SendCommandAsync(new RequestMessage("stop", "ssap://media.controls/rewind"));
+        }
     }
 }

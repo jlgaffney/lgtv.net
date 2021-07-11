@@ -9,5 +9,9 @@ namespace LgTv.Playback
         Task Pause();
 
         Task Stop();
+
+        Task FastForward();
+
+        Task Rewind();
     }
 }
