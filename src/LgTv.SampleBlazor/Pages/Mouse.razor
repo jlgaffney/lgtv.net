@@ -6,16 +6,41 @@
 
 <br />
 
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Ok)">OK</button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Back)">Back</button>
+<div>
+    <button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Ok)">OK</button>
+    <button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Back)">Back</button>
+</div>
 
 <br />
 <br />
 
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Up)"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Down)"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Left)"><span class="oi oi-caret-left" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Right)"><span class="oi oi-caret-right" aria-hidden="true"></span></button>
+<table>
+    <tbody>
+        <tr>
+            <td></td>
+            <td>
+                <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Up)"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+            <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Left)"><span class="oi oi-caret-left" aria-hidden="true"></span></button>
+            </td>
+            <td></td>
+            <td>
+                <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Right)"><span class="oi oi-caret-right" aria-hidden="true"></span></button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Down)"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
 
 @code {
     private ILgWebOsMouseClient _mouse;
