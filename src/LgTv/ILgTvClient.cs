@@ -32,17 +32,17 @@ namespace LgTv
         
         ILgTvPowerClient Power { get; }
 
-        ILgTvVolumeClient Volume { get; }
+        ILgTvAudioClient Audio { get; }
 
-        ILgTvChannelClient Channels { get; }
+        ILgTvDisplayClient Display { get; }
 
         ILgTvPlaybackClient Playback { get; }
+
+        ILgTvChannelClient Channels { get; }
 
         ILgTvAppClient Apps { get; }
 
         ILgTvInputClient Inputs { get; }
-
-        ILgTvDisplayClient Display { get; }
 
         ILgTvNotificationClient Notifications { get; }
     }

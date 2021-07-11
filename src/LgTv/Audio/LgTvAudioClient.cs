@@ -2,11 +2,11 @@
 
 namespace LgTv.Volume
 {
-    internal class LgTvVolumeClient : ILgTvVolumeClient
+    internal class LgTvAudioClient : ILgTvAudioClient
     {
         private readonly ILgTvConnection _connection;
 
-        public LgTvVolumeClient(
+        public LgTvAudioClient(
             ILgTvConnection connection)
         {
             _connection = connection;

@@ -59,12 +59,12 @@ namespace LgTv
             }
 
             Power = new LgTvPowerClient(_connection, _ipAddress);
-            Volume = new LgTvVolumeClient(_connection);
-            Channels = new LgTvChannelClient(_connection);
+            Audio = new LgTvAudioClient(_connection);
+            Display = new LgTvDisplayClient(_connection);
             Playback = new LgTvPlaybackClient(_connection);
+            Channels = new LgTvChannelClient(_connection);
             Apps = new LgTvAppClient(_connection);
             Inputs = new LgTvInputClient(_connection);
-            Display = new LgTvDisplayClient(_connection);
             Notifications = new LgTvNotificationClient(_connection);
         }
 
@@ -107,17 +107,17 @@ namespace LgTv
 
         public ILgTvPowerClient Power { get; }
 
-        public ILgTvVolumeClient Volume { get; }
-        
-        public ILgTvChannelClient Channels { get; }
-        
+        public ILgTvAudioClient Audio { get; }
+
+        public ILgTvDisplayClient Display { get; }
+
         public ILgTvPlaybackClient Playback { get; }
+
+        public ILgTvChannelClient Channels { get; }
         
         public ILgTvAppClient Apps { get; }
         
         public ILgTvInputClient Inputs { get; }
-        
-        public ILgTvDisplayClient Display { get; }
 
         public ILgTvNotificationClient Notifications { get; }
 

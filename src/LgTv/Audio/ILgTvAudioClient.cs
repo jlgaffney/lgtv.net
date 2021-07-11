@@ -2,7 +2,7 @@
 
 namespace LgTv.Volume
 {
-    public interface ILgTvVolumeClient
+    public interface ILgTvAudioClient
     {
         Task<int> GetVolume();
 
