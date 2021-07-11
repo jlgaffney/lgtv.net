@@ -30,7 +30,7 @@ namespace LgTv.Power
 
             var wakeOnLan = new WakeOnLan(_ipAddress);
 
-            await wakeOnLan.Wake();
+            await wakeOnLan.SendMagicPacket();
         }
 
         public async Task TurnOff()

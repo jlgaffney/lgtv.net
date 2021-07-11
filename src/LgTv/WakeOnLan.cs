@@ -31,7 +31,7 @@ namespace LgTv
             _macAddress = Regex.Replace(MacAddressResolver.GetMacAddress(ipAddress), "[-|:]", "");
         }
 
-        public async Task Wake()
+        public async Task SendMagicPacket()
         {
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
             {
