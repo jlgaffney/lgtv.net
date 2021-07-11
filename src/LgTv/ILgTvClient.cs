@@ -28,10 +28,7 @@ namespace LgTv
 
         Task<ILgWebOsMouseClient> GetMouse();
 
-
-        Task ShowToast();
-
-
+        
         ILgTvPowerClient Power { get; }
 
         ILgTvVolumeClient Volume { get; }

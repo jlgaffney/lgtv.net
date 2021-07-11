@@ -103,13 +103,6 @@ namespace LgTv
         }
 
 
-        public async Task ShowToast()
-        {
-            var requestMessage = new RequestMessage("ssap://system.notifications/createToast", new { message = "Co tam u Ciebie?" });
-            await _connection.SendCommandAsync(requestMessage);
-        }
-
-
         public ILgTvPowerClient Power { get; }
 
         public ILgTvVolumeClient Volume { get; }
