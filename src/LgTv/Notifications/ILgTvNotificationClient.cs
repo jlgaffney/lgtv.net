@@ -4,8 +4,12 @@ namespace LgTv.Notifications
 {
     public interface ILgTvNotificationClient
     {
-        Task ShowToast(string message);
+        /// <returns>Unique toast identifier</returns>
+        Task<string> ShowToast(string message);
 
-        Task ShowToast(string message, byte[] iconData, string iconExtension);
+        /// <returns>Unique toast identifier</returns>
+        Task<string> ShowToast(string message, byte[] iconData, string iconExtension);
+
+        Task CloseToast(string toastId);
     }
 }
