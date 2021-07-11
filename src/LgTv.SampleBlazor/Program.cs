@@ -4,16 +4,12 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using LgTv.SampleBlazor.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace LgTv.SampleBlazor
 {
     public class Program
     {
-        private const string ProxyHost = "ENTER_HOSTNAME_OR_IP_ADDRESS";
-        private const int ProxyPort = 8080; // ENTER PORT NUMBER
-
-        private const string TvHost = "ENTER_HOSTNAME_OR_IP_ADDRESS";
-
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -23,12 +19,17 @@ namespace LgTv.SampleBlazor
 
             builder.Services.AddSingleton<IClientKeyStore, LocalStorageClientKeyStore>();
             builder.Services.AddSingleton<Func<ILgTvConnection>>(() => new LgTvConnection());
-            builder.Services.AddSingleton<ILgTvClient>(provider => new LgTvClient(
-                provider.GetService<Func<ILgTvConnection>>(),
-                provider.GetService<IClientKeyStore>(),
-                new LgTvClientConfiguration(
-                    new HostConfiguration(false, TvHost, LgTvClient.DefaultInsecurePort),
-                    new HostConfiguration(true, ProxyHost, ProxyPort))));
+            builder.Services.AddSingleton<ILgTvClient>(provider =>
+            {
+                var configuration = provider.GetService<IConfiguration>();
+
+                return new LgTvClient(
+                    provider.GetService<Func<ILgTvConnection>>(),
+                    provider.GetService<IClientKeyStore>(),
+                    new LgTvClientConfiguration(
+                        configuration.GetSection("Tv").Get<HostConfiguration>(),
+                        configuration.GetSection("Proxy").Get<HostConfiguration>()));
+            });
 
             await builder.Build().RunAsync();
         }
