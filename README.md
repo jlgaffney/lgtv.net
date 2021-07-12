@@ -18,7 +18,7 @@ Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standa
 var client = new LgTvClient(
     () => new LgTvConnection(),
     new JsonFileClientKeyStore(ClientKeyStoreFilePath),
-    false, TvHostname, TvPort);
+    SecureConnection, TvHost, TvPort);
 
 await client.Connect();
 await client.MakeHandShake();
