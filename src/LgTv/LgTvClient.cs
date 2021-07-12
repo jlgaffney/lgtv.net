@@ -32,12 +32,12 @@ namespace LgTv
         public LgTvClient(
             Func<ILgTvConnection> connectionFactory,
             IClientKeyStore keyStore,
-            bool secure,
+            bool secureConnection,
             string host,
             int port)
             : this(connectionFactory,
                 keyStore,
-                new HostConfiguration(secure, host, port))
+                new HostConfiguration(secureConnection, host, port))
         {
         }
 
