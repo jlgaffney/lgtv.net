@@ -5,17 +5,9 @@
 
 <br />
 
-<button class="btn btn-primary" @onclick="TurnOn3D">3D On</button>
-<button class="btn btn-primary" @onclick="TurnOff3D">3D Off</button>
+<button class="btn btn-primary" @onclick="Client.Display.TurnOn3D">3D On</button>
 
-@code {
-    private async Task TurnOn3D()
-    {
-        await Client.Display.TurnOn3D();
-    }
+<br />
+<br />
 
-    private async Task TurnOff3D()
-    {
-        await Client.Display.TurnOff3D();
-    }
-}
+<button class="btn btn-primary" @onclick="Client.Display.TurnOff3D">3D Off</button>

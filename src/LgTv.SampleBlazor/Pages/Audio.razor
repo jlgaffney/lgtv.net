@@ -5,17 +5,30 @@
 
 <br />
 
-<button class="btn btn-primary" @onclick="VolumeUp">Volume Up</button>
-<button class="btn btn-primary" @onclick="VolumeDown">Volume Down</button>
+<button class="btn btn-primary" @onclick="Client.Audio.VolumeUp" title="Increase Volume"><span class="oi oi-plus" aria-hidden="true"></span></button>
+
+<br />
+<br />
+
+<button class="btn btn-primary" @onclick="Client.Audio.VolumeDown" title="Decrease Volume"><span class="oi oi-minus" aria-hidden="true"></span></button>
+
+<br />
+<br />
+
+<button class="btn btn-primary" @onclick="ToggleMute" title="@(_isMuted ? "Unmute" : "Mute")"><span class="oi oi-volume-@(_isMuted ? "off" : "high")" aria-hidden="true"></span></button>
 
 @code {
-    private async Task VolumeUp()
+    private bool _isMuted;
+
+    protected override async Task OnInitializedAsync()
     {
-        await Client.Audio.VolumeUp();
+        _isMuted = await Client.Audio.IsMuted();
     }
 
-    private async Task VolumeDown()
+    private async Task ToggleMute()
     {
-        await Client.Audio.VolumeDown();
+        await Client.Audio.SetMute(!_isMuted);
+
+        _isMuted = !_isMuted;
     }
 }

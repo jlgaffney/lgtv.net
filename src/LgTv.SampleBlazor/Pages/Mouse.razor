@@ -6,41 +6,37 @@
 
 <br />
 
-<div>
-    <button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Ok)">OK</button>
-    <button class="btn btn-primary" @onclick="() => SendButtonCommand(ButtonType.Back)">Back</button>
-</div>
-
-<br />
-<br />
-
 <table>
     <tbody>
         <tr>
             <td></td>
             <td>
-                <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Up)"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
+                <button class="btn btn-primary btn-arrow" @onclick="() => _mouse.SendButton(ButtonType.Up)" title="Up"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
             </td>
             <td></td>
         </tr>
         <tr>
             <td>
-            <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Left)"><span class="oi oi-caret-left" aria-hidden="true"></span></button>
+                <button class="btn btn-primary btn-arrow" @onclick="() => _mouse.SendButton(ButtonType.Left)" title="Left"><span class="oi oi-caret-left" aria-hidden="true"></span></button>
             </td>
-            <td></td>
+            <td><button class="btn btn-primary" @onclick="() => _mouse.SendButton(ButtonType.Ok)">OK</button></td>
             <td>
-                <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Right)"><span class="oi oi-caret-right" aria-hidden="true"></span></button>
+                <button class="btn btn-primary btn-arrow" @onclick="() => _mouse.SendButton(ButtonType.Right)" title="Right"><span class="oi oi-caret-right" aria-hidden="true"></span></button>
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <button class="btn btn-primary btn-arrow" @onclick="() => SendButtonCommand(ButtonType.Down)"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
+                <button class="btn btn-primary btn-arrow" @onclick="() => _mouse.SendButton(ButtonType.Down)" title="Down"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
             </td>
             <td></td>
         </tr>
     </tbody>
 </table>
+
+<br />
+
+<button class="btn btn-primary" @onclick="() => _mouse.SendButton(ButtonType.Back)">Back</button>
 
 @code {
     private ILgWebOsMouseClient _mouse;
@@ -48,11 +44,6 @@
     protected override async Task OnInitializedAsync()
     {
         _mouse = await Client.GetMouse();
-    }
-
-    private async Task SendButtonCommand(string buttonName)
-    {
-        await _mouse.SendButton(buttonName);
     }
 
 

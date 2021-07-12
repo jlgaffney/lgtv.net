@@ -5,11 +5,4 @@
 
 <br />
 
-<button class="btn btn-primary" @onclick="TurnOff">Off</button>
-
-@code {
-    private async Task TurnOff()
-    {
-        await Client.Power.TurnOff();
-    }
-}
+<button class="btn btn-primary" @onclick="Client.Power.TurnOff"><span class="oi oi-power-standby" aria-hidden="true"></span> Off</button>

@@ -4,27 +4,37 @@
 
 <h3>Apps</h3>
 
+<br />
+
 @if (_apps == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
+<table class="table">
+    <colgroup>
+        <col style="width: 80px;">
+        <col style="width: calc(100% - 80px);">
+    </colgroup>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var app in _apps)
+        {
+            <tr class="link" @onclick="() => NavigateToApp(app.Id)">
+                <td style="text-align: center;">
+                    <img style="background: @(!string.IsNullOrWhiteSpace(app.IconColorHex) ? app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@app.Icon" />
+                </td>
+                <td>@app.Title</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var app in _apps)
-            {
-                <tr @onclick="() => NavigateToApp(app.Id)">
-                    <td>@app.Title</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 }
 
 @code {

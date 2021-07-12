@@ -4,6 +4,14 @@
 
 <h3>Channels</h3>
 
+<br />
+
+<button class="btn btn-primary btn-arrow" @onclick="() => Client.Channels.ChannelUp()" title="Up"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
+<button class="btn btn-primary btn-arrow" @onclick="() => Client.Channels.ChannelDown()" title="Up"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
+
+<br />
+<br />
+
 @if (_channels == null)
 {
     <p><em>Loading...</em></p>
@@ -11,15 +19,21 @@
 else
 {
     <table class="table">
+        <colgroup>
+            <col style="width: 120px;">
+            <col style="width: calc(100% - 120px);">
+        </colgroup>
         <thead>
             <tr>
+                <th>Number</th>
                 <th>Name</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var channel in _channels)
             {
-                <tr @onclick="() => NavigateToChannel(channel.Id)">
+                <tr class="link" @onclick="() => NavigateToChannel(channel.Id)">
+                    <td>@channel.Number</td>
                     <td>@channel.Name</td>
                 </tr>
             }

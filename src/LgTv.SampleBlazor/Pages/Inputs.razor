@@ -4,6 +4,8 @@
 
 <h3>Inputs</h3>
 
+<br />
+
 @if (_inputs == null)
 {
     <p><em>Loading...</em></p>
@@ -11,16 +13,27 @@
 else
 {
     <table class="table">
+        <colgroup>
+            <col style="width: 80px;">
+            <col style="width: calc(100% - 300px);">
+            <col style="width: 220px;">
+        </colgroup>
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
+                <th>Connected</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var input in _inputs)
             {
-                <tr @onclick="() => NavigateToInput(input.Id)">
+                <tr class="link" @onclick="() => NavigateToInput(input.Id)">
+                    <td style="text-align: center;">
+                        <img style="background: #D6DBDB; border: 1px solid black; width: 40px; height: 40px;" src="@input.Icon" />
+                    </td>
                     <td>@input.Label</td>
+                    <td>@(input.Connected ? "Yes" : "No")</td>
                 </tr>
             }
         </tbody>
@@ -28,7 +41,7 @@ else
 }
 
 @code {
-    private LgTv.Inputs.ExternalInput[] _inputs;
+    private LgTv.Inputs.Input[] _inputs;
 
     protected override async Task OnInitializedAsync()
     {

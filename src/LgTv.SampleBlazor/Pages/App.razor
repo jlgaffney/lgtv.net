@@ -1,19 +1,26 @@
 ﻿@page "/app/{Id}"
 @inject ILgTvClient Client
 
-<h3>App</h3>
-
 @if (_app == null)
 {
+    <h3>App</h3>
+
+    <br />
+    
     <p><em>Loading...</em></p>
 }
 else
 {
-    <img style="background: black;" src="@_app.LargeIcon"/>
+    <h3>@_app.Title</h3>
 
-    <h4>@_app.Title</h4>
-    
-    <button class="btn btn-primary" @onclick="LaunchApp">Launch</button>
+    <br />
+
+    <img style="background: @(!string.IsNullOrWhiteSpace(_app.IconColorHex) ? _app.IconColorHex : "#000000"); border: 1px solid black;" src="@_app.LargeIcon" />
+
+    <br />
+    <br />
+
+    <button class="btn btn-primary" @onclick="() => Client.Apps.LaunchApp(_app.Id)"><span class="oi oi-share-boxed" aria-hidden="true"></span> Launch</button>
 }
 
 @code {
@@ -25,10 +32,5 @@ else
     protected override async Task OnInitializedAsync()
     {
         _app = (await Client.Apps.GetApps()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
-    }
-
-    private async Task LaunchApp()
-    {
-        await Client.Apps.LaunchApp(_app.Id);
     }
 }

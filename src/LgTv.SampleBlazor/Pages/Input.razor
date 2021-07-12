@@ -1,21 +1,32 @@
 ﻿@page "/input/{Id}"
 @inject ILgTvClient Client
 
-<h3>Input</h3>
-
 @if (_input == null)
 {
+    <h3>Input</h3>
+
+    <br />
+
     <p><em>Loading...</em></p>
 }
 else
 {
-    <h4>@_input.Label</h4>
+    <h3>@_input.Label</h3>
 
-    <button class="btn btn-primary" @onclick="SelectInput">Select</button>
+    <br />
+
+    <img style="background: #D6DBDB; border: 1px solid black;" src="@_input.Icon" />
+
+    <br />
+    <br />
+
+    <p>@(_input.Connected ? "Connected" : "Not connected")</p>
+
+    <button class="btn btn-primary" @onclick="() => Client.Inputs.SetInput(_input.Id)">Select</button>
 }
 
 @code {
-    private LgTv.Inputs.ExternalInput _input;
+    private LgTv.Inputs.Input _input;
 
     [Parameter]
     public string Id { get; set; }
@@ -23,10 +34,5 @@ else
     protected override async Task OnInitializedAsync()
     {
         _input = (await Client.Inputs.GetInputs()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
-    }
-
-    private async Task SelectInput()
-    {
-        await Client.Inputs.SetInput(_input.Id);
     }
 }
