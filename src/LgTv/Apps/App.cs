@@ -11,5 +11,7 @@ namespace LgTv.Apps
         public string Icon { get; set; }
 
         public string LargeIcon { get; set; }
+
+        public string IconColorHex { get; set; }
     }
 }

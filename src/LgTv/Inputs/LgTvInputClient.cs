@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LgTv.Inputs
@@ -26,11 +25,12 @@ namespace LgTv.Inputs
                 {
                     Id = device.id,
                     Label = device.label,
-                    Icon = device.icon
+                    Icon = device.icon,
+                    Connected = (bool) device.connected
                 });
             }
 
-            return inputs.OrderBy(x => x.Label);
+            return inputs;
         }
 
         public async Task SetInput(string id)

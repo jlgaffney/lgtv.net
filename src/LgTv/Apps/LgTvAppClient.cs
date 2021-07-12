@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LgTv.Apps
@@ -29,11 +28,12 @@ namespace LgTv.Apps
                     LaunchPointId = app.launchPointId,
                     Title = app.title,
                     Icon = app.icon,
-                    LargeIcon = app.largeIcon
+                    LargeIcon = app.largeIcon,
+                    IconColorHex = app.iconColor
                 });
             }
 
-            return apps.OrderBy(x => x.Title);
+            return apps;
         }
 
         public async Task<string> LaunchApp(string appId, Uri uri = null)
