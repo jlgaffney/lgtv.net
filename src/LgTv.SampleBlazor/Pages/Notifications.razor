@@ -1,0 +1,56 @@
+﻿@page "/notifications"
+@using System.IO
+@inject ILgTvClient Client
+@inject HttpClient HttpClient
+
+<h3>Notifications</h3>
+
+<br />
+
+<input type="text" @bind-value="_toastMessage" placeholder="Toast Message" />
+
+<br />
+<br />
+
+<input id="showWithIcon" type="checkbox" @bind-value="_showWithIcon" />
+<label for="showWithIcon">Show With Icon</label>
+
+@if (_showWithIcon)
+{
+    <br/>
+
+    <input type="text" @bind-value="_iconUrl" placeholder="Icon URL"/>
+}
+
+<br />
+<br />
+
+<button class="btn btn-primary" @onclick="ShowToast">Show Toast</button>
+
+@code {
+    private string _toastMessage;
+
+    private bool _showWithIcon;
+    private string _iconUrl;
+
+    private async Task ShowToast()
+    {
+        if (string.IsNullOrWhiteSpace(_toastMessage))
+        {
+            return;
+        }
+
+        if (_showWithIcon && !string.IsNullOrWhiteSpace(_iconUrl))
+        {
+            var iconData = await HttpClient.GetByteArrayAsync(_iconUrl);
+
+            var iconExtension = Path.GetExtension(_iconUrl).TrimStart('.');
+
+            await Client.Notifications.ShowToast(_toastMessage, iconData, iconExtension);
+        }
+        else
+        {
+            await Client.Notifications.ShowToast(_toastMessage);
+        }
+    }
+}

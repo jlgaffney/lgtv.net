@@ -22,6 +22,7 @@ namespace LgTv.Notifications
 
         public async Task<string> ShowToast(string message, byte[] iconData, string iconExtension)
         {
+            // TODO Figure out why this is not working
             var iconDataBase64 = Convert.ToBase64String(iconData);
             var requestMessage = new RequestMessage("ssap://system.notifications/createToast", new { iconData = iconDataBase64, iconExtension = iconExtension, message = message });
             var response = await _connection.SendCommandAsync(requestMessage);
