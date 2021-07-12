@@ -27,7 +27,7 @@ namespace LgTv.Display
             //Response: { returnValue: true,  status3D: { status: true, pattern: ’2Dto3D’ } }
             var requestMessage = new RequestMessage("status3D", "ssap://com.webos.service.tv.display/get3DStatus");
             var response = await _connection.SendCommandAsync(requestMessage);
-            return (bool)response.status3D.status;
+            return (bool) response.status3D.status;
         }
     }
 }

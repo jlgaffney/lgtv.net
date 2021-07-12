@@ -26,7 +26,7 @@ namespace LgTv.Channels
                 {
                     Id = channel.channelId,
                     Name = channel.channelName,
-                    Number = int.Parse((string)channel.channelNumber)
+                    Number = int.Parse((string) channel.channelNumber)
                 });
             }
 
@@ -47,7 +47,7 @@ namespace LgTv.Channels
             {
                 Id = response.channelId,
                 Name = response.channelName,
-                Number = (int)response.channelNumber
+                Number = int.Parse((string) response.channelNumber)
             };
         }
 

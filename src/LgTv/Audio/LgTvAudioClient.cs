@@ -29,14 +29,14 @@ namespace LgTv.Volume
             // }
             var requestMessage = new RequestMessage("status", "ssap://audio/getVolume");
             var response = await _connection.SendCommandAsync(requestMessage);
-            return (bool)response.muted ? -1 : (int)response.volume;
+            return (bool) response.muted ? -1 : int.Parse((string) response.volume);
         }
 
         public async Task<bool> IsMuted()
         {
             var requestMessage = new RequestMessage("status", "ssap://audio/getStatus");
             var response = await _connection.SendCommandAsync(requestMessage);
-            return (bool)response.mute;
+            return (bool) response.mute;
         }
 
         public async Task VolumeUp()
