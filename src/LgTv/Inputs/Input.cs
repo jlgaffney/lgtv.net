@@ -1,6 +1,6 @@
 namespace LgTv.Inputs
 {
-    public class ExternalInput
+    public class Input
     {
         public string Id { get; set; }
 

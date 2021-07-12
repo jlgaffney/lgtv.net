@@ -13,15 +13,15 @@ namespace LgTv.Inputs
             _connection = connection;
         }
 
-        public async Task<IEnumerable<ExternalInput>> GetInputs()
+        public async Task<IEnumerable<Input>> GetInputs()
         {
             var requestMessage = new RequestMessage("input", "ssap://tv/getExternalInputList");
             var response = await _connection.SendCommandAsync(requestMessage);
 
-            var inputs = new List<ExternalInput>();
+            var inputs = new List<Input>();
             foreach (var device in response.devices)
             {
-                inputs.Add(new ExternalInput
+                inputs.Add(new Input
                 {
                     Id = device.id,
                     Label = device.label,

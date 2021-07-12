@@ -5,7 +5,7 @@ namespace LgTv.Inputs
 {
     public interface ILgTvInputClient
     {
-        Task<IEnumerable<ExternalInput>> GetInputs();
+        Task<IEnumerable<Input>> GetInputs();
 
         Task SetInput(string id);
     }
