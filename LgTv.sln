@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazor", "src\Lg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazorProxy", "src\LgTv.SampleBlazorProxy\LgTv.SampleBlazorProxy.csproj", "{1076A662-437A-4DE5-A11F-EF60E4974653}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.WebSocketProxy", "src\AspNetCore.WebSocketProxy\AspNetCore.WebSocketProxy.csproj", "{714EB535-FA17-4009-826D-9FC83CD28836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.WebSocketProxy", "src\AspNetCore.WebSocketProxy\AspNetCore.WebSocketProxy.csproj", "{714EB535-FA17-4009-826D-9FC83CD28836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
