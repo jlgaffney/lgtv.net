@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using LgTv.Apps;
+using LgTv.Audio;
 using LgTv.Channels;
 using LgTv.Display;
 using LgTv.Inputs;
@@ -8,7 +9,6 @@ using LgTv.Mouse;
 using LgTv.Notifications;
 using LgTv.Playback;
 using LgTv.Power;
-using LgTv.Volume;
 
 namespace LgTv
 {
