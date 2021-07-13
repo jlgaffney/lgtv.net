@@ -4,6 +4,7 @@ using LgTv.Apps;
 using LgTv.Audio;
 using LgTv.Channels;
 using LgTv.Display;
+using LgTv.Info;
 using LgTv.Inputs;
 using LgTv.Mouse;
 using LgTv.Notifications;
@@ -29,7 +30,9 @@ namespace LgTv
 
         Task<ILgWebOsMouseClient> GetMouse();
 
-        
+
+        ILgTvInfoClient Info { get; }
+
         ILgTvPowerClient Power { get; }
 
         ILgTvAudioClient Audio { get; }
@@ -38,6 +41,8 @@ namespace LgTv
 
         ILgTvPlaybackClient Playback { get; }
 
+        ILgTvKeyboardClient Keyboard { get; }
+
         ILgTvChannelClient Channels { get; }
 
         ILgTvAppClient Apps { get; }
@@ -45,5 +50,8 @@ namespace LgTv
         ILgTvInputClient Inputs { get; }
 
         ILgTvNotificationClient Notifications { get; }
+
+
+        Task<dynamic> SendCommand(RequestMessage request);
     }
 }

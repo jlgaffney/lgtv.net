@@ -13,7 +13,7 @@ namespace LgTv
         public RequestMessage(string uri, object payload)
         {
             Uri = uri;
-            Payload = JsonConvert.SerializeObject(payload);
+            Payload = payload is string payloadString ? payloadString : JsonConvert.SerializeObject(payload);
         }
 
         public string Prefix { get; set; }

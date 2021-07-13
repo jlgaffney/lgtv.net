@@ -5,6 +5,7 @@ using LgTv.Audio;
 using LgTv.Channels;
 using LgTv.Display;
 using LgTv.Extensions;
+using LgTv.Info;
 using LgTv.Inputs;
 using LgTv.Mouse;
 using LgTv.Notifications;
@@ -81,10 +82,12 @@ namespace LgTv
                 _ipAddress = IPAddressResolver.GetIPAddress(_ipAddress);
             }
 
+            Info = new LgTvInfoClient(_connection);
             Power = new LgTvPowerClient(_connection, _ipAddress);
             Audio = new LgTvAudioClient(_connection);
             Display = new LgTvDisplayClient(_connection);
             Playback = new LgTvPlaybackClient(_connection);
+            Keyboard = new LgTvKeyboardClient(_connection);
             Channels = new LgTvChannelClient(_connection);
             Apps = new LgTvAppClient(_connection);
             Inputs = new LgTvInputClient(_connection);
@@ -128,6 +131,8 @@ namespace LgTv
         }
 
 
+        public ILgTvInfoClient Info { get; }
+
         public ILgTvPowerClient Power { get; }
 
         public ILgTvAudioClient Audio { get; }
@@ -135,6 +140,8 @@ namespace LgTv
         public ILgTvDisplayClient Display { get; }
 
         public ILgTvPlaybackClient Playback { get; }
+
+        public ILgTvKeyboardClient Keyboard { get; }
 
         public ILgTvChannelClient Channels { get; }
         
@@ -144,6 +151,11 @@ namespace LgTv
 
         public ILgTvNotificationClient Notifications { get; }
 
+
+        public async Task<dynamic> SendCommand(RequestMessage message)
+        {
+            return await _connection.SendCommandAsync(message);
+        }
 
 
         public void Dispose()

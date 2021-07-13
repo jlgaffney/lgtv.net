@@ -14,6 +14,19 @@ namespace LgTv.Apps
             _connection = connection;
         }
 
+        public async Task<ForegroundAppInfo> GetForegroundAppInfo()
+        {
+            var requestMessage = new RequestMessage("ssap://com.webos.applicationManager/getForegroundAppInfo", new {});
+            var response = await _connection.SendCommandAsync(requestMessage);
+
+            return new ForegroundAppInfo
+            {
+                AppId = response.appId,
+                WindowId = response.windowId,
+                ProcessId = response.processId
+            };
+        }
+
         public async Task<IEnumerable<App>> GetApps()
         {
             var requestMessage = new RequestMessage("launcher", "ssap://com.webos.applicationManager/listLaunchPoints");
