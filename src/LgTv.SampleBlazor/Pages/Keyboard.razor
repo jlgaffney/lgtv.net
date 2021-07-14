@@ -1,0 +1,31 @@
+﻿@page "/keyboard"
+@inject ILgTvClient Client
+
+<h3>Keyboard</h3>
+
+<br />
+
+<textarea @bind="_text" placeholder="Text" style="width: 100%"></textarea>
+
+<br />
+<br />
+
+<button class="btn btn-primary" @onclick="InsertText">Insert</button>
+
+<button class="btn btn-primary" @onclick="DeleteCharacters">Delete</button>
+
+<button class="btn btn-primary" @onclick="Client.Keyboard.SendEnterKey">Enter</button>
+
+@code {
+    private string _text;
+
+    private async Task InsertText()
+    {
+        await Client.Keyboard.InsertText(_text);
+    }
+
+    private async Task DeleteCharacters()
+    {
+        await Client.Keyboard.DeleteCharacters();
+    }
+}
