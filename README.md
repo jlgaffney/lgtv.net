@@ -10,6 +10,8 @@ Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standa
 * https://github.com/ConnectSDK/Connect-SDK-Android-Core
 * https://github.com/CODeRUS/harbour-lgremote-webos
 * https://github.com/openwebos
+* https://github.com/supersaiyanmode/PyWebOSTV
+* https://github.com/klattimer/LGWebOSRemote
 * https://mym.hackpad.com/ep/pad/static/rLlshKkzdNj
 
 ## Usage
