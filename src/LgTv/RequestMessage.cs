@@ -4,6 +4,13 @@ namespace LgTv
 {
     public class RequestMessage
     {
+        // TODO Improve constructor signatures
+
+        public RequestMessage(string uri)
+        {
+            Uri = uri;
+        }
+
         public RequestMessage(string prefix, string uri)
         {
             Prefix = prefix;
@@ -13,7 +20,7 @@ namespace LgTv
         public RequestMessage(string uri, object payload)
         {
             Uri = uri;
-            Payload = payload is string payloadString ? payloadString : JsonConvert.SerializeObject(payload);
+            SetPayload(payload);
         }
 
         public string Prefix { get; set; }
@@ -23,5 +30,11 @@ namespace LgTv
         public string Uri { get; set; }
 
         public string Payload { get; set; }
+
+
+        public void SetPayload(object payload)
+        {
+            Payload = payload is string payloadString ? payloadString : JsonConvert.SerializeObject(payload);
+        }
     }
 }
