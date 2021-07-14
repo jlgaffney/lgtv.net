@@ -1,0 +1,94 @@
+﻿@page "/info"
+@using LgTv.Info
+@inject ILgTvClient Client
+
+<h3>Info</h3>
+
+<br />
+
+<h4 style="margin-bottom: 1.2rem;">System</h4>
+
+@if (_systemInfo == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <label class="heading">Features</label>
+        <p>3D: @(_systemInfo.Features._3D ? "Enabled" : "Disabled")</p>
+        <p>DVR: @(_systemInfo.Features.DVR ? "Enabled" : "Disabled")</p>
+
+        <label class="heading">Receiver Type</label>
+        <p>@_systemInfo.ReceiverType</p>
+
+        <label class="heading">Model</label>
+        <p>@_systemInfo.ModelName</p>
+
+        <label class="heading">Program Mode</label>
+        <p>@_systemInfo.ProgramMode</p>
+    </div>
+}
+
+<br />
+
+<h4 style="margin-bottom: 1.2rem;">Software</h4>
+
+@if (_softwareInfo == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <label class="heading">Product Name</label>
+        <p>@_softwareInfo.ProductName</p>
+        
+        <label class="heading">Model</label>
+        <p>@_softwareInfo.ModelName</p>
+        
+        <label class="heading">Software Type</label>
+        <p>@_softwareInfo.SoftwareType</p>
+        
+        <label class="heading">Major Version</label>
+        <p>@_softwareInfo.MajorVersion</p>
+        
+        <label class="heading">Minor Version</label>
+        <p>@_softwareInfo.MinorVersion</p>
+        
+        <label class="heading">Country</label>
+        <p>@_softwareInfo.Country</p>
+        
+        <label class="heading">Country Group</label>
+        <p>@_softwareInfo.CountryGroup</p>
+        
+        <label class="heading">Device ID</label>
+        <p>@_softwareInfo.DeviceId</p>
+        
+        <label class="heading">Auth Flag</label>
+        <p>@_softwareInfo.AuthFlag</p>
+        
+        <label class="heading">Ignore Disable</label>
+        <p>@_softwareInfo.IgnoreDisable</p>
+        
+        <label class="heading">Eco Info</label>
+        <p>@_softwareInfo.EcoInfo</p>
+        
+        <label class="heading">Config Key</label>
+        <p>@_softwareInfo.ConfigKey</p>
+        
+        <label class="heading">Language</label>
+        <p>@_softwareInfo.Language.Name</p>
+    </div>
+}
+
+@code {
+    private SystemInformation _systemInfo;
+    private SoftwareInformation _softwareInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _systemInfo = await Client.Info.GetSystemInfo();
+        _softwareInfo = await Client.Info.GetSoftwareInfo();
+    }
+}
