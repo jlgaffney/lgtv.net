@@ -16,7 +16,7 @@ namespace LgTv.Apps
 
         public async Task<ForegroundAppInfo> GetForegroundAppInfo()
         {
-            var requestMessage = new RequestMessage("ssap://com.webos.applicationManager/getForegroundAppInfo", new {});
+            var requestMessage = new RequestMessage("ssap://com.webos.applicationManager/getForegroundAppInfo");
             var response = await _connection.SendCommandAsync(requestMessage);
 
             return new ForegroundAppInfo
@@ -57,7 +57,7 @@ namespace LgTv.Apps
                 requestPayload.@params = new { contentTarget = uri.ToString() };
             }
 
-            var requestMessage = new RequestMessage("ssap://system.launcher/launch", requestPayload);
+            var requestMessage = new RequestMessage("ssap://system.launcher/launch", (object) requestPayload);
             var response = await _connection.SendCommandAsync(requestMessage);
             return (string) response.sessionId;
         }

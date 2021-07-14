@@ -26,7 +26,7 @@ namespace LgTv.Inputs
 
         public async Task SendEnterKey()
         {
-            var requestMessage = new RequestMessage(string.Empty, "ssap://com.webos.service.ime/sendEnterKey");
+            var requestMessage = new RequestMessage("ssap://com.webos.service.ime/sendEnterKey");
             await _connection.SendCommandAsync(requestMessage);
         }
     }

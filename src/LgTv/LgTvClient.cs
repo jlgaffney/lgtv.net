@@ -119,7 +119,7 @@ namespace LgTv
 
         public async Task<ILgWebOsMouseClient> GetMouse()
         {
-            var requestMessage = new RequestMessage("ssap://com.webos.service.networkinput/getPointerInputSocket", new { });
+            var requestMessage = new RequestMessage("ssap://com.webos.service.networkinput/getPointerInputSocket");
             var response = await _connection.SendCommandAsync(requestMessage);
             var socketPath = (string) response.socketPath;
            
