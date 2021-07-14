@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace LgTv.Info
 {
@@ -16,18 +18,18 @@ namespace LgTv.Info
 
         public async Task<SystemInformation> GetSystemInfo()
         {
-            var requestMessage = new RequestMessage(string.Empty, "ssap://system/getSystemInfo");
+            var requestMessage = new RequestMessage("ssap://system/getSystemInfo");
             var response = await _connection.SendCommandAsync(requestMessage);
 
             SystemFeatures features = null;
-            if (response.features != null)
+            if (response is JObject jsonObject)
             {
-                var featureDictionary = (IDictionary<string, object>) response.features;
+                var featuresObject = jsonObject["features"];
 
                 features = new SystemFeatures
                 {
-                    _3D = (bool) featureDictionary["3d"],
-                    DVR = (bool) featureDictionary["dvr"]
+                    _3D = (bool) featuresObject["3d"],
+                    DVR = (bool) featuresObject["dvr"]
                 };
             }
 
@@ -36,7 +38,7 @@ namespace LgTv.Info
                 Features = features,
                 ReceiverType = response.receiverType,
                 ModelName = response.modelName,
-                ProgramMode = (bool) response.programMode
+                ProgramMode = Convert.ToBoolean(response.programMode)
             };
 
             return systemInfo;
@@ -44,7 +46,7 @@ namespace LgTv.Info
 
         public async Task<SoftwareInformation> GetSoftwareInfo()
         {
-            var requestMessage = new RequestMessage(string.Empty, "ssap://com.webos.service.update/getCurrentSWInformation");
+            var requestMessage = new RequestMessage("ssap://com.webos.service.update/getCurrentSWInformation");
             var response = await _connection.SendCommandAsync(requestMessage);
 
             CultureInfo language = null;
@@ -75,7 +77,7 @@ namespace LgTv.Info
 
         public async Task<IEnumerable<Service>> GetServices()
         {
-            var requestMessage = new RequestMessage(string.Empty, "ssap://api/getServiceList");
+            var requestMessage = new RequestMessage("ssap://api/getServiceList");
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var services = new List<Service>();
