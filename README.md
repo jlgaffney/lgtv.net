@@ -3,6 +3,8 @@ LG TV WebOS API for .NET
 
 Forked from https://github.com/gr4b4z/lgtv.net and updated to target .NET Standard 2.0.
 
+Sample console and Blazor applications to demonstrate usage
+
 ## inspiration: 
 * https://github.com/msloth/lgtv.js/blob/master/index.js
 
