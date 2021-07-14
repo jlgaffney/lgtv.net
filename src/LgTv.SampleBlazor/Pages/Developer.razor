@@ -1,0 +1,75 @@
+﻿@page "/developer"
+@using Newtonsoft.Json
+@inject ILgTvClient Client
+
+<h3>Developer</h3>
+
+<br />
+
+<h4>Request</h4>
+<div>
+    <input type="text" @bind-value="_prefix" placeholder="Prefix" style="width: 100%; font-family: 'Courier New', monospace;" />
+
+    <br />
+    <br />
+
+    <input type="text" @bind-value="_uri" placeholder="URI" style="width: 100%; font-family: 'Courier New', monospace;" />
+
+    <br />
+    <br />
+
+    <textarea @bind="_payloadJson" placeholder="Payload JSON:
+{
+}" rows="6" style="width: 100%; font-family: 'Courier New', monospace;"></textarea>
+</div>
+
+<br />
+
+<button class="btn btn-primary" @onclick="SendCommand">Send Command</button>
+
+<br />
+<br />
+
+@if (!string.IsNullOrWhiteSpace(_responseJson))
+{
+    <h4>Response</h4>
+    <textarea placeholder="Response JSON" rows="@Math.Min(20, _responseJson.Split("\n").Length))" readonly style="width: 100%; font-family: 'Courier New', monospace;">@_responseJson</textarea>
+}
+
+@code {
+    private const string DefaultPayloadJson = @"{
+}";
+
+    private string _prefix;
+    private string _uri;
+    private string _payloadJson;
+
+    private string _responseJson;
+
+    private async Task SendCommand()
+    {
+        if (string.IsNullOrWhiteSpace(_uri))
+        {
+            return;
+        }
+
+        var payload = string.IsNullOrWhiteSpace(_payloadJson) ? DefaultPayloadJson : _payloadJson;
+
+        RequestMessage request;
+        if (!string.IsNullOrWhiteSpace(_prefix))
+        {
+            request = new RequestMessage(_prefix, _uri);
+            request.SetPayload(payload);
+        }
+        else
+        {
+            request = new RequestMessage(_uri, (object) payload);
+        }
+
+        _responseJson = null;
+
+        var response = await Client.SendCommand(request);
+
+        _responseJson = JsonConvert.SerializeObject(response, Formatting.Indented);
+    }
+}
