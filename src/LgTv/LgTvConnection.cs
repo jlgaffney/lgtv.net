@@ -84,8 +84,8 @@ namespace LgTv
         private void ProcessMessage(string message)
         {
             var obj = JsonConvert.DeserializeObject<dynamic>(message);
-            var id = (string)obj.id;
-            var type = (string)obj.type;
+            var id = (string) obj.id;
+            var type = (string) obj.type;
 
             TaskCompletionSource<dynamic> taskCompletion;
             if (type == "registered")
@@ -96,8 +96,7 @@ namespace LgTv
                     taskCompletion.TrySetResult(new { clientKey = key });
                 }
             }
-            else
-            if (_tokens.TryGetValue(id, out taskCompletion))
+            else if (_tokens.TryGetValue(id, out taskCompletion))
             {
                 if (id == "register_0")
                 {
@@ -108,11 +107,21 @@ namespace LgTv
                 {
                     taskCompletion.SetException(new Exception(obj.error));
                 }
+                else if (obj.payload != null && obj.payload.returnValue is bool && !((bool) obj.payload.returnValue))
+                {
+                    // TODO Get more information
+                    taskCompletion.SetException(new Exception("Command failed"));
+                }
                 //else if (args.Cancelled)
                 //{
                 //    taskSource.SetCanceled();
                 //}
+
                 taskCompletion.TrySetResult(obj.payload);
+            }
+            else
+            {
+                throw new Exception("Unexpected response from server");
             }
         }
 
