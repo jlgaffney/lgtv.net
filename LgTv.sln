@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleApp", "src\LgTv.SampleApp\LgTv.SampleApp.csproj", "{087A34D2-12D9-4B80-9748-6048A6C635FC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv", "src\LgTv\LgTv.csproj", "{A7045512-E91E-4956-9D61-11008E2977CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazor", "src\LgTv.SampleBlazor\LgTv.SampleBlazor.csproj", "{807B9F00-FE8D-475A-912B-07F1ADD2001B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleApp", "sample\LgTv.SampleApp\LgTv.SampleApp.csproj", "{087A34D2-12D9-4B80-9748-6048A6C635FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazorProxy", "src\LgTv.SampleBlazorProxy\LgTv.SampleBlazorProxy.csproj", "{1076A662-437A-4DE5-A11F-EF60E4974653}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.WebSocketProxy", "sample\AspNetCore.WebSocketProxy\AspNetCore.WebSocketProxy.csproj", "{714EB535-FA17-4009-826D-9FC83CD28836}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.WebSocketProxy", "src\AspNetCore.WebSocketProxy\AspNetCore.WebSocketProxy.csproj", "{714EB535-FA17-4009-826D-9FC83CD28836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazor", "sample\LgTv.SampleBlazor\LgTv.SampleBlazor.csproj", "{807B9F00-FE8D-475A-912B-07F1ADD2001B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.SampleBlazorProxy", "sample\LgTv.SampleBlazorProxy\LgTv.SampleBlazorProxy.csproj", "{1076A662-437A-4DE5-A11F-EF60E4974653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
