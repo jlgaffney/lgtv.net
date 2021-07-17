@@ -7,6 +7,9 @@ namespace LgTv.Clients.Apps
 {
     internal class LgTvAppClient : ILgTvAppClient
     {
+        private const string YouTubeAppId = "youtube.leanback.v4";
+        private const string YouTubeVideoUrlPrefix = "http://www.youtube.com/tv?v=";
+
         private readonly ILgTvConnection _connection;
 
         public LgTvAppClient(
@@ -65,12 +68,12 @@ namespace LgTv.Clients.Apps
 
         public async Task<string> LaunchYouTube(string videoId)
         {
-            return await LaunchYouTube(new Uri($"http://www.youtube.com/tv?v={videoId}"));
+            return await LaunchYouTube(new Uri(FormattableString.Invariant($"{YouTubeVideoUrlPrefix}{videoId}")));
         }
 
         public async Task<string> LaunchYouTube(Uri uri)
         {
-            return await LaunchApp("youtube.leanback.v4", uri);
+            return await LaunchApp(YouTubeAppId, uri);
         }
 
         public async Task<string> LaunchWebBrowser(Uri uri)
