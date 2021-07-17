@@ -17,7 +17,7 @@ namespace LgTv.Clients.Channels
 
         public async Task<IEnumerable<Channel>> GetChannels()
         {
-            var requestMessage = new RequestMessage("channels", "ssap://tv/getChannelList");
+            var requestMessage = new RequestMessage(LgTvCommands.GetChannels.Prefix, LgTvCommands.GetChannels.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var channels = new List<Channel>();
@@ -36,7 +36,7 @@ namespace LgTv.Clients.Channels
 
         public async Task<Channel> GetCurrentChannel()
         {
-            var requestMessage = new RequestMessage("channels", "ssap://tv/getCurrentChannel");
+            var requestMessage = new RequestMessage(LgTvCommands.GetCurrentChannel.Prefix, LgTvCommands.GetCurrentChannel.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             if (response.channelId == null)
@@ -54,7 +54,7 @@ namespace LgTv.Clients.Channels
 
         public async Task GetCurrentChannelProgramInfo()
         {
-            var requestMessage = new RequestMessage("programinfo", "ssap://tv/getChannelProgramInfo");
+            var requestMessage = new RequestMessage(LgTvCommands.GetCurrentChannelProgramInfo.Prefix, LgTvCommands.GetCurrentChannelProgramInfo.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             // TODO Get info from response
@@ -62,17 +62,17 @@ namespace LgTv.Clients.Channels
 
         public async Task ChannelUp()
         {
-            await _connection.SendCommandAsync(new RequestMessage("channelUp", "ssap://tv/channelUp"));
+            await _connection.SendCommandAsync(new RequestMessage(LgTvCommands.SetChannelUp.Prefix, LgTvCommands.SetChannelUp.Uri));
         }
 
         public async Task ChannelDown()
         {
-            await _connection.SendCommandAsync(new RequestMessage("channelDown", "ssap://tv/channelDown"));
+            await _connection.SendCommandAsync(new RequestMessage(LgTvCommands.SetChannelDown.Prefix, LgTvCommands.SetChannelDown.Uri));
         }
 
         public async Task SetChannel(string channelId)
         {
-            var requestMessage = new RequestMessage("ssap://tv/openChannel", new { channelId });
+            var requestMessage = new RequestMessage(LgTvCommands.SetChannel.Uri, new { channelId });
             await _connection.SendCommandAsync(requestMessage);
         }
     }

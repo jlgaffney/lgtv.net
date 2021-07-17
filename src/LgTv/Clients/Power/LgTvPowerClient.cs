@@ -37,7 +37,7 @@ namespace LgTv.Clients.Power
 
         public async Task TurnOff()
         {
-            await _connection.SendCommandAsync(new RequestMessage("ssap://system/turnOff"));
+            await _connection.SendCommandAsync(new RequestMessage(LgTvCommands.PowerOff.Uri));
         }
     }
 }

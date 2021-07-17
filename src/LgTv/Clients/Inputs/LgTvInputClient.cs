@@ -16,7 +16,7 @@ namespace LgTv.Clients.Inputs
 
         public async Task<IEnumerable<Input>> GetInputs()
         {
-            var requestMessage = new RequestMessage("input", "ssap://tv/getExternalInputList");
+            var requestMessage = new RequestMessage(LgTvCommands.GetInputs.Prefix, LgTvCommands.GetInputs.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var inputs = new List<Input>();
@@ -36,7 +36,7 @@ namespace LgTv.Clients.Inputs
 
         public async Task SetInput(string id)
         {
-            var requestMessage = new RequestMessage("ssap://tv/switchInput", new { inputId = id });
+            var requestMessage = new RequestMessage(LgTvCommands.SetInput.Uri, new { inputId = id });
             await _connection.SendCommandAsync(requestMessage);
         }
     }

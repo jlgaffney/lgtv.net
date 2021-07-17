@@ -15,7 +15,7 @@ namespace LgTv.Clients.Audio
 
         public async Task<string> GetOutput()
         {
-            var requestMessage = new RequestMessage("status", "ssap://com.webos.service.apiadapter/audio/getSoundOutput");
+            var requestMessage = new RequestMessage(LgTvCommands.GetSoundOutput.Prefix, LgTvCommands.GetSoundOutput.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
             return response.soundOutput;
         }
@@ -35,27 +35,27 @@ namespace LgTv.Clients.Audio
             //         "subscribed": true
             //     }
             // }
-            var requestMessage = new RequestMessage("status", "ssap://audio/getVolume");
+            var requestMessage = new RequestMessage(LgTvCommands.GetVolume.Prefix, LgTvCommands.GetVolume.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
             return (bool) response.muted ? -1 : int.Parse((string) response.volume);
         }
 
         public async Task<bool> IsMuted()
         {
-            var requestMessage = new RequestMessage("status", "ssap://audio/getStatus");
+            var requestMessage = new RequestMessage(LgTvCommands.GetVolumeIsMuted.Prefix, LgTvCommands.GetVolumeIsMuted.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
             return (bool) response.mute;
         }
 
         public async Task VolumeUp()
         {
-            var requestMessage = new RequestMessage("volumeup", "ssap://audio/volumeUp");
+            var requestMessage = new RequestMessage(LgTvCommands.SetVolumeUp.Prefix, LgTvCommands.SetVolumeUp.Uri);
             await _connection.SendCommandAsync(requestMessage);
         }
 
         public async Task VolumeDown()
         {
-            var requestMessage = new RequestMessage("volumedown", "ssap://audio/volumeDown");
+            var requestMessage = new RequestMessage(LgTvCommands.SetVolumeDown.Prefix, LgTvCommands.SetVolumeDown.Uri);
             await _connection.SendCommandAsync(requestMessage);
         }
 
@@ -66,13 +66,13 @@ namespace LgTv.Clients.Audio
                 return;
             }
 
-            var requestMessage = new RequestMessage("ssap://audio/setVolume", new { volume = value });
+            var requestMessage = new RequestMessage(LgTvCommands.SetVolume.Uri, new { volume = value });
             await _connection.SendCommandAsync(requestMessage);
         }
 
         public async Task SetMute(bool value)
         {
-            var requestMessage = new RequestMessage("ssap://audio/setMute", new { mute = value });
+            var requestMessage = new RequestMessage(LgTvCommands.SetMute.Uri, new { mute = value });
             await _connection.SendCommandAsync(requestMessage);
         }
 

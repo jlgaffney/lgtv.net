@@ -19,7 +19,7 @@ namespace LgTv.Clients.Info
 
         public async Task<DateTime> GetCurrentTime()
         {
-            var requestMessage = new RequestMessage("ssap://com.webos.service.tv.time/getCurrentTime");
+            var requestMessage = new RequestMessage(LgTvCommands.GetCurrentTime.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var time = response.time;
@@ -40,7 +40,7 @@ namespace LgTv.Clients.Info
 
         public async Task<SystemInformation> GetSystemInfo()
         {
-            var requestMessage = new RequestMessage("ssap://system/getSystemInfo");
+            var requestMessage = new RequestMessage(LgTvCommands.GetSystemInfo.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             SystemFeatures features = null;
@@ -68,7 +68,7 @@ namespace LgTv.Clients.Info
 
         public async Task<SoftwareInformation> GetSoftwareInfo()
         {
-            var requestMessage = new RequestMessage("ssap://com.webos.service.update/getCurrentSWInformation");
+            var requestMessage = new RequestMessage(LgTvCommands.GetSoftwareInfo.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             CultureInfo language = null;
@@ -99,7 +99,7 @@ namespace LgTv.Clients.Info
 
         public async Task<ConnectionInformation> GetConnectionInfo()
         {
-            var requestMessage = new RequestMessage("ssap://com.webos.service.connectionmanager/getinfo");
+            var requestMessage = new RequestMessage(LgTvCommands.GetConnectionInfo.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var info = new ConnectionInformation
@@ -136,7 +136,7 @@ namespace LgTv.Clients.Info
 
         public async Task<IEnumerable<Service>> GetServices()
         {
-            var requestMessage = new RequestMessage("ssap://api/getServiceList");
+            var requestMessage = new RequestMessage(LgTvCommands.GetServices.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var services = new List<Service>();

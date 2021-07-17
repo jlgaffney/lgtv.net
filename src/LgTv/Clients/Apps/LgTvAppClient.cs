@@ -17,7 +17,7 @@ namespace LgTv.Clients.Apps
 
         public async Task<ForegroundAppInfo> GetForegroundAppInfo()
         {
-            var requestMessage = new RequestMessage("ssap://com.webos.applicationManager/getForegroundAppInfo");
+            var requestMessage = new RequestMessage(LgTvCommands.GetForegroundAppInfo.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             return new ForegroundAppInfo
@@ -30,7 +30,7 @@ namespace LgTv.Clients.Apps
 
         public async Task<IEnumerable<App>> GetApps()
         {
-            var requestMessage = new RequestMessage("launcher", "ssap://com.webos.applicationManager/listLaunchPoints");
+            var requestMessage = new RequestMessage(LgTvCommands.GetApps.Prefix, LgTvCommands.GetApps.Uri);
             var response = await _connection.SendCommandAsync(requestMessage);
 
             var apps = new List<App>();
@@ -58,7 +58,7 @@ namespace LgTv.Clients.Apps
                 requestPayload.@params = new { contentTarget = uri.ToString() };
             }
 
-            var requestMessage = new RequestMessage("ssap://system.launcher/launch", (object) requestPayload);
+            var requestMessage = new RequestMessage(LgTvCommands.LaunchApp.Uri, (object) requestPayload);
             var response = await _connection.SendCommandAsync(requestMessage);
             return (string) response.sessionId;
         }
@@ -75,14 +75,14 @@ namespace LgTv.Clients.Apps
 
         public async Task<string> LaunchWebBrowser(Uri uri)
         {
-            var requestMessage = new RequestMessage("ssap://system.launcher/open", new { target = uri.ToString() });
+            var requestMessage = new RequestMessage(LgTvCommands.OpenApp.Uri, new { target = uri.ToString() });
             var response = await _connection.SendCommandAsync(requestMessage);
             return (string) response.sessionId;
         }
 
         public async Task<string> CloseApp(string appId)
         {
-            var requestMessage = new RequestMessage("ssap://system.launcher/close", new { id = appId });
+            var requestMessage = new RequestMessage(LgTvCommands.CloseApp.Uri, new { id = appId });
             var response = await _connection.SendCommandAsync(requestMessage);
             return (string) response.sessionId;
         }
