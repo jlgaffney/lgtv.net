@@ -14,7 +14,7 @@ namespace LgTv.Sample.Console
         private static readonly string ClientKeyStoreFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), ClientKeyStoreFileName);
 
         private const bool SecureConnection = false;
-        private const string TvHostname = "ENTER_HOSTNAME_OR_IP_ADDRESS";
+        private const string TvHost = "ENTER_HOST";
         private const int TvPort = 3000;
 
         public static async Task Main(string[] args)
@@ -23,7 +23,7 @@ namespace LgTv.Sample.Console
             var client = new LgTvClient(
                 () => new LgTvConnection(),
                 new JsonFileClientKeyStore(ClientKeyStoreFilePath),
-                SecureConnection, TvHostname, TvPort);
+                SecureConnection, TvHost, TvPort);
 
             await client.Connect();
             await client.MakeHandShake();
