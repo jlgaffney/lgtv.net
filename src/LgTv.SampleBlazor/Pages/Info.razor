@@ -4,83 +4,140 @@
 
 <h3>Info</h3>
 
+<div class="card">
+    <div class="card-header">
+        <h4 style="margin-bottom: 0;">System</h4>
+    </div>
+
+    <div class="card-body">
+        @if (_systemInfo == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div>
+                <label class="heading">Features</label><br />
+                <label>3D: @(_systemInfo.Features._3D ? "Enabled" : "Disabled")</label><br />
+                <label>DVR: @(_systemInfo.Features.DVR ? "Enabled" : "Disabled")</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Receiver Type</label><br />
+                <label>@_systemInfo.ReceiverType</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Model</label><br />
+                <label>@_systemInfo.ModelName</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Program Mode</label><br />
+                <label style="margin-bottom: 0">@_systemInfo.ProgramMode</label>
+            </div>
+        }
+    </div>
+</div>
+
 <br />
 
-<h4 style="margin-bottom: 1.2rem;">System</h4>
-
-@if (_systemInfo == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div>
-        <label class="heading">Features</label>
-        <p>3D: @(_systemInfo.Features._3D ? "Enabled" : "Disabled")</p>
-        <p>DVR: @(_systemInfo.Features.DVR ? "Enabled" : "Disabled")</p>
-
-        <label class="heading">Receiver Type</label>
-        <p>@_systemInfo.ReceiverType</p>
-
-        <label class="heading">Model</label>
-        <p>@_systemInfo.ModelName</p>
-
-        <label class="heading">Program Mode</label>
-        <p>@_systemInfo.ProgramMode</p>
+<div class="card">
+    <div class="card-header">
+        <h4 style="margin-bottom: 0;">Software</h4>
     </div>
-}
+
+    <div class="card-body">
+        @if (_softwareInfo == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div>
+                <label class="heading">Product Name</label><br />
+                <label>@_softwareInfo.ProductName</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Model</label><br />
+                <label>@_softwareInfo.ModelName</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Software Type</label><br />
+                <label>@_softwareInfo.SoftwareType</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Major Version</label><br />
+                <label>@_softwareInfo.MajorVersion</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Minor Version</label><br />
+                <label>@_softwareInfo.MinorVersion</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Country</label><br />
+                <label>@_softwareInfo.Country</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Country Group</label><br />
+                <label>@_softwareInfo.CountryGroup</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Device ID</label><br />
+                <label>@_softwareInfo.DeviceId</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Auth Flag</label><br />
+                <label>@_softwareInfo.AuthFlag</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Ignore Disable</label><br />
+                <label>@_softwareInfo.IgnoreDisable</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Eco Info</label><br />
+                <label>@_softwareInfo.EcoInfo</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Config Key</label><br />
+                <label>@_softwareInfo.ConfigKey</label>
+
+                <br />
+                <br />
+
+                <label class="heading">Language</label><br />
+                <label>@_softwareInfo.Language.Name</label>
+            </div>
+        }
+    </div>
+</div>
 
 <br />
-
-<h4 style="margin-bottom: 1.2rem;">Software</h4>
-
-@if (_softwareInfo == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div>
-        <label class="heading">Product Name</label>
-        <p>@_softwareInfo.ProductName</p>
-        
-        <label class="heading">Model</label>
-        <p>@_softwareInfo.ModelName</p>
-        
-        <label class="heading">Software Type</label>
-        <p>@_softwareInfo.SoftwareType</p>
-        
-        <label class="heading">Major Version</label>
-        <p>@_softwareInfo.MajorVersion</p>
-        
-        <label class="heading">Minor Version</label>
-        <p>@_softwareInfo.MinorVersion</p>
-        
-        <label class="heading">Country</label>
-        <p>@_softwareInfo.Country</p>
-        
-        <label class="heading">Country Group</label>
-        <p>@_softwareInfo.CountryGroup</p>
-        
-        <label class="heading">Device ID</label>
-        <p>@_softwareInfo.DeviceId</p>
-        
-        <label class="heading">Auth Flag</label>
-        <p>@_softwareInfo.AuthFlag</p>
-        
-        <label class="heading">Ignore Disable</label>
-        <p>@_softwareInfo.IgnoreDisable</p>
-        
-        <label class="heading">Eco Info</label>
-        <p>@_softwareInfo.EcoInfo</p>
-        
-        <label class="heading">Config Key</label>
-        <p>@_softwareInfo.ConfigKey</p>
-        
-        <label class="heading">Language</label>
-        <p>@_softwareInfo.Language.Name</p>
-    </div>
-}
 
 @code {
     private SystemInformation _systemInfo;
