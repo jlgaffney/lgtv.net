@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B4AFE31C-B5AD-45E1-9AF9-4DCB31A6375C}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv", "src\LgTv\LgTv.csproj", "{A7045512-E91E-4956-9D61-11008E2977CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{4CC39797-7EBD-4C21-96BA-4E3EA661E45A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LgTv.Sample.Console", "sample\LgTv.Sample.Console\LgTv.Sample.Console.csproj", "{087A34D2-12D9-4B80-9748-6048A6C635FC}"
 EndProject
@@ -42,6 +46,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A7045512-E91E-4956-9D61-11008E2977CE} = {B4AFE31C-B5AD-45E1-9AF9-4DCB31A6375C}
+		{087A34D2-12D9-4B80-9748-6048A6C635FC} = {4CC39797-7EBD-4C21-96BA-4E3EA661E45A}
+		{807B9F00-FE8D-475A-912B-07F1ADD2001B} = {4CC39797-7EBD-4C21-96BA-4E3EA661E45A}
+		{714EB535-FA17-4009-826D-9FC83CD28836} = {4CC39797-7EBD-4C21-96BA-4E3EA661E45A}
+		{1076A662-437A-4DE5-A11F-EF60E4974653} = {4CC39797-7EBD-4C21-96BA-4E3EA661E45A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D9A29E8-DC4F-469C-BB03-2E2B52345301}
