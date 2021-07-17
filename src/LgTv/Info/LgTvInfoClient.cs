@@ -75,6 +75,43 @@ namespace LgTv.Info
             return softwareInfo;
         }
 
+        public async Task<ConnectionInformation> GetConnectionInfo()
+        {
+            var requestMessage = new RequestMessage("ssap://com.webos.service.connectionmanager/getinfo");
+            var response = await _connection.SendCommandAsync(requestMessage);
+
+            var info = new ConnectionInformation
+            {
+                Subscribed = response.subscribed
+            };
+
+            if (response.P2PInfo != null)
+            {
+                info.P2PInfo = new ConnectionDeviceInfo
+                {
+                    MacAddress = response.P2PInfo.macAddress
+                };
+            }
+
+            if (response.wifiInfo != null)
+            {
+                info.WifiInfo = new ConnectionDeviceInfo
+                {
+                    MacAddress = response.wifiInfo.macAddress
+                };
+            }
+
+            if (response.wiredInfo != null)
+            {
+                info.WiredInfo = new ConnectionDeviceInfo
+                {
+                    MacAddress = response.wiredInfo.macAddress
+                };
+            }
+
+            return info;
+        }
+
         public async Task<IEnumerable<Service>> GetServices()
         {
             var requestMessage = new RequestMessage("ssap://api/getServiceList");

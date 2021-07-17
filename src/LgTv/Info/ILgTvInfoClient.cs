@@ -9,6 +9,8 @@ namespace LgTv.Info
 
         Task<SoftwareInformation> GetSoftwareInfo();
 
+        Task<ConnectionInformation> GetConnectionInfo();
+
         Task<IEnumerable<Service>> GetServices();
     }
 }
