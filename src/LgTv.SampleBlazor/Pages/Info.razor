@@ -6,6 +6,25 @@
 
 <div class="card">
     <div class="card-header">
+        <h4 style="margin-bottom: 0;">Time</h4>
+    </div>
+
+    <div class="card-body">
+        @if (_systemInfo == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <label style="margin-bottom: 0">@_currentSystemTime.ToString()</label>
+        }
+    </div>
+</div>
+
+<br />
+
+<div class="card">
+    <div class="card-header">
         <h4 style="margin-bottom: 0;">System</h4>
     </div>
 
@@ -139,13 +158,59 @@
 
 <br />
 
+<div class="card">
+    <div class="card-header">
+        <h4 style="margin-bottom: 0;">Connection</h4>
+    </div>
+
+    <div class="card-body">
+        @if (_softwareInfo == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div>
+                <label class="heading">Subscribed</label>
+                <p>@(_connectionInfo.Subscribed ? "Yes" : "No")</p>
+
+                @if (_connectionInfo.P2PInfo != null)
+                {
+                    <label class="heading">P2P</label>
+                    <p>MAC Address: @_connectionInfo.P2PInfo.MacAddress</p>
+                }
+
+                @if (_connectionInfo.WifiInfo != null)
+                {
+                    <label class="heading">WiFi</label>
+                    <p>MAC Address: @_connectionInfo.WifiInfo.MacAddress</p>
+                }
+
+                @if (_connectionInfo.WiredInfo != null)
+                {
+                    <label class="heading">Wired</label>
+                    <p>MAC Address: @_connectionInfo.WiredInfo.MacAddress</p>
+                }
+
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+
 @code {
+    private DateTime? _currentSystemTime;
+
     private SystemInformation _systemInfo;
     private SoftwareInformation _softwareInfo;
+    private ConnectionInformation _connectionInfo;
 
     protected override async Task OnInitializedAsync()
     {
+        _currentSystemTime = await Client.Info.GetCurrentTime();
         _systemInfo = await Client.Info.GetSystemInfo();
         _softwareInfo = await Client.Info.GetSoftwareInfo();
+        _connectionInfo = await Client.Info.GetConnectionInfo();
     }
 }
