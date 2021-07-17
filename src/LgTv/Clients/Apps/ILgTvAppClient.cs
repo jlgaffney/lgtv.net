@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LgTv.Apps
+namespace LgTv.Clients.Apps
 {
     public interface ILgTvAppClient
     {

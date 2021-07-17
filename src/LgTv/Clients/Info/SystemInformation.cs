@@ -1,5 +1,4 @@
-﻿
-namespace LgTv.Info
+﻿namespace LgTv.Clients.Info
 {
     public class SystemInformation
     {

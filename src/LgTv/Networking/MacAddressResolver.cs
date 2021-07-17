@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using LgTv.Extensions;
 
-namespace LgTv
+namespace LgTv.Networking
 {
     /// <summary>
     /// Resolves the MAC address of a specified IP address

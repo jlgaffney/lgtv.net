@@ -1,4 +1,4 @@
-﻿namespace LgTv.Apps
+﻿namespace LgTv.Clients.Apps
 {
     public class ForegroundAppInfo
     {

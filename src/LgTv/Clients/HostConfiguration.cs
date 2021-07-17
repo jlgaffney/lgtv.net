@@ -1,4 +1,4 @@
-﻿namespace LgTv
+﻿namespace LgTv.Clients
 {
     public class HostConfiguration
     {

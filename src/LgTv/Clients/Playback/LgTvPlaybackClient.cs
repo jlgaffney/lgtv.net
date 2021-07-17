@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace LgTv.Playback
+namespace LgTv.Clients.Playback
 {
     internal class LgTvPlaybackClient : ILgTvPlaybackClient
     {

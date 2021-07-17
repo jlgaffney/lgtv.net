@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace LgTv.Audio
+namespace LgTv.Clients.Audio
 {
     public interface ILgTvAudioClient
     {

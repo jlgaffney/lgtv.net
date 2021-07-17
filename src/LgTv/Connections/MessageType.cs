@@ -1,4 +1,4 @@
-namespace LgTv
+namespace LgTv.Connections
 {
     public enum MessageType
     {

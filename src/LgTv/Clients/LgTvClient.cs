@@ -12,7 +12,7 @@ using LgTv.Notifications;
 using LgTv.Playback;
 using LgTv.Power;
 
-namespace LgTv
+namespace LgTv.Clients
 {
     public class LgTvClient : ILgTvClient
     {

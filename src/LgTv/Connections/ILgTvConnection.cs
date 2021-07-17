@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LgTv
+namespace LgTv.Connections
 {
     public interface ILgTvConnection : IDisposable
     {

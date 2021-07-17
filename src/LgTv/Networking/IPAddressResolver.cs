@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace LgTv
+namespace LgTv.Networking
 {
     internal class IPAddressResolver
     {

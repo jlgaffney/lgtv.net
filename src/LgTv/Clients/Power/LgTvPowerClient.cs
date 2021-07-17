@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using LgTv.Extensions;
 
-namespace LgTv.Power
+namespace LgTv.Clients.Power
 {
     internal class LgTvPowerClient : ILgTvPowerClient
     {

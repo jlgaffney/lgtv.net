@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LgTv.Channels
+namespace LgTv.Clients.Channels
 {
     public interface ILgTvChannelClient
     {

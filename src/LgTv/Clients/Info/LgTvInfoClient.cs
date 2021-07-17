@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace LgTv.Info
+namespace LgTv.Clients.Info
 {
     public class LgTvInfoClient : ILgTvInfoClient
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace LgTv.Power
+namespace LgTv.Clients.Power
 {
     public interface ILgTvPowerClient
     {

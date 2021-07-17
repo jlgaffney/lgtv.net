@@ -11,7 +11,7 @@ using LgTv.Notifications;
 using LgTv.Playback;
 using LgTv.Power;
 
-namespace LgTv
+namespace LgTv.Clients
 {
     public enum ControlButtons
     {

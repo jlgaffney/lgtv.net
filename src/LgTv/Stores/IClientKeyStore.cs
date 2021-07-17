@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace LgTv
+namespace LgTv.Stores
 {
     public interface IClientKeyStore
     {

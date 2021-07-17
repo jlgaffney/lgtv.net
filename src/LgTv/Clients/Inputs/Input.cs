@@ -1,4 +1,4 @@
-namespace LgTv.Inputs
+namespace LgTv.Clients.Inputs
 {
     public class Input
     {

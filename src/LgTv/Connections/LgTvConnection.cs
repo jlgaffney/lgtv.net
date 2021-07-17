@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace LgTv
+namespace LgTv.Connections
 {
     public class LgTvConnection : ILgTvConnection
     {

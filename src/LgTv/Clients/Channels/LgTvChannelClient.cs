@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LgTv.Channels
+namespace LgTv.Clients.Channels
 {
     internal class LgTvChannelClient : ILgTvChannelClient
     {

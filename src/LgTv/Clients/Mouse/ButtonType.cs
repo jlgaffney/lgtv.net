@@ -1,4 +1,4 @@
-﻿namespace LgTv.Mouse
+﻿namespace LgTv.Clients.Mouse
 {
     public static class ButtonType
     {

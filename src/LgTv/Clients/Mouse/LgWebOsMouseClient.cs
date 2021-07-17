@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LgTv.Mouse
+namespace LgTv.Clients.Mouse
 {
     internal class LgWebOsMouseClient : ILgWebOsMouseClient
     {

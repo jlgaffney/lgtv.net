@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LgTv.Inputs
+namespace LgTv.Clients.Inputs
 {
     public interface ILgTvInputClient
     {

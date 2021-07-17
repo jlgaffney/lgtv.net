@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LgTv.Extensions;
 
-namespace LgTv
+namespace LgTv.Networking
 {
     /// <remarks>Not supported on browser</remarks>
     internal class WakeOnLan

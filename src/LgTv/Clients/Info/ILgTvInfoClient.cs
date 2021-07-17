@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LgTv.Info
+namespace LgTv.Clients.Info
 {
     public interface ILgTvInfoClient
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace LgTv.Notifications
+namespace LgTv.Clients.Notifications
 {
     public class LgTvNotificationClient : ILgTvNotificationClient
     {

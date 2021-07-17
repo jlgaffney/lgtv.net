@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace LgTv.Display
+namespace LgTv.Clients.Display
 {
     internal class LgTvDisplayClient : ILgTvDisplayClient
     {

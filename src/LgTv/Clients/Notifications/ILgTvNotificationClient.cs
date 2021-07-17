@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace LgTv.Notifications
+namespace LgTv.Clients.Notifications
 {
     public interface ILgTvNotificationClient
     {
