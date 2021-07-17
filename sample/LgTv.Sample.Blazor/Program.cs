@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LgTv.SampleBlazor.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace LgTv.SampleBlazor
+namespace LgTv.Sample.Blazor
 {
     public class Program
     {

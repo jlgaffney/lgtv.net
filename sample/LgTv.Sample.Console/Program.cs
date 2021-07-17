@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using LgTv.Mouse;
 
-namespace LgTv.SampleApp
+namespace LgTv.Sample.Console
 {
     public class Program
     {
