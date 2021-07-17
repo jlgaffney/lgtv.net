@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using LgTv.Stores;
 using Microsoft.JSInterop;
 
-namespace LgTv.SampleBlazor.Services
+namespace LgTv.Sample.Blazor.Services
 {
     public class LocalStorageClientKeyStore : IClientKeyStore
     {

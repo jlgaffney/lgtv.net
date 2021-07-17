@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LgTv.Connections;
 
 namespace LgTv.Clients.Apps
 {

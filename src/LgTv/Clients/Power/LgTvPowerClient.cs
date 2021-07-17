@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using LgTv.Connections;
 using LgTv.Extensions;
+using LgTv.Networking;
 
 namespace LgTv.Clients.Power
 {

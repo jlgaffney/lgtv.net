@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using LgTv.Connections;
 using Newtonsoft.Json.Linq;
 
 namespace LgTv.Clients.Info

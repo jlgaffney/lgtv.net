@@ -1,6 +1,9 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using LgTv.Mouse;
+using LgTv.Clients;
+using LgTv.Clients.Mouse;
+using LgTv.Connections;
+using LgTv.Stores;
 
 namespace LgTv.Sample.Console
 {

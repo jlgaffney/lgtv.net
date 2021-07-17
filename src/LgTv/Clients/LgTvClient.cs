@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LgTv.Apps;
-using LgTv.Audio;
-using LgTv.Channels;
-using LgTv.Display;
+using LgTv.Clients.Apps;
+using LgTv.Clients.Audio;
+using LgTv.Clients.Channels;
+using LgTv.Clients.Display;
+using LgTv.Clients.Info;
+using LgTv.Clients.Inputs;
+using LgTv.Clients.Mouse;
+using LgTv.Clients.Notifications;
+using LgTv.Clients.Playback;
+using LgTv.Clients.Power;
+using LgTv.Connections;
 using LgTv.Extensions;
-using LgTv.Info;
-using LgTv.Inputs;
-using LgTv.Mouse;
-using LgTv.Notifications;
-using LgTv.Playback;
-using LgTv.Power;
+using LgTv.Networking;
+using LgTv.Stores;
 
 namespace LgTv.Clients
 {

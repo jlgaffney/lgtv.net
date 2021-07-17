@@ -3,7 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using LgTv.SampleBlazor.Services;
+using LgTv.Clients;
+using LgTv.Connections;
+using LgTv.Sample.Blazor.Services;
+using LgTv.Stores;
 using Microsoft.Extensions.Configuration;
 
 namespace LgTv.Sample.Blazor
