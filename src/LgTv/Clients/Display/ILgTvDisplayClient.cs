@@ -8,6 +8,6 @@ namespace LgTv.Clients.Display
 
         Task TurnOff3D();
 
-        Task<bool> IsTurnedOn3D();
+        Task<bool> Is3DTurnedOn();
     }
 }

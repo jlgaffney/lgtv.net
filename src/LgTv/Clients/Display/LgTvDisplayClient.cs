@@ -23,7 +23,7 @@ namespace LgTv.Clients.Display
             await _connection.SendCommandAsync(new RequestMessage(LgTvCommands.Set3DOff.Prefix, LgTvCommands.Set3DOff.Uri));
         }
 
-        public async Task<bool> IsTurnedOn3D()
+        public async Task<bool> Is3DTurnedOn()
         {
             //Response: { returnValue: true,  status3D: { status: true, pattern: ’2Dto3D’ } }
             var requestMessage = new RequestMessage(LgTvCommands.Get3DStatus.Prefix, LgTvCommands.Get3DStatus.Uri);
