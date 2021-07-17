@@ -5,6 +5,19 @@
 
 <br />
 
+<p>
+    <b>Output: </b>
+    @if (_soundOutput == null)
+    {
+        <em>Loading...</em>
+    }
+    else
+    {
+        @_soundOutput
+    }
+</p>
+
+
 <button class="btn btn-primary" @onclick="Client.Audio.VolumeUp" title="Increase Volume"><span class="oi oi-plus" aria-hidden="true"></span></button>
 
 <br />
@@ -20,9 +33,13 @@
 @code {
     private bool _isMuted;
 
+    private string _soundOutput;
+
     protected override async Task OnInitializedAsync()
     {
         _isMuted = await Client.Audio.IsMuted();
+
+        _soundOutput = await Client.Audio.GetOutput();
     }
 
     private async Task ToggleMute()

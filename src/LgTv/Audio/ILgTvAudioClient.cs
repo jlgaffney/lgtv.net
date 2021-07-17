@@ -4,6 +4,8 @@ namespace LgTv.Audio
 {
     public interface ILgTvAudioClient
     {
+        Task<string> GetOutput();
+
         Task<int> GetVolume();
 
         Task<bool> IsMuted();

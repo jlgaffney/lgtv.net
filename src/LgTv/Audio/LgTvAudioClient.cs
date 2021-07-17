@@ -12,6 +12,13 @@ namespace LgTv.Audio
             _connection = connection;
         }
 
+        public async Task<string> GetOutput()
+        {
+            var requestMessage = new RequestMessage("status", "ssap://com.webos.service.apiadapter/audio/getSoundOutput");
+            var response = await _connection.SendCommandAsync(requestMessage);
+            return response.soundOutput;
+        }
+
         public async Task<int> GetVolume()
         {
             // {
