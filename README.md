@@ -14,6 +14,7 @@ Sample console and Blazor applications to demonstrate usage
 * https://github.com/openwebos
 * https://github.com/supersaiyanmode/PyWebOSTV
 * https://github.com/klattimer/LGWebOSRemote
+* https://github.com/snabb/webostv
 * https://mym.hackpad.com/ep/pad/static/rLlshKkzdNj
 
 ## Usage
