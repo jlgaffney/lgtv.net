@@ -16,6 +16,27 @@ namespace LgTv.Info
             _connection = connection;
         }
 
+        public async Task<DateTime> GetCurrentTime()
+        {
+            var requestMessage = new RequestMessage("ssap://com.webos.service.tv.time/getCurrentTime");
+            var response = await _connection.SendCommandAsync(requestMessage);
+
+            var time = response.time;
+
+            if (time == null)
+            {
+                return DateTime.MinValue;
+            }
+
+            return new DateTime(
+                int.Parse((string) time.year),
+                int.Parse((string) time.month),
+                int.Parse((string) time.day),
+                int.Parse((string) time.hour),
+                int.Parse((string) time.minute),
+                int.Parse((string) time.second));
+        }
+
         public async Task<SystemInformation> GetSystemInfo()
         {
             var requestMessage = new RequestMessage("ssap://system/getSystemInfo");
