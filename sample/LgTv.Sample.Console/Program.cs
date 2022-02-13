@@ -16,6 +16,7 @@ namespace LgTv.Sample.Console
         private const bool SecureConnection = false;
         private const string TvHost = "ENTER_HOST";
         private const int TvPort = 3000;
+        private const bool WakeOnLanIsSupported = false;
 
         public static async Task Main(string[] args)
         {
@@ -24,6 +25,11 @@ namespace LgTv.Sample.Console
                 () => new LgTvConnection(),
                 new JsonFileClientKeyStore(ClientKeyStoreFilePath),
                 SecureConnection, TvHost, TvPort);
+
+            if (WakeOnLanIsSupported)
+            {
+                await client.Power.TurnOn();
+            }
 
             await client.Connect();
             await client.MakeHandShake();

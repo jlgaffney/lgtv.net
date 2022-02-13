@@ -17,22 +17,21 @@ namespace LgTv.Networking
     {
         private const int MacAddressRepeatCount = 16;
 
-        private readonly string _macAddress;
-
         /// <remarks>Not supported on browser</remarks>
-        public WakeOnLan(
-            string ipAddress)
+        public static async Task SendMagicPacket(string macAddress)
         {
             if (Environment.OSVersion.IsBrowserPlatform())
             {
                 throw new PlatformNotSupportedException();
             }
 
-            _macAddress = Regex.Replace(MacAddressResolver.GetMacAddress(ipAddress), "[-|:]", "");
-        }
+            macAddress = Regex.Replace(macAddress ?? string.Empty, "[-|:]", string.Empty);
 
-        public async Task SendMagicPacket()
-        {
+            if (string.IsNullOrWhiteSpace(macAddress))
+            {
+                throw new ArgumentException("MAC address not specified");
+            }
+
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
             {
                 EnableBroadcast = true
@@ -54,9 +53,9 @@ namespace LgTv.Networking
             // Repeat the device MAC address sixteen times
             for (var j = 0; j < MacAddressRepeatCount; j++)
             {
-                for (var k = 0; k < _macAddress.Length; k += 2)
+                for (var k = 0; k < macAddress.Length; k += 2)
                 {
-                    var s = _macAddress.Substring(k, 2);
+                    var s = macAddress.Substring(k, 2);
                     payload[payloadIndex] = byte.Parse(s, NumberStyles.HexNumber);
                     payloadIndex++;
                 }

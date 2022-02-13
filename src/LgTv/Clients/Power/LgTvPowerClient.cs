@@ -30,9 +30,9 @@ namespace LgTv.Clients.Power
                 throw new PlatformNotSupportedException();
             }
 
-            var wakeOnLan = new WakeOnLan(_ipAddress);
+            var macAddress = MacAddressResolver.GetMacAddress(_ipAddress);
 
-            await wakeOnLan.SendMagicPacket();
+            await WakeOnLan.SendMagicPacket(macAddress);
         }
 
         public async Task TurnOff()
