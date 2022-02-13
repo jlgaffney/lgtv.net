@@ -7,11 +7,11 @@ namespace LgTv.Extensions
     {
         private const string IsBrowserMethodName = "IsBrowser";
 
-        private static readonly Type osType = typeof(OperatingSystem);
+        private static readonly Type OsType = typeof(OperatingSystem);
 
         public static bool IsBrowserPlatform(this OperatingSystem os)
         {
-            var isBrowserMethodInfo = osType.GetMethod(IsBrowserMethodName, BindingFlags.Public | BindingFlags.Static);
+            var isBrowserMethodInfo = OsType.GetMethod(IsBrowserMethodName, BindingFlags.Public | BindingFlags.Static);
 
             if (isBrowserMethodInfo == null)
             {
