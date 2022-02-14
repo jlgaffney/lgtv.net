@@ -44,7 +44,7 @@ namespace LgTv.Connections
 
             var messageStream = new MemoryStream();
             var messageLength = 0;
-            while (true) // TODO Stop loop when connection is disposed
+            while (_socket != null)
             {
                 var receiveResult = await _socket.ReceiveAsync(bufferSegment, CancellationToken.None);
 
@@ -172,8 +172,11 @@ namespace LgTv.Connections
 
         public void Dispose()
         {
-            _socket?.Dispose();
+            var socket = _socket;
+
             _socket = null;
+
+            socket?.Dispose();
         }
     }
 }

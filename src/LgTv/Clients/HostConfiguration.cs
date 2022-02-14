@@ -1,4 +1,6 @@
-﻿namespace LgTv.Clients
+﻿using System;
+
+namespace LgTv.Clients
 {
     public class HostConfiguration
     {
@@ -21,5 +23,13 @@
         public string Host { get; set; }
 
         public int Port { get; set; }
+
+
+        public string ToUrl(
+            string protocol,
+            string secureProtocol)
+        {
+            return FormattableString.Invariant($"{(Secure ? secureProtocol : protocol) ?? string.Empty}://{Host}:{Port}");
+        }
     }
 }

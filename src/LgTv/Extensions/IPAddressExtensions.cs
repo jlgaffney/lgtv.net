@@ -2,7 +2,7 @@
 
 namespace LgTv.Extensions
 {
-    internal static class IPAddressExtensions
+    public static class IPAddressExtensions
     {
         public static bool IsIPAddress(this string value)
         {
