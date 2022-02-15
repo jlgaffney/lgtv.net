@@ -1,13 +1,13 @@
 ﻿@page "/display"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Display</h3>
 
 <br />
 
-<button class="btn btn-primary" @onclick="Client.Display.TurnOn3D">3D On</button>
+<button class="btn btn-primary" @onclick="Controller.Client.Display.TurnOn3D">3D On</button>
 
 <br />
 <br />
 
-<button class="btn btn-primary" @onclick="Client.Display.TurnOff3D">3D Off</button>
+<button class="btn btn-primary" @onclick="Controller.Client.Display.TurnOff3D">3D Off</button>

@@ -1,7 +1,7 @@
 ﻿@page "/mouse"
 @using LgTv.Clients.Mouse
 @implements IDisposable
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Mouse</h3>
 
@@ -20,7 +20,7 @@
             <td>
                 <button class="btn btn-primary btn-arrow" @onclick="() => _mouse.SendButton(ButtonType.Left)" title="Left"><span class="oi oi-caret-left" aria-hidden="true"></span></button>
             </td>
-            <td><button class="btn btn-primary" @onclick="() => _mouse.SendButton(ButtonType.Ok)">OK</button></td>
+            <td><button class="btn btn-primary" @onclick="() => _mouse.SendButton(ButtonType.Ok)"><span class="oi oi-media-record" aria-hidden="true"></span></button></td>
             <td>
                 <button class="btn btn-primary btn-arrow" @onclick="() => _mouse.SendButton(ButtonType.Right)" title="Right"><span class="oi oi-caret-right" aria-hidden="true"></span></button>
             </td>
@@ -44,7 +44,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _mouse = await Client.GetMouse();
+        _mouse = await Controller.Client.GetMouse();
     }
 
 

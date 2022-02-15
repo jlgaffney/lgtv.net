@@ -1,5 +1,5 @@
 ﻿@page "/channels/{Id}"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 @if (_channel == null)
 {
@@ -15,7 +15,7 @@ else
 
     <br />
 
-    <button class="btn btn-primary" @onclick="() => Client.Channels.SetChannel(_channel.Id)">Select</button>
+    <button class="btn btn-primary" @onclick="() => Controller.Client.Channels.SetChannel(_channel.Id)">Select</button>
 }
 
 @code {
@@ -26,6 +26,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _channel = (await Client.Channels.GetChannels()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+        _channel = (await Controller.Client.Channels.GetChannels()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
     }
 }

@@ -22,17 +22,21 @@ namespace LgTv.Sample.Blazor
 
             builder.Services.AddSingleton<IClientKeyStore, LocalStorageClientKeyStore>();
             builder.Services.AddSingleton<Func<ILgTvConnection>>(() => new LgTvConnection());
-            builder.Services.AddSingleton<ILgTvClient>(provider =>
+            builder.Services.AddSingleton<LgTvClientController.ClientFactory>(provider =>
             {
-                var configuration = provider.GetService<IConfiguration>();
+                return (tvHostConfig, proxyHostConfig) =>
+                {
+                    var configuration = provider.GetService<IConfiguration>();
 
-                return new LgTvClient(
-                    provider.GetService<Func<ILgTvConnection>>(),
-                    provider.GetService<IClientKeyStore>(),
-                    new LgTvClientConfiguration(
-                        configuration.GetSection("Tv").Get<HostConfiguration>(),
-                        configuration.GetSection("Proxy").Get<HostConfiguration>()));
+                    return new LgTvClient(
+                        provider.GetService<Func<ILgTvConnection>>(),
+                        provider.GetService<IClientKeyStore>(),
+                        new LgTvClientConfiguration(
+                            tvHostConfig ?? configuration.GetSection("Tv").Get<HostConfiguration>(),
+                            proxyHostConfig ?? configuration.GetSection("Proxy").Get<HostConfiguration>()));
+                };
             });
+            builder.Services.AddSingleton<ILgTvClientController, LgTvClientController>();
 
             await builder.Build().RunAsync();
         }

@@ -1,6 +1,6 @@
 ﻿@page "/notifications"
 @using System.IO
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 @inject HttpClient HttpClient
 
 <h3>Notifications</h3>
@@ -46,11 +46,11 @@
 
             var iconExtension = Path.GetExtension(_iconUrl).TrimStart('.');
 
-            await Client.Notifications.ShowToast(_toastMessage, iconData, iconExtension);
+            await Controller.Client.Notifications.ShowToast(_toastMessage, iconData, iconExtension);
         }
         else
         {
-            await Client.Notifications.ShowToast(_toastMessage);
+            await Controller.Client.Notifications.ShowToast(_toastMessage);
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿@page "/channels"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
 <h3>Channels</h3>
 
 <br />
 
-<button class="btn btn-primary btn-arrow" @onclick="() => Client.Channels.ChannelUp()" title="Up"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
-<button class="btn btn-primary btn-arrow" @onclick="() => Client.Channels.ChannelDown()" title="Up"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
+<button class="btn btn-primary btn-arrow" @onclick="() => Controller.Client.Channels.ChannelUp()" title="Up"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
+<button class="btn btn-primary btn-arrow" @onclick="() => Controller.Client.Channels.ChannelDown()" title="Up"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
 
 <br />
 <br />
@@ -46,7 +46,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _channels = (await Client.Channels.GetChannels()).ToArray();
+        _channels = (await Controller.Client.Channels.GetChannels()).ToArray();
     }
 
     private void NavigateToChannel(string channelId)

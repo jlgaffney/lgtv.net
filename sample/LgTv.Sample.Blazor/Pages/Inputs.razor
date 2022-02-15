@@ -1,5 +1,5 @@
 ﻿@page "/inputs"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
 <h3>Inputs</h3>
@@ -45,7 +45,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _inputs = (await Client.Inputs.GetInputs()).ToArray();
+        _inputs = (await Controller.Client.Inputs.GetInputs()).ToArray();
     }
 
     private void NavigateToInput(string inputId)

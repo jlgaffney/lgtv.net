@@ -1,5 +1,5 @@
 ﻿@page "/apps/{Id}"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 @if (_app == null)
 {
@@ -20,7 +20,7 @@ else
     <br />
     <br />
 
-    <button class="btn btn-primary" @onclick="() => Client.Apps.LaunchApp(_app.Id)"><span class="oi oi-share-boxed" aria-hidden="true"></span> Launch</button>
+    <button class="btn btn-primary" @onclick="() => Controller.Client.Apps.LaunchApp(_app.Id)"><span class="oi oi-share-boxed" aria-hidden="true"></span> Launch</button>
 }
 
 @code {
@@ -31,6 +31,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _app = (await Client.Apps.GetApps()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+        _app = (await Controller.Client.Apps.GetApps()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
     }
 }

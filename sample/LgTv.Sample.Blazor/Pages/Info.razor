@@ -1,6 +1,6 @@
 ﻿@page "/info"
 @using LgTv.Clients.Info
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Info</h3>
 
@@ -210,9 +210,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _currentSystemTime = await Client.Info.GetCurrentTime();
-        _systemInfo = await Client.Info.GetSystemInfo();
-        _softwareInfo = await Client.Info.GetSoftwareInfo();
-        _connectionInfo = await Client.Info.GetConnectionInfo();
+        _currentSystemTime = await Controller.Client.Info.GetCurrentTime();
+        _systemInfo = await Controller.Client.Info.GetSystemInfo();
+        _softwareInfo = await Controller.Client.Info.GetSoftwareInfo();
+        _connectionInfo = await Controller.Client.Info.GetConnectionInfo();
     }
 }

@@ -1,8 +1,8 @@
 ﻿@page "/power"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Power</h3>
 
 <br />
 
-<button class="btn btn-primary" @onclick="Client.Power.TurnOff"><span class="oi oi-power-standby" aria-hidden="true"></span> Off</button>
+<button class="btn btn-primary" @onclick="Controller.Client.Power.TurnOff"><span class="oi oi-power-standby" aria-hidden="true"></span> Off</button>

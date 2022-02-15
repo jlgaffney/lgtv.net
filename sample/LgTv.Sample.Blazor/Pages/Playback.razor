@@ -1,16 +1,16 @@
 ﻿@page "/playback"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Playback</h3>
 
 <br />
 
-<button class="btn btn-primary" @onclick="Client.Playback.Play" title="Play"><span class="oi oi-media-play" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="Client.Playback.Pause" title="Pause"><span class="oi oi-media-pause" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="Client.Playback.Stop" title="Stop"><span class="oi oi-media-stop" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Playback.Play" title="Play"><span class="oi oi-media-play" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Playback.Pause" title="Pause"><span class="oi oi-media-pause" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Playback.Stop" title="Stop"><span class="oi oi-media-stop" aria-hidden="true"></span></button>
 
 <br />
 <br />
 
-<button class="btn btn-primary" @onclick="Client.Playback.Rewind" title="Rewind"><span class="oi oi-media-skip-backward" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="Client.Playback.FastForward" title="Fast Forward"><span class="oi oi-media-skip-forward" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Playback.Rewind" title="Rewind"><span class="oi oi-media-skip-backward" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Playback.FastForward" title="Fast Forward"><span class="oi oi-media-skip-forward" aria-hidden="true"></span></button>

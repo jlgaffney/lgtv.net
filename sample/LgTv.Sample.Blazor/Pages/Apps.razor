@@ -1,5 +1,5 @@
 ﻿@page "/apps"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
 <h3>Apps</h3>
@@ -42,7 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _apps = (await Client.Apps.GetApps()).ToArray();
+        _apps = (await Controller.Client.Apps.GetApps()).ToArray();
     }
 
     private void NavigateToApp(string appId)
