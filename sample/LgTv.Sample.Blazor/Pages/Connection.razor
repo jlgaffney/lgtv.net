@@ -1,0 +1,175 @@
+﻿@page "/connection"
+@using LgTv.Sample.Blazor.Services
+@using LgTv.Scanning
+@inject ILgTvClientController Controller
+@inject HttpClient HttpClient
+@inject ProxyHostConfiguration ProxyHostConfiguration
+@inject NavigationManager NavigationManager
+
+<h3>Connection</h3>
+
+<br />
+
+@if (Controller.IsConnected)
+{
+    <button class="btn btn-primary" @onclick="Disconnect">
+        <span class="oi oi-link-broken" aria-hidden="true"></span> Disconnect
+    </button>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0;">Details</h5>
+        </div>
+
+        <div class="card-body">
+            <input @ref="_ipAddressInput" type="text" @bind-value="_ipAddress" placeholder="IP Address" style="width: 100%" />
+        
+            <br />
+            <br />
+        
+            <input type="number" @bind-value="_port" placeholder="Port" style="width: 100%" />
+        </div>
+        
+        <div class="card-footer">
+            <button class="btn btn-primary" @onclick="Connect">
+                <span class="oi oi-link-intact" aria-hidden="true"></span> Connect
+            </button>
+        </div>
+    </div>
+    
+    <br />
+
+    <div class="card">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0;">Available Devices</h5>
+        </div>
+
+        <div class="card-body">
+            @if (_devices == null)
+            {
+                <p style="margin-bottom: 0"><em>Loading...</em></p>
+            }
+            else if (_devices.Count == 0)
+            {
+                <p style="margin-bottom: 0">No devices found</p>
+            }
+            else
+            {
+                <div style="margin: -1.25rem; max-height: 20rem; overflow: auto;">
+                    <table class="table" style="margin-bottom: 0">
+                        <colgroup>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>IP Address</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var device in _devices)
+                        {
+                            <tr class="link" @onclick="() => SetConnectionDetails(device)">
+                                <td>@device.Name</td>
+                                <td>@device.IpAddress</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+        
+        @if (_devices != null)
+        {
+            <div class="card-footer">
+                <button class="btn btn-primary" @onclick="LoadScannableDevices">
+                    <span class="oi oi-reload" aria-hidden="true"></span> Refresh
+                </button>
+            </div>
+        }
+    </div>
+}
+
+<br />
+
+@code {
+    private IReadOnlyList<Device> _devices;
+
+    private ElementReference _ipAddressInput;
+    private string _ipAddress;
+    private int _port = LgTvClient.DefaultInsecurePort;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Controller.IsConnected)
+        {
+            await LoadScannableDevices();
+        }
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || Controller.IsConnected)
+        {
+            return;
+        }
+
+        await _ipAddressInput.FocusAsync();
+    }
+
+    private async Task Connect()
+    {
+        await WakeOnLanDevice(_ipAddress);
+
+        var tvHostConfiguration = new HostConfiguration(false, _ipAddress, _port);
+
+        await Controller.Connect(tvHostConfiguration);
+
+        NavigationManager.NavigateTo("");
+    }
+
+    private async Task Disconnect()
+    {
+        Controller.Disconnect();
+
+        await LoadScannableDevices();
+    }
+
+    private async Task LoadScannableDevices()
+    {
+        _devices = null;
+
+        var url = new UriBuilder(
+            ProxyHostConfiguration.Configuration.Secure ? "https" : "http",
+            ProxyHostConfiguration.Configuration.Host,
+            ProxyHostConfiguration.Configuration.Port,
+            "scan")
+            .ToString();
+        
+        var devices = await HttpClient.GetFromJsonAsync<IReadOnlyList<Device>>(url);
+
+        _devices = devices?.ToArray() ?? Array.Empty<Device>();
+    }
+
+    private async Task WakeOnLanDevice(string ipAddress)
+    {
+        var url = new UriBuilder(
+            ProxyHostConfiguration.Configuration.Secure ? "https" : "http",
+            ProxyHostConfiguration.Configuration.Host,
+            ProxyHostConfiguration.Configuration.Port,
+            FormattableString.Invariant($"wakeonlan/{ipAddress}"))
+            .ToString();
+        
+        await HttpClient.PostAsync(url, null);
+    }
+
+    private void SetConnectionDetails(Device device)
+    {
+        _ipAddress = device?.IpAddress ?? string.Empty;
+    }
+
+}
