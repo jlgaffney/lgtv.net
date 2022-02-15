@@ -1,8 +1,10 @@
 ﻿@page "/connection"
+@using LgTv.Extensions
 @using LgTv.Sample.Blazor.Services
 @using LgTv.Scanning
 @inject ILgTvClientController Controller
 @inject HttpClient HttpClient
+@inject IJSRuntime JS
 @inject ProxyHostConfiguration ProxyHostConfiguration
 @inject NavigationManager NavigationManager
 
@@ -123,6 +125,12 @@ else
 
     private async Task Connect()
     {
+        if (!_ipAddress.IsIPAddress())
+        {
+            await JS.InvokeVoidAsync("alert", "IP address is invalid");
+            return;
+        }
+
         await WakeOnLanDevice(_ipAddress);
 
         var tvHostConfiguration = new HostConfiguration(false, _ipAddress, _port);
