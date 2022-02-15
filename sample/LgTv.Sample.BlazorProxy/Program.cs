@@ -7,9 +7,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 builder.Services.AddSingleton<ILgTvScanner, LgTvScanner>();
 
 var app = builder.Build();
+
+// Global CORS policy
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(_ => true)); // Allow any origin
 
 app.UseHttpsRedirection();
 
