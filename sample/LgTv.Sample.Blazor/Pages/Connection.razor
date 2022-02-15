@@ -26,12 +26,14 @@ else
         </div>
 
         <div class="card-body">
-            <input @ref="_ipAddressInput" type="text" @bind-value="_ipAddress" placeholder="IP Address" style="width: 100%" />
-        
-            <br />
-            <br />
-        
-            <input type="number" @bind-value="_port" placeholder="Port" style="width: 100%" />
+            <label style="margin: 0">IP Address</label>
+            <input @ref="_ipAddressInput" type="text" @bind-value="_ipAddress" placeholder="IP Address" style="width: 100%"/>
+
+            <br/>
+            <br/>
+
+            <label style="margin: 0">Port</label>
+            <input type="number" @bind-value="_port" placeholder="Port" style="width: 100%"/>
         </div>
         
         <div class="card-footer">
