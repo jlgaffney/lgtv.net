@@ -11,16 +11,13 @@
 }
 else
 {
-    <h3>@_app.Title</h3>
+    <img alt="@_app.Title Icon" style="background: @(!string.IsNullOrWhiteSpace(_app.IconColorHex) ? _app.IconColorHex : "#000000"); border: 1px solid black;" src="@_app.LargeIcon" />
 
-    <br />
+    <h3 style="margin: 0.55rem 0">@_app.Title</h3>
 
-    <img style="background: @(!string.IsNullOrWhiteSpace(_app.IconColorHex) ? _app.IconColorHex : "#000000"); border: 1px solid black;" src="@_app.LargeIcon" />
-
-    <br />
-    <br />
-
-    <button class="btn btn-primary" @onclick="() => Controller.Client.Apps.LaunchApp(_app.Id)"><span class="oi oi-share-boxed" aria-hidden="true"></span> Launch</button>
+    <button class="btn btn-primary" @onclick="() => Controller.Client.Apps.LaunchApp(_app.Id)">
+        <span class="oi oi-share-boxed" aria-hidden="true"></span> Launch
+    </button>
 }
 
 @code {
@@ -31,6 +28,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _app = (await Controller.Client.Apps.GetApps()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+        _app = await Controller.Client.Apps.GetApp(Id);
     }
 }

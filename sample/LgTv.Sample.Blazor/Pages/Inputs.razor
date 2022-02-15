@@ -30,7 +30,7 @@ else
             {
                 <tr class="link" @onclick="() => NavigateToInput(input.Id)">
                     <td style="text-align: center;">
-                        <img style="background: #D6DBDB; border: 1px solid black; width: 40px; height: 40px;" src="@input.Icon" />
+                        <img alt="@input.Label Icon" style="background: #D6DBDB; border: 1px solid black; width: 40px; height: 40px;" src="@input.Icon" />
                     </td>
                     <td>@input.Label</td>
                     <td>@(input.Connected ? "Yes" : "No")</td>

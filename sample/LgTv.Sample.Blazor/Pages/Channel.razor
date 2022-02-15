@@ -26,6 +26,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _channel = (await Controller.Client.Channels.GetChannels()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+        _channel = await Controller.Client.Channels.GetChannel(Id);
     }
 }

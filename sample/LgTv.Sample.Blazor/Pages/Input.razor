@@ -11,14 +11,9 @@
 }
 else
 {
-    <h3>@_input.Label</h3>
+    <img alt="@_input.Label Icon" style="background: #D6DBDB; border: 1px solid black;" src="@_input.Icon" />
 
-    <br />
-
-    <img style="background: #D6DBDB; border: 1px solid black;" src="@_input.Icon" />
-
-    <br />
-    <br />
+    <h3 style="margin: 0.55rem 0">@_input.Label</h3>
 
     <p>@(_input.Connected ? "Connected" : "Not connected")</p>
 
@@ -33,6 +28,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _input = (await Controller.Client.Inputs.GetInputs()).First(x => string.Equals(Id, x.Id, StringComparison.OrdinalIgnoreCase));
+        _input = await Controller.Client.Inputs.GetInput(Id);
     }
 }

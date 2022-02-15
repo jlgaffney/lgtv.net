@@ -28,7 +28,7 @@ else
         {
             <tr class="link" @onclick="() => NavigateToApp(app.Id)">
                 <td style="text-align: center;">
-                    <img style="background: @(!string.IsNullOrWhiteSpace(app.IconColorHex) ? app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@app.Icon" />
+                    <img alt="@app.Title Icon" style="background: @(!string.IsNullOrWhiteSpace(app.IconColorHex) ? app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@app.Icon" />
                 </td>
                 <td>@app.Title</td>
             </tr>
