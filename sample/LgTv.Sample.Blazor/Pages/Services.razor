@@ -1,0 +1,46 @@
+﻿@page "/services"
+@using LgTv.Clients.Info
+@inject ILgTvClientController Controller
+@inject NavigationManager NavigationManager
+
+<h3>Services</h3>
+
+<br />
+
+@if (_services == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <colgroup>
+            <col style="width: calc(100% - 120px);">
+            <col style="width: 120px;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in _services)
+            {
+                <tr class="link" style="cursor: default">
+                    <td>@service.Name</td>
+                    <td>@service.Version</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Service[] _services;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _services = (await Controller.Client.Info.GetServices()).ToArray();
+    }
+}
