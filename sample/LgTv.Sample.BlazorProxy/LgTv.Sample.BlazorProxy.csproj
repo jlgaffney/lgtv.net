@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\LgTv\LgTv.csproj" />
     <ProjectReference Include="..\AspNetCore.WebSocketProxy\AspNetCore.WebSocketProxy.csproj" />
   </ItemGroup>
 
