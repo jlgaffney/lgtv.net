@@ -12,7 +12,7 @@ namespace LgTv.Networking
     /// <remarks>
     /// Not supported on browser. Requires ARP to be installed
     /// </remarks>
-    internal class MacAddressResolver
+    public class MacAddressResolver
     {
         /// <remarks>
         /// Not supported on browser. Requires ARP to be installed

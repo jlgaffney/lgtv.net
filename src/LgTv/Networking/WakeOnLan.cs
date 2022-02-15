@@ -10,7 +10,7 @@ using LgTv.Extensions;
 namespace LgTv.Networking
 {
     /// <remarks>Not supported on browser</remarks>
-    internal class WakeOnLan
+    public static class WakeOnLan
     {
         public static async Task SendMagicPacket(string macAddress)
         {
@@ -63,7 +63,8 @@ namespace LgTv.Networking
 
         private static byte[] BuildMagicPacket(string macAddress)
         {
-            macAddress = Regex.Replace(macAddress, "[: -]", "");
+            macAddress = macAddress?.ToUpperInvariant();
+            macAddress = Regex.Replace(macAddress ?? string.Empty, "[: -]", "");
             var macBytes = HexStringToByteArray(macAddress);
 
             var header = Enumerable.Repeat((byte) 0xff, 6); //First 6 times 0xff
