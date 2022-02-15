@@ -33,7 +33,7 @@ else
             <br/>
 
             <label style="margin: 0">Port</label>
-            <input type="number" @bind-value="_port" placeholder="Port" style="width: 100%"/>
+            <input type="number" min="0" max="65353" @bind-value="_port" placeholder="Port" style="width: 100%"/>
         </div>
         
         <div class="card-footer">
