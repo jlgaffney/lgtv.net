@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject ILgTvClientController Controller
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <div class="sidebar" style="overflow: auto">
@@ -11,3 +13,15 @@
         </div>
     </div>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (Controller.IsConnected)
+        {
+            return;
+        }
+
+        NavigationManager.NavigateTo("connection");
+    }
+}
