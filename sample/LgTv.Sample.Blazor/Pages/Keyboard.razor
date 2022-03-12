@@ -1,5 +1,5 @@
 ﻿@page "/keyboard"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Keyboard</h3>
 
@@ -14,18 +14,18 @@
 
 <button class="btn btn-primary" @onclick="DeleteCharacters">Delete</button>
 
-<button class="btn btn-primary" @onclick="Client.Keyboard.SendEnterKey">Enter</button>
+<button class="btn btn-primary" @onclick="Controller.Client.Keyboard.SendEnterKey">Enter</button>
 
 @code {
     private string _text;
 
     private async Task InsertText()
     {
-        await Client.Keyboard.InsertText(_text);
+        await Controller.Client.Keyboard.InsertText(_text);
     }
 
     private async Task DeleteCharacters()
     {
-        await Client.Keyboard.DeleteCharacters();
+        await Controller.Client.Keyboard.DeleteCharacters();
     }
 }

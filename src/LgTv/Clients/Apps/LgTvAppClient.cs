@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LgTv.Connections;
 
@@ -31,6 +32,11 @@ namespace LgTv.Clients.Apps
             };
         }
 
+        public async Task<App> GetApp(string id)
+        {
+            return (await GetApps()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
+        }
+
         public async Task<IEnumerable<App>> GetApps()
         {
             var requestMessage = new RequestMessage(LgTvCommands.GetApps.Prefix, LgTvCommands.GetApps.Uri);
@@ -53,9 +59,9 @@ namespace LgTv.Clients.Apps
             return apps;
         }
 
-        public async Task<string> LaunchApp(string appId, Uri uri = null)
+        public async Task<string> LaunchApp(string id, Uri uri = null)
         {
-            dynamic requestPayload = new { id = appId };
+            dynamic requestPayload = new { id = id };
             if (uri != null)
             {
                 requestPayload.@params = new { contentTarget = uri.ToString() };
@@ -83,9 +89,9 @@ namespace LgTv.Clients.Apps
             return (string) response.sessionId;
         }
 
-        public async Task<string> CloseApp(string appId)
+        public async Task<string> CloseApp(string id)
         {
-            var requestMessage = new RequestMessage(LgTvCommands.CloseApp.Uri, new { id = appId });
+            var requestMessage = new RequestMessage(LgTvCommands.CloseApp.Uri, new { id = id });
             var response = await _connection.SendCommandAsync(requestMessage);
             return (string) response.sessionId;
         }

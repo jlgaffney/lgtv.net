@@ -6,6 +6,10 @@ namespace LgTv.Clients.Apps
 {
     public interface ILgTvAppClient
     {
+        Task<ForegroundAppInfo> GetForegroundAppInfo();
+
+        Task<App> GetApp(string id);
+
         Task<IEnumerable<App>> GetApps();
 
         Task<string> LaunchApp(string id, Uri uri = null);

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LgTv.Connections;
 
@@ -12,6 +14,11 @@ namespace LgTv.Clients.Inputs
             ILgTvConnection connection)
         {
             _connection = connection;
+        }
+
+        public async Task<Input> GetInput(string id)
+        {
+            return (await GetInputs()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<IEnumerable<Input>> GetInputs()

@@ -1,5 +1,5 @@
 ﻿@page "/apps"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
 <h3>Apps</h3>
@@ -28,7 +28,7 @@ else
         {
             <tr class="link" @onclick="() => NavigateToApp(app.Id)">
                 <td style="text-align: center;">
-                    <img style="background: @(!string.IsNullOrWhiteSpace(app.IconColorHex) ? app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@app.Icon" />
+                    <img alt="@app.Title Icon" style="background: @(!string.IsNullOrWhiteSpace(app.IconColorHex) ? app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@app.Icon" />
                 </td>
                 <td>@app.Title</td>
             </tr>
@@ -42,7 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _apps = (await Client.Apps.GetApps()).ToArray();
+        _apps = (await Controller.Client.Apps.GetApps()).ToArray();
     }
 
     private void NavigateToApp(string appId)

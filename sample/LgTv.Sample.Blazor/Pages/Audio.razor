@@ -1,5 +1,5 @@
 ﻿@page "/audio"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Audio</h3>
 
@@ -18,12 +18,12 @@
 </p>
 
 
-<button class="btn btn-primary" @onclick="Client.Audio.VolumeUp" title="Increase Volume"><span class="oi oi-plus" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Audio.VolumeUp" title="Increase Volume"><span class="oi oi-plus" aria-hidden="true"></span></button>
 
 <br />
 <br />
 
-<button class="btn btn-primary" @onclick="Client.Audio.VolumeDown" title="Decrease Volume"><span class="oi oi-minus" aria-hidden="true"></span></button>
+<button class="btn btn-primary" @onclick="Controller.Client.Audio.VolumeDown" title="Decrease Volume"><span class="oi oi-minus" aria-hidden="true"></span></button>
 
 <br />
 <br />
@@ -37,14 +37,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _isMuted = await Client.Audio.IsMuted();
+        _isMuted = await Controller.Client.Audio.IsMuted();
 
-        _soundOutput = await Client.Audio.GetOutput();
+        _soundOutput = await Controller.Client.Audio.GetOutput();
     }
 
     private async Task ToggleMute()
     {
-        await Client.Audio.SetMute(!_isMuted);
+        await Controller.Client.Audio.SetMute(!_isMuted);
 
         _isMuted = !_isMuted;
     }

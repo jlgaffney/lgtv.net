@@ -23,6 +23,8 @@ namespace LgTv.Clients
 
     public interface ILgTvClient : IDisposable
     {
+        LgTvClientConfiguration Configuration { get; }
+
         Task<bool> Connect();
 
         Task MakeHandShake();

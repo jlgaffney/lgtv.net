@@ -1,6 +1,6 @@
 ﻿@page "/developer"
 @using Newtonsoft.Json
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 
 <h3>Developer</h3>
 
@@ -68,7 +68,7 @@
 
         _responseJson = null;
 
-        var response = await Client.SendCommand(request);
+        var response = await Controller.Client.SendCommand(request);
 
         _responseJson = JsonConvert.SerializeObject(response, Formatting.Indented);
     }

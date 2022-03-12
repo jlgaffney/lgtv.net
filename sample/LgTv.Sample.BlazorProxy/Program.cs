@@ -1,20 +1,40 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using System.Linq;
+using AspNetCore.WebSocketProxy;
+using LgTv.Networking;
+using LgTv.Scanning;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace LgTv.SampleBlazorProxy
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors();
+
+builder.Services.AddSingleton<ILgTvScanner, LgTvScanner>();
+
+var app = builder.Build();
+
+// Global CORS policy
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(_ => true)); // Allow any origin
+
+app.UseHttpsRedirection();
+
+app.MapGet("/scan", async (ILgTvScanner scanner) =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    var devices = await scanner.GetDevices();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+    return devices ?? Enumerable.Empty<Device>();
+});
+
+app.MapPost("/wakeonlan/{ipAddress}", async (string ipAddress) =>
+{
+    var macAddress = MacAddressResolver.GetMacAddress(ipAddress);
+
+    await WakeOnLan.SendMagicPacket(macAddress);
+});
+
+app.UseWebSocketProxy();
+
+app.Run();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LgTv.Connections;
@@ -13,6 +14,11 @@ namespace LgTv.Clients.Channels
             ILgTvConnection connection)
         {
             _connection = connection;
+        }
+
+        public async Task<Channel> GetChannel(string id)
+        {
+            return (await GetChannels()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<IEnumerable<Channel>> GetChannels()

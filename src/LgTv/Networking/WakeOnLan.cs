@@ -1,10 +1,7 @@
-﻿/*
- * From https://www.fluxbytes.com/csharp/wake-lan-wol-c/
- */
-
-using System;
-using System.Globalization;
+﻿using System;
+using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,109 +10,96 @@ using LgTv.Extensions;
 namespace LgTv.Networking
 {
     /// <remarks>Not supported on browser</remarks>
-    internal class WakeOnLan
+    public static class WakeOnLan
     {
-        private const int MacAddressRepeatCount = 16;
-
-        private readonly string _macAddress;
-
-        /// <remarks>Not supported on browser</remarks>
-        public WakeOnLan(
-            string ipAddress)
+        public static async Task SendMagicPacket(string macAddress)
         {
             if (Environment.OSVersion.IsBrowserPlatform())
             {
                 throw new PlatformNotSupportedException();
             }
 
-            _macAddress = Regex.Replace(MacAddressResolver.GetMacAddress(ipAddress), "[-|:]", "");
-        }
+            macAddress = Regex.Replace(macAddress ?? string.Empty, "[-|:]", string.Empty);
 
-        public async Task SendMagicPacket()
-        {
-            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
+            if (string.IsNullOrWhiteSpace(macAddress))
             {
-                EnableBroadcast = true
-            };
-
-            var payloadIndex = 0;
-
-            // The magic packet is a broadcast frame containing anywhere within its payload 6 bytes of all 255 (FF FF FF FF FF FF in hexadecimal),
-            // followed by sixteen repetitions of the target computer's 48-bit MAC address, for a total of 102 bytes.
-            var payload = new byte[1024];    // Our packet that we will be broadcasting
-
-            // Add 6 bytes with value 255 (FF) in our payload
-            for (var i = 0; i < 6; i++)
-            {
-                payload[payloadIndex] = 255;
-                payloadIndex++;
+                throw new ArgumentException("MAC address not specified");
             }
 
-            // Repeat the device MAC address sixteen times
-            for (var j = 0; j < MacAddressRepeatCount; j++)
+            var magicPacket = BuildMagicPacket(macAddress);
+            foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces().Where(n =>
+                n.NetworkInterfaceType != NetworkInterfaceType.Loopback &&
+                n.OperationalStatus == OperationalStatus.Up))
             {
-                for (var k = 0; k < _macAddress.Length; k += 2)
+                var iPInterfaceProperties = networkInterface.GetIPProperties();
+                foreach (var multicastIPAddressInformation in iPInterfaceProperties.MulticastAddresses)
                 {
-                    var s = _macAddress.Substring(k, 2);
-                    payload[payloadIndex] = byte.Parse(s, NumberStyles.HexNumber);
-                    payloadIndex++;
-                }
-            }
+                    var multicastIpAddress = multicastIPAddressInformation.Address;
 
-            await Task.Run(() =>
-            {
-                // Broadcast our packet
-                socket.SendTo(payload, new IPEndPoint(IPAddress.Parse("255.255.255.255"), 0));
-                socket.Close(10000);
-            });
-        }
+                    UnicastIPAddressInformation unicastIPAddressInformation = null;
+                    if (multicastIpAddress.ToString().StartsWith("ff02::1%", StringComparison.OrdinalIgnoreCase)) // Ipv6: All hosts on LAN (with zone index)
+                    {
+                        unicastIPAddressInformation = iPInterfaceProperties.UnicastAddresses.FirstOrDefault(u =>
+                            u.Address.AddressFamily == AddressFamily.InterNetworkV6 && !u.Address.IsIPv6LinkLocal);
+                    }
+                    else if (multicastIpAddress.ToString().Equals("224.0.0.1")) // Ipv4: All hosts on LAN
+                    {
+                        unicastIPAddressInformation = iPInterfaceProperties.UnicastAddresses.FirstOrDefault(u =>
+                            u.Address.AddressFamily == AddressFamily.InterNetwork && !iPInterfaceProperties.GetIPv4Properties().IsAutomaticPrivateAddressingActive);
+                    }
 
+                    if (unicastIPAddressInformation == null)
+                    {
+                        continue;
+                    }
 
-        //we derive our class from a standart one
-        /*public class WOLClass : UdpClient
-        {
-            public WOLClass() : base()
-            { }
-
-            public void SetClientToBroadcastMode()
-            {
-                if (this.Active)
-                {
-                    Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 0);
+                    using (var client = new UdpClient(new IPEndPoint(unicastIPAddressInformation.Address, 0)))
+                    {
+                        await client.SendAsync(magicPacket, magicPacket.Length, new IPEndPoint(multicastIpAddress, 9));
+                    }
                 }
             }
         }
 
-        //now use this class
-        //MAC_ADDRESS should  look like '013FA049'
-        private void WakeFunction(string MAC_ADDRESS)
+        private static byte[] BuildMagicPacket(string macAddress)
         {
-            WOLClass client = new WOLClass();
-            client.Connect(new
-                    IPAddress(0xffffffff),  //255.255.255.255  i.e broadcast
-                0x2fff); // port=12287 let's use this one 
-            client.SetClientToBroadcastMode();
-            //set sending bites
-            int counter = 0;
-            //buffer to be send
-            byte[] bytes = new byte[1024];   // more than enough :-)
-            //first 6 bytes should be 0xFF
-            for (int y = 0; y < 6; y++)
-                bytes[counter++] = 0xFF;
-            //now repeate MAC 16 times
-            for (int y = 0; y < 16; y++)
+            macAddress = macAddress?.ToUpperInvariant();
+            macAddress = Regex.Replace(macAddress ?? string.Empty, "[: -]", "");
+            var macBytes = HexStringToByteArray(macAddress);
+
+            var header = Enumerable.Repeat((byte) 0xff, 6); //First 6 times 0xff
+            var data = Enumerable.Repeat(macBytes, 16).SelectMany(m => m); // then 16 times MacAddress
+            return header.Concat(data).ToArray();
+        }
+
+
+        private static byte[] HexStringToByteArray(string hex)
+        {
+            if (hex.Length % 2 == 1)
             {
-                int i = 0;
-                for (int z = 0; z < 6; z++)
-                {
-                    bytes[counter++] =
-                        byte.Parse(MAC_ADDRESS.Substring(i, 2), NumberStyles.HexNumber);
-                    i += 2;
-                }
+                throw new Exception("The binary key cannot have an odd number of digits");
             }
 
-            //now send wake up packet
-            int reterned_value = client.Send(bytes, 1024);
-        }*/
+            var arr = new byte[hex.Length >> 1];
+
+            for (var i = 0; i < hex.Length >> 1; ++i)
+            {
+                arr[i] = (byte) ((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
+            }
+
+            return arr;
+        }
+
+        private static int GetHexVal(char hex)
+        {
+            var val = (int) hex;
+
+            //For uppercase A-F letters:
+            //return val - (val < 58 ? 48 : 55);
+            //For lowercase a-f letters:
+            //return val - (val < 58 ? 48 : 87);
+            //Or the two combined, but a bit slower:
+            return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
+        }
     }
 }

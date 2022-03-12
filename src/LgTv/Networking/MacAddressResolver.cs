@@ -12,7 +12,7 @@ namespace LgTv.Networking
     /// <remarks>
     /// Not supported on browser. Requires ARP to be installed
     /// </remarks>
-    internal class MacAddressResolver
+    public class MacAddressResolver
     {
         /// <remarks>
         /// Not supported on browser. Requires ARP to be installed
@@ -24,28 +24,33 @@ namespace LgTv.Networking
                 throw new PlatformNotSupportedException();
             }
 
-            var macIpPairs = GetAllMacAndIpAddressPairs();
+            if (!ip.IsIPAddress())
+            {
+                throw new ArgumentException("IP address is not valid");
+            }
+
+            var macIpPairs = GetAllMacAndIpAddressPairs(ip);
             return macIpPairs.FirstOrDefault(x => x.IpAddress == ip)?.MacAddress.ToUpper();
         }
 
-        private static IEnumerable<MacIpPair> GetAllMacAndIpAddressPairs()
+        private static IEnumerable<MacIpPair> GetAllMacAndIpAddressPairs(string ip)
         {
             const string regexPattern = @"(?<ip>([0-9]{1,3}\.?){4})\s*(?<mac>([a-f0-9]{2}-?){6})";
 
-            var pProcess = new System.Diagnostics.Process
+            var arpProcess = new System.Diagnostics.Process
             {
                 StartInfo =
                 {
                     FileName = "arp",
-                    Arguments = "-a ",
+                    Arguments = "-a " + ip,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
                 }
             };
-            pProcess.Start();
+            arpProcess.Start();
 
-            var cmdOutput = pProcess.StandardOutput.ReadToEnd();
+            var cmdOutput = arpProcess.StandardOutput.ReadToEnd();
 
             var addressPairs = new List<MacIpPair>();
             foreach (Match match in Regex.Matches(cmdOutput, regexPattern, RegexOptions.IgnoreCase))

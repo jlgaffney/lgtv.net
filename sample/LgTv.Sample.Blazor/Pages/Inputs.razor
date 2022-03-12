@@ -1,5 +1,5 @@
 ﻿@page "/inputs"
-@inject ILgTvClient Client
+@inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
 <h3>Inputs</h3>
@@ -30,7 +30,7 @@ else
             {
                 <tr class="link" @onclick="() => NavigateToInput(input.Id)">
                     <td style="text-align: center;">
-                        <img style="background: #D6DBDB; border: 1px solid black; width: 40px; height: 40px;" src="@input.Icon" />
+                        <img alt="@input.Label Icon" style="background: #D6DBDB; border: 1px solid black; width: 40px; height: 40px;" src="@input.Icon" />
                     </td>
                     <td>@input.Label</td>
                     <td>@(input.Connected ? "Yes" : "No")</td>
@@ -45,7 +45,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _inputs = (await Client.Inputs.GetInputs()).ToArray();
+        _inputs = (await Controller.Client.Inputs.GetInputs()).ToArray();
     }
 
     private void NavigateToInput(string inputId)

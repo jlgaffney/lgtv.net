@@ -23,16 +23,14 @@ namespace LgTv.Clients.Power
         
         public async Task TurnOn()
         {
-            // TODO Fix, it isn't working on my TV
-
             if (Environment.OSVersion.IsBrowserPlatform())
             {
                 throw new PlatformNotSupportedException();
             }
 
-            var wakeOnLan = new WakeOnLan(_ipAddress);
+            var macAddress = MacAddressResolver.GetMacAddress(_ipAddress);
 
-            await wakeOnLan.SendMagicPacket();
+            await WakeOnLan.SendMagicPacket(macAddress);
         }
 
         public async Task TurnOff()
