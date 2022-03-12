@@ -25,8 +25,15 @@ namespace LgTv.Sample.Console
                 new JsonFileClientKeyStore(ClientKeyStoreFilePath),
                 SecureConnection, TvHost, TvPort);
 
+            await client.Power.TurnOn();
+
             await client.Connect();
             await client.MakeHandShake();
+
+
+            var systemInfo = await client.Info.GetSystemInfo();
+            var softwareInfo = await client.Info.GetSoftwareInfo();
+            var connectionInfo = await client.Info.GetConnectionInfo();
 
 
             // Volume control
