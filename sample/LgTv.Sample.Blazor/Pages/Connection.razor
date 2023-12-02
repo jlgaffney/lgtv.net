@@ -1,11 +1,9 @@
 ﻿@page "/connection"
-@using LgTv.Extensions
-@using LgTv.Sample.Blazor.Services
 @using LgTv.Scanning
 @inject ILgTvClientController Controller
 @inject HttpClient HttpClient
 @inject IJSRuntime JS
-@inject ProxyHostConfiguration ProxyHostConfiguration
+@inject IOptions<ProxyHostConfiguration> ProxyHostConfiguration
 @inject NavigationManager NavigationManager
 
 <h3>Connection</h3>
@@ -33,7 +31,7 @@ else
             <br/>
 
             <label style="margin: 0">Port</label>
-            <input type="number" min="0" max="65353" @bind-value="_port" placeholder="Port" style="width: 100%"/>
+            <input type="number" min="0" max="65353" @bind-value="_port" placeholder="Port" style="width: 100%" />
         </div>
         
         <div class="card-footer">
@@ -101,11 +99,14 @@ else
 <br />
 
 @code {
+    private const string HttpScheme = "http";
+    private const string HttpsScheme = "https";
+
     private IReadOnlyList<Device> _devices;
 
     private ElementReference _ipAddressInput;
     private string _ipAddress;
-    private int _port = LgTvClient.DefaultInsecurePort;
+    private int _port = LgTvClient.DefaultPort;
     
     protected override async Task OnInitializedAsync()
     {
@@ -135,7 +136,11 @@ else
 
         await WakeOnLanDevice(_ipAddress);
 
-        var tvHostConfiguration = new HostConfiguration(false, _ipAddress, _port);
+        var tvHostConfiguration = new HostConfiguration
+        {
+	        Host = _ipAddress,
+	        Port = _port
+        };
 
         await Controller.Connect(tvHostConfiguration);
 
@@ -154,9 +159,9 @@ else
         _devices = null;
 
         var url = new UriBuilder(
-            ProxyHostConfiguration.Configuration.Secure ? "https" : "http",
-            ProxyHostConfiguration.Configuration.Host,
-            ProxyHostConfiguration.Configuration.Port,
+            ProxyHostConfiguration.Value.Secure ? HttpsScheme : HttpScheme,
+            ProxyHostConfiguration.Value.Endpoint.Host,
+            ProxyHostConfiguration.Value.Endpoint.Port,
             "scan")
             .ToString();
         
@@ -168,9 +173,9 @@ else
     private async Task WakeOnLanDevice(string ipAddress)
     {
         var url = new UriBuilder(
-            ProxyHostConfiguration.Configuration.Secure ? "https" : "http",
-            ProxyHostConfiguration.Configuration.Host,
-            ProxyHostConfiguration.Configuration.Port,
+	        ProxyHostConfiguration.Value.Secure ? HttpsScheme : HttpScheme,
+            ProxyHostConfiguration.Value.Endpoint.Host,
+            ProxyHostConfiguration.Value.Endpoint.Port,
             FormattableString.Invariant($"wakeonlan/{ipAddress}"))
             .ToString();
         

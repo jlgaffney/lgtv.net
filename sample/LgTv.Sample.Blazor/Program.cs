@@ -4,34 +4,25 @@ using LgTv.Sample.Blazor;
 using LgTv.Sample.Blazor.Services;
 using LgTv.Stores;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Options;
 
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("#app");
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
 
 builder.Services.AddScoped(provider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddSingleton(provider =>
-            {
-                var configuration = provider.GetService<IConfiguration>();
+builder.Services.Configure<HostConfiguration>(x => builder.Configuration.GetSection("Tv").Bind(x));
+builder.Services.Configure<ProxyHostConfiguration>(x => builder.Configuration.GetSection("Proxy").Bind(x));
+builder.Services.AddSingleton<IClientKeyStore, LocalStorageClientKeyStore>();
+builder.Services.AddSingleton<Func<ILgTvConnection>>(() => new LgTvConnection());
+builder.Services.AddSingleton<LgTvClientController.ClientFactory>(provider =>
+{
+    return (tvHostConfig, proxyHostConfig) => new LgTvClient(
+        provider.GetService<Func<ILgTvConnection>>(),
+        provider.GetService<IClientKeyStore>(),
+        new LgTvClientConfiguration(
+            tvHostConfig ?? provider.GetService<IOptions<HostConfiguration>>().Value,
+            proxyHostConfig ?? provider.GetService<IOptions<ProxyHostConfiguration>>().Value.Endpoint));
+});
+builder.Services.AddSingleton<ILgTvClientController, LgTvClientController>();
 
-                return new ProxyHostConfiguration(
-                    configuration.GetSection("Proxy").Get<HostConfiguration>());
-            });
-            builder.Services.AddSingleton<IClientKeyStore, LocalStorageClientKeyStore>();
-            builder.Services.AddSingleton<Func<ILgTvConnection>>(() => new LgTvConnection());
-            builder.Services.AddSingleton<LgTvClientController.ClientFactory>(provider =>
-            {
-                return (tvHostConfig, proxyHostConfig) =>
-                {
-                    var configuration = provider.GetService<IConfiguration>();
-
-                    return new LgTvClient(
-                        provider.GetService<Func<ILgTvConnection>>(),
-                        provider.GetService<IClientKeyStore>(),
-                        new LgTvClientConfiguration(
-                            tvHostConfig ?? configuration.GetSection("Tv").Get<HostConfiguration>(),
-                            proxyHostConfig ?? configuration.GetSection("Proxy").Get<HostConfiguration>()));
-                };
-            });
-            builder.Services.AddSingleton<ILgTvClientController, LgTvClientController>();
-
-            await builder.Build().RunAsync();
+await builder.Build().RunAsync();

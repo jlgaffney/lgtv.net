@@ -1,5 +1,3 @@
-﻿using System.IO;
-using System.Threading.Tasks;
 using LgTv.Clients;
 using LgTv.Clients.Mouse;
 using LgTv.Connections;
@@ -13,17 +11,16 @@ namespace LgTv.Sample.Console;
 
         private static readonly string ClientKeyStoreFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), ClientKeyStoreFileName);
 
-        private const bool SecureConnection = false;
         private const string TvHost = "ENTER_HOST";
-        private const int TvPort = 3000;
+    private const int TvPort = LgTvClient.DefaultPort;
 
-        public static async Task Main(string[] args)
+    public static async Task Main()
         {
             // Initialization
             var client = new LgTvClient(
                 () => new LgTvConnection(),
                 new JsonFileClientKeyStore(ClientKeyStoreFilePath),
-                SecureConnection, TvHost, TvPort);
+            TvHost, TvPort);
 
             await client.Power.TurnOn();
 
