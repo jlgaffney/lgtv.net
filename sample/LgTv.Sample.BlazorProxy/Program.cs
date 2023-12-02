@@ -1,9 +1,6 @@
-using System.Linq;
 using AspNetCore.WebSocketProxy;
 using LgTv.Networking;
 using LgTv.Scanning;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +12,9 @@ var app = builder.Build();
 
 // Global CORS policy
 app.UseCors(x => x
+    .AllowAnyOrigin()
     .AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(_ => true)); // Allow any origin
+    .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 

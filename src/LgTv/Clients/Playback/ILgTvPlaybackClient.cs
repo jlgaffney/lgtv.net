@@ -1,17 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Playback;
 
-namespace LgTv.Clients.Playback
+public interface ILgTvPlaybackClient
 {
-    public interface ILgTvPlaybackClient
-    {
-        Task Play();
+    Task Play();
 
-        Task Pause();
+    Task Pause();
 
-        Task Stop();
+    Task Stop();
 
-        Task FastForward();
+    Task FastForward();
 
-        Task Rewind();
-    }
+    Task Rewind();
 }

@@ -1,23 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Audio;
 
-namespace LgTv.Clients.Audio
+public interface ILgTvAudioClient
 {
-    public interface ILgTvAudioClient
-    {
-        Task<string> GetOutput();
+    Task<string> GetOutput();
 
-        Task<int> GetVolume();
+    Task<int> GetVolume();
 
-        Task<bool> IsMuted();
+    Task<bool> IsMuted();
 
-        Task VolumeUp();
+    Task VolumeUp();
 
-        Task VolumeDown();
+    Task VolumeDown();
 
-        Task SetVolume(int value);
+    Task SetVolume(int value);
 
-        Task SetMute(bool value);
+    Task SetMute(bool value);
 
-        Task ToggleMute();
-    }
+    Task ToggleMute();
 }

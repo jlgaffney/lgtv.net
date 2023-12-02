@@ -1,13 +1,12 @@
-﻿namespace LgTv.Clients.Info
-{
-    public class ConnectionInformation
-    {
-        public bool Subscribed { get; set; }
+﻿namespace LgTv.Clients.Info;
 
-        public ConnectionDeviceInfo P2PInfo { get; set; }
+public class ConnectionInformation
+{
+    public bool Subscribed { get; set; }
+
+    public ConnectionDeviceInfo P2PInfo { get; set; }
         
-        public ConnectionDeviceInfo WifiInfo { get; set; }
+    public ConnectionDeviceInfo WifiInfo { get; set; }
         
-        public ConnectionDeviceInfo WiredInfo { get; set; }
-    }
+    public ConnectionDeviceInfo WiredInfo { get; set; }
 }

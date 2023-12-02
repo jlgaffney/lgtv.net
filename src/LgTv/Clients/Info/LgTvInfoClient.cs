@@ -1,155 +1,146 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using LgTv.Connections;
 using Newtonsoft.Json.Linq;
 
-namespace LgTv.Clients.Info
+namespace LgTv.Clients.Info;
+
+public class LgTvInfoClient(ILgTvConnection connection) : ILgTvInfoClient
 {
-    public class LgTvInfoClient : ILgTvInfoClient
+    public async Task<DateTime> GetCurrentTime()
     {
-        private readonly ILgTvConnection _connection;
+        var requestMessage = new RequestMessage(LgTvCommands.GetCurrentTime.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
 
-        public LgTvInfoClient(
-            ILgTvConnection connection)
+        var time = response.time;
+
+        if (time == null)
         {
-            _connection = connection;
+            return DateTime.MinValue;
         }
 
-        public async Task<DateTime> GetCurrentTime()
+        return new DateTime(
+            int.Parse((string) time.year),
+            int.Parse((string) time.month),
+            int.Parse((string) time.day),
+            int.Parse((string) time.hour),
+            int.Parse((string) time.minute),
+            int.Parse((string) time.second));
+    }
+
+    public async Task<SystemInformation> GetSystemInfo()
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.GetSystemInfo.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
+
+        SystemFeatures features = null;
+        if (response is JObject jsonObject)
         {
-            var requestMessage = new RequestMessage(LgTvCommands.GetCurrentTime.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
+            var featuresObject = jsonObject["features"];
 
-            var time = response.time;
+            var _3d = featuresObject["3d"];
+            var dvr = featuresObject["dvr"];
 
-            if (time == null)
+            features = new SystemFeatures
             {
-                return DateTime.MinValue;
-            }
-
-            return new DateTime(
-                int.Parse((string) time.year),
-                int.Parse((string) time.month),
-                int.Parse((string) time.day),
-                int.Parse((string) time.hour),
-                int.Parse((string) time.minute),
-                int.Parse((string) time.second));
-        }
-
-        public async Task<SystemInformation> GetSystemInfo()
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.GetSystemInfo.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            SystemFeatures features = null;
-            if (response is JObject jsonObject)
-            {
-                var featuresObject = jsonObject["features"];
-
-                features = new SystemFeatures
-                {
-                    _3D = (bool) featuresObject["3d"],
-                    DVR = (bool) featuresObject["dvr"]
-                };
-            }
-
-            var systemInfo = new SystemInformation
-            {
-                Features = features,
-                ReceiverType = response.receiverType,
-                ModelName = response.modelName,
-                ProgramMode = Convert.ToBoolean(response.programMode)
+                _3D = _3d != null && (bool) _3d,
+                DVR = dvr != null && (bool) dvr
             };
-
-            return systemInfo;
         }
 
-        public async Task<SoftwareInformation> GetSoftwareInfo()
+        var systemInfo = new SystemInformation
         {
-            var requestMessage = new RequestMessage(LgTvCommands.GetSoftwareInfo.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
+            Features = features,
+            ReceiverType = response.receiverType,
+            ModelName = response.modelName,
+            ProgramMode = Convert.ToBoolean(response.programMode)
+        };
 
-            CultureInfo language = null;
-            if (response.language_code != null)
-            {
-                language = new CultureInfo((string) response.language_code);
-            }
+        return systemInfo;
+    }
 
-            var softwareInfo = new SoftwareInformation
+    public async Task<SoftwareInformation> GetSoftwareInfo()
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.GetSoftwareInfo.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
+
+        CultureInfo language = null;
+        if (response.language_code != null)
+        {
+            language = new CultureInfo((string) response.language_code);
+        }
+
+        var softwareInfo = new SoftwareInformation
+        {
+            ProductName = response.product_name,
+            ModelName = response.model_name,
+            SoftwareType = response.sw_type,
+            MajorVersion = response.major_ver,
+            MinorVersion = response.minor_ver,
+            Country = response.country,
+            CountryGroup = response.country_group,
+            DeviceId = response.device_id,
+            AuthFlag = response.auth_flag,
+            IgnoreDisable = response.ignore_disable,
+            EcoInfo = response.eco_info,
+            ConfigKey = response.config_key,
+            Language = language
+        };
+
+        return softwareInfo;
+    }
+
+    public async Task<ConnectionInformation> GetConnectionInfo()
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.GetConnectionInfo.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
+
+        var info = new ConnectionInformation
+        {
+            Subscribed = response.subscribed
+        };
+
+        if (response.P2PInfo != null)
+        {
+            info.P2PInfo = new ConnectionDeviceInfo
             {
-                ProductName = response.product_name,
-                ModelName = response.model_name,
-                SoftwareType = response.sw_type,
-                MajorVersion = response.major_ver,
-                MinorVersion = response.minor_ver,
-                Country = response.country,
-                CountryGroup = response.country_group,
-                DeviceId = response.device_id,
-                AuthFlag = response.auth_flag,
-                IgnoreDisable = response.ignore_disable,
-                EcoInfo = response.eco_info,
-                ConfigKey = response.config_key,
-                Language = language
+                MacAddress = response.P2PInfo.macAddress
             };
-
-            return softwareInfo;
         }
 
-        public async Task<ConnectionInformation> GetConnectionInfo()
+        if (response.wifiInfo != null)
         {
-            var requestMessage = new RequestMessage(LgTvCommands.GetConnectionInfo.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            var info = new ConnectionInformation
+            info.WifiInfo = new ConnectionDeviceInfo
             {
-                Subscribed = response.subscribed
+                MacAddress = response.wifiInfo.macAddress
             };
-
-            if (response.P2PInfo != null)
-            {
-                info.P2PInfo = new ConnectionDeviceInfo
-                {
-                    MacAddress = response.P2PInfo.macAddress
-                };
-            }
-
-            if (response.wifiInfo != null)
-            {
-                info.WifiInfo = new ConnectionDeviceInfo
-                {
-                    MacAddress = response.wifiInfo.macAddress
-                };
-            }
-
-            if (response.wiredInfo != null)
-            {
-                info.WiredInfo = new ConnectionDeviceInfo
-                {
-                    MacAddress = response.wiredInfo.macAddress
-                };
-            }
-
-            return info;
         }
 
-        public async Task<IEnumerable<Service>> GetServices()
+        if (response.wiredInfo != null)
         {
-            var requestMessage = new RequestMessage(LgTvCommands.GetServices.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            var services = new List<Service>();
-            foreach (var service in response.services)
+            info.WiredInfo = new ConnectionDeviceInfo
             {
-                services.Add(new Service
-                {
-                    Name = service.name,
-                    Version = int.Parse((string) service.version)
-                });
-            }
-
-            return services;
+                MacAddress = response.wiredInfo.macAddress
+            };
         }
+
+        return info;
+    }
+
+    public async Task<IEnumerable<Service>> GetServices()
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.GetServices.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
+
+        var services = new List<Service>();
+        foreach (var service in response.services)
+        {
+            services.Add(new Service
+            {
+                Name = service.name,
+                Version = int.Parse((string) service.version)
+            });
+        }
+
+        return services;
     }
 }

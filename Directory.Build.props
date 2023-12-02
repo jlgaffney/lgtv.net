@@ -1,0 +1,11 @@
+<Project>
+  
+  <PropertyGroup>
+  
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+
+    <LangVersion>12</LangVersion>
+
+  </PropertyGroup>
+  
+</Project>

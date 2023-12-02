@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace LgTv.Scanning;
 
-namespace LgTv.Scanning
+public interface ILgTvScanner
 {
-    public interface ILgTvScanner
-    {
-        Task<IEnumerable<Device>> GetDevices();
-    }
+    Task<IEnumerable<Device>> GetDevices();
 }

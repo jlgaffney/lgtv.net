@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Inputs;
 
-namespace LgTv.Clients.Inputs
+public interface ILgTvInputClient
 {
-    public interface ILgTvInputClient
-    {
-        Task<Input> GetInput(string id);
+    Task<Input> GetInput(string id);
 
-        Task<IEnumerable<Input>> GetInputs();
+    Task<IEnumerable<Input>> GetInputs();
 
-        Task SetInput(string id);
-    }
+    Task SetInput(string id);
 }

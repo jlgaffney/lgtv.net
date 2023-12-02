@@ -1,41 +1,25 @@
-﻿using System;
-using System.Threading.Tasks;
-using LgTv.Connections;
+﻿using LgTv.Connections;
 using LgTv.Extensions;
 using LgTv.Networking;
 
-namespace LgTv.Clients.Power
+namespace LgTv.Clients.Power;
+
+internal class LgTvPowerClient(ILgTvConnection connection, string ipAddress) : ILgTvPowerClient
 {
-    internal class LgTvPowerClient : ILgTvPowerClient
+    public async Task TurnOn()
     {
-        private readonly ILgTvConnection _connection;
-
-        private readonly string _ipAddress;
-
-        public LgTvPowerClient(
-            ILgTvConnection connection,
-            string ipAddress)
+        if (Environment.OSVersion.IsBrowserPlatform())
         {
-            _connection = connection;
-
-            _ipAddress = ipAddress;
-        }
-        
-        public async Task TurnOn()
-        {
-            if (Environment.OSVersion.IsBrowserPlatform())
-            {
-                throw new PlatformNotSupportedException();
-            }
-
-            var macAddress = MacAddressResolver.GetMacAddress(_ipAddress);
-
-            await WakeOnLan.SendMagicPacket(macAddress);
+            throw new PlatformNotSupportedException();
         }
 
-        public async Task TurnOff()
-        {
-            await _connection.SendCommandAsync(new RequestMessage(LgTvCommands.PowerOff.Uri));
-        }
+        var macAddress = MacAddressResolver.GetMacAddress(ipAddress);
+
+        await WakeOnLan.SendMagicPacket(macAddress);
+    }
+
+    public async Task TurnOff()
+    {
+        await connection.SendCommandAsync(new RequestMessage(LgTvCommands.PowerOff.Uri));
     }
 }

@@ -1,24 +1,14 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using LgTv.Clients;
 using LgTv.Connections;
+using LgTv.Sample.Blazor;
 using LgTv.Sample.Blazor.Services;
 using LgTv.Stores;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace LgTv.Sample.Blazor
-{
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped(provider => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton(provider =>
             {
                 var configuration = provider.GetService<IConfiguration>();
@@ -45,6 +35,3 @@ namespace LgTv.Sample.Blazor
             builder.Services.AddSingleton<ILgTvClientController, LgTvClientController>();
 
             await builder.Build().RunAsync();
-        }
-    }
-}

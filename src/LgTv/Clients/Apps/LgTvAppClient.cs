@@ -1,99 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LgTv.Connections;
+﻿using LgTv.Connections;
 
-namespace LgTv.Clients.Apps
+namespace LgTv.Clients.Apps;
+
+internal class LgTvAppClient(ILgTvConnection connection) : ILgTvAppClient
 {
-    internal class LgTvAppClient : ILgTvAppClient
+    private const string YouTubeAppId = "youtube.leanback.v4";
+    private const string YouTubeVideoUrlPrefix = "http://www.youtube.com/tv?v=";
+
+    public async Task<ForegroundAppInfo> GetForegroundAppInfo()
     {
-        private const string YouTubeAppId = "youtube.leanback.v4";
-        private const string YouTubeVideoUrlPrefix = "http://www.youtube.com/tv?v=";
+        var requestMessage = new RequestMessage(LgTvCommands.GetForegroundAppInfo.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
 
-        private readonly ILgTvConnection _connection;
-
-        public LgTvAppClient(
-            ILgTvConnection connection)
+        return new ForegroundAppInfo
         {
-            _connection = connection;
-        }
+            AppId = response.appId,
+            WindowId = response.windowId,
+            ProcessId = response.processId
+        };
+    }
 
-        public async Task<ForegroundAppInfo> GetForegroundAppInfo()
+    public async Task<App> GetApp(string id)
+    {
+        return (await GetApps()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public async Task<IEnumerable<App>> GetApps()
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.GetApps.Prefix, LgTvCommands.GetApps.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
+
+        var apps = new List<App>();
+        foreach (var app in response.launchPoints)
         {
-            var requestMessage = new RequestMessage(LgTvCommands.GetForegroundAppInfo.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            return new ForegroundAppInfo
+            apps.Add(new App
             {
-                AppId = response.appId,
-                WindowId = response.windowId,
-                ProcessId = response.processId
-            };
+                Id = app.id,
+                LaunchPointId = app.launchPointId,
+                Title = app.title,
+                Icon = app.icon,
+                LargeIcon = app.largeIcon,
+                IconColorHex = app.iconColor
+            });
         }
 
-        public async Task<App> GetApp(string id)
+        return apps;
+    }
+
+    public async Task<string> LaunchApp(string id, Uri uri = null)
+    {
+        dynamic requestPayload = new { id = id };
+        if (uri != null)
         {
-            return (await GetApps()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
+            requestPayload.@params = new { contentTarget = uri.ToString() };
         }
 
-        public async Task<IEnumerable<App>> GetApps()
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.GetApps.Prefix, LgTvCommands.GetApps.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
+        var requestMessage = new RequestMessage(LgTvCommands.LaunchApp.Uri, (object) requestPayload);
+        var response = await connection.SendCommandAsync(requestMessage);
+        return (string) response.sessionId;
+    }
 
-            var apps = new List<App>();
-            foreach (var app in response.launchPoints)
-            {
-                apps.Add(new App
-                {
-                    Id = app.id,
-                    LaunchPointId = app.launchPointId,
-                    Title = app.title,
-                    Icon = app.icon,
-                    LargeIcon = app.largeIcon,
-                    IconColorHex = app.iconColor
-                });
-            }
+    public async Task<string> LaunchYouTube(string videoId)
+    {
+        return await LaunchYouTube(new Uri(FormattableString.Invariant($"{YouTubeVideoUrlPrefix}{videoId}")));
+    }
 
-            return apps;
-        }
+    public async Task<string> LaunchYouTube(Uri uri)
+    {
+        return await LaunchApp(YouTubeAppId, uri);
+    }
 
-        public async Task<string> LaunchApp(string id, Uri uri = null)
-        {
-            dynamic requestPayload = new { id = id };
-            if (uri != null)
-            {
-                requestPayload.@params = new { contentTarget = uri.ToString() };
-            }
+    public async Task<string> LaunchWebBrowser(Uri uri)
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.OpenApp.Uri, new { target = uri.ToString() });
+        var response = await connection.SendCommandAsync(requestMessage);
+        return (string) response.sessionId;
+    }
 
-            var requestMessage = new RequestMessage(LgTvCommands.LaunchApp.Uri, (object) requestPayload);
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (string) response.sessionId;
-        }
-
-        public async Task<string> LaunchYouTube(string videoId)
-        {
-            return await LaunchYouTube(new Uri(FormattableString.Invariant($"{YouTubeVideoUrlPrefix}{videoId}")));
-        }
-
-        public async Task<string> LaunchYouTube(Uri uri)
-        {
-            return await LaunchApp(YouTubeAppId, uri);
-        }
-
-        public async Task<string> LaunchWebBrowser(Uri uri)
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.OpenApp.Uri, new { target = uri.ToString() });
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (string) response.sessionId;
-        }
-
-        public async Task<string> CloseApp(string id)
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.CloseApp.Uri, new { id = id });
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return (string) response.sessionId;
-        }
+    public async Task<string> CloseApp(string id)
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.CloseApp.Uri, new { id = id });
+        var response = await connection.SendCommandAsync(requestMessage);
+        return (string) response.sessionId;
     }
 }

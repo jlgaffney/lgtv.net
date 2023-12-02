@@ -1,40 +1,29 @@
-﻿using System;
-using System.Threading.Tasks;
-using LgTv.Connections;
+﻿using LgTv.Connections;
 
-namespace LgTv.Clients.Notifications
+namespace LgTv.Clients.Notifications;
+
+public class LgTvNotificationClient(ILgTvConnection connection) : ILgTvNotificationClient
 {
-    public class LgTvNotificationClient : ILgTvNotificationClient
+    public async Task<string> ShowToast(string message)
     {
-        private readonly ILgTvConnection _connection;
+        var requestMessage = new RequestMessage(LgTvCommands.ShowToast.Uri , new { message = message });
+        var response = await connection.SendCommandAsync(requestMessage);
+        return response.toastId;
+    }
 
-        public LgTvNotificationClient(
-            ILgTvConnection connection)
-        {
-            _connection = connection;
-        }
+    public async Task<string> ShowToast(string message, byte[] iconData, string iconExtension)
+    {
+        // TODO Figure out why this is not working
+        var iconDataBase64 = Convert.ToBase64String(iconData);
+        var requestMessage = new RequestMessage(LgTvCommands.ShowToast.Uri, new { iconData = iconDataBase64, iconExtension = iconExtension, message = message });
+        var response = await connection.SendCommandAsync(requestMessage);
+        return response.toastId;
+    }
 
-        public async Task<string> ShowToast(string message)
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.ShowToast.Uri , new { message = message });
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return response.toastId;
-        }
-
-        public async Task<string> ShowToast(string message, byte[] iconData, string iconExtension)
-        {
-            // TODO Figure out why this is not working
-            var iconDataBase64 = Convert.ToBase64String(iconData);
-            var requestMessage = new RequestMessage(LgTvCommands.ShowToast.Uri, new { iconData = iconDataBase64, iconExtension = iconExtension, message = message });
-            var response = await _connection.SendCommandAsync(requestMessage);
-            return response.toastId;
-        }
-
-        public async Task CloseToast(string toastId)
-        {
-            // TODO Figure out why this is not working
-            var requestMessage = new RequestMessage(LgTvCommands.CloseToast.Uri, new { toastId = toastId });
-            await _connection.SendCommandAsync(requestMessage);
-        }
+    public async Task CloseToast(string toastId)
+    {
+        // TODO Figure out why this is not working
+        var requestMessage = new RequestMessage(LgTvCommands.CloseToast.Uri, new { toastId = toastId });
+        await connection.SendCommandAsync(requestMessage);
     }
 }

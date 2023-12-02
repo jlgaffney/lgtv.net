@@ -1,13 +1,4 @@
-﻿using System;
+﻿namespace LgTv.Exceptions;
 
-namespace LgTv.Exceptions
-{
-    public class SendMessageException : Exception
-    {
-        public SendMessageException(string message, Exception e)
-            : base(message, e)
-        {
+public class SendMessageException(string message, Exception e) : Exception(message, e);
 
-        }
-    }
-}

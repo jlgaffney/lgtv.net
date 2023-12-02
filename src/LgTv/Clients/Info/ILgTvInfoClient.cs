@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Info;
 
-namespace LgTv.Clients.Info
+public interface ILgTvInfoClient
 {
-    public interface ILgTvInfoClient
-    {
-        Task<DateTime> GetCurrentTime();
+    Task<DateTime> GetCurrentTime();
 
-        Task<SystemInformation> GetSystemInfo();
+    Task<SystemInformation> GetSystemInfo();
 
-        Task<SoftwareInformation> GetSoftwareInfo();
+    Task<SoftwareInformation> GetSoftwareInfo();
 
-        Task<ConnectionInformation> GetConnectionInfo();
+    Task<ConnectionInformation> GetConnectionInfo();
 
-        Task<IEnumerable<Service>> GetServices();
-    }
+    Task<IEnumerable<Service>> GetServices();
 }

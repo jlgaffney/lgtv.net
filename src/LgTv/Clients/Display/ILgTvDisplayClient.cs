@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Display;
 
-namespace LgTv.Clients.Display
+public interface ILgTvDisplayClient
 {
-    public interface ILgTvDisplayClient
-    {
-        Task TurnOn3D();
+    Task TurnOn3D();
 
-        Task TurnOff3D();
+    Task TurnOff3D();
 
-        Task<bool> Is3DTurnedOn();
-    }
+    Task<bool> Is3DTurnedOn();
 }

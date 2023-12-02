@@ -1,69 +1,58 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
-namespace LgTv.Stores
+namespace LgTv.Stores;
+
+public class JsonFileClientKeyStore(string clientKeyStoreJsonFilePath) : IClientKeyStore
 {
-    public class JsonFileClientKeyStore : IClientKeyStore
+    private const string DefaultJsonContents = "{\n}";
+    private const string ClientKeyJsonPropertyName = "client-key";
+
+    public async Task<string> GetClientKey(string ipAddress)
     {
-        private const string DefaultJsonContents = "{\n}";
-        private const string ClientKeyJsonPropertyName = "client-key";
+        await Task.CompletedTask;
 
-        private readonly string _clientKeyStoreJsonFilePath;
-
-        public JsonFileClientKeyStore(
-            string clientKeyStoreJsonFilePath)
+        if (!File.Exists(clientKeyStoreJsonFilePath))
         {
-            _clientKeyStoreJsonFilePath = clientKeyStoreJsonFilePath;
+            return null;
         }
 
-        public async Task<string> GetClientKey(string ipAddress)
+        var clientKeyStoreFileContents = File.ReadAllText(clientKeyStoreJsonFilePath);
+
+        if (string.IsNullOrWhiteSpace(clientKeyStoreFileContents))
         {
-            await Task.CompletedTask;
-
-            if (!File.Exists(_clientKeyStoreJsonFilePath))
-            {
-                return null;
-            }
-
-            var clientKeyStoreFileContents = File.ReadAllText(_clientKeyStoreJsonFilePath);
-
-            if (string.IsNullOrWhiteSpace(clientKeyStoreFileContents))
-            {
-                clientKeyStoreFileContents = DefaultJsonContents;
-            }
-
-            var json = JObject.Parse(clientKeyStoreFileContents);
-
-            var key = json[ipAddress]?[ClientKeyJsonPropertyName]?.ToObject<string>();
-
-            return key;
+            clientKeyStoreFileContents = DefaultJsonContents;
         }
 
-        public async Task SetClientKey(string ipAddress, string key)
+        var json = JObject.Parse(clientKeyStoreFileContents);
+
+        var key = json[ipAddress]?[ClientKeyJsonPropertyName]?.ToObject<string>();
+
+        return key;
+    }
+
+    public async Task SetClientKey(string ipAddress, string key)
+    {
+        await Task.CompletedTask;
+
+        if (!File.Exists(clientKeyStoreJsonFilePath))
         {
-            await Task.CompletedTask;
-
-            if (!File.Exists(_clientKeyStoreJsonFilePath))
-            {
-                File.WriteAllText(_clientKeyStoreJsonFilePath, DefaultJsonContents);
-            }
-
-            var clientKeyStoreFileContents = File.ReadAllText(_clientKeyStoreJsonFilePath);
-
-            if (string.IsNullOrWhiteSpace(clientKeyStoreFileContents))
-            {
-                clientKeyStoreFileContents = DefaultJsonContents;
-            }
-
-            var json = JObject.Parse(clientKeyStoreFileContents);
-
-            json[ipAddress] = new JObject
-            {
-                [ClientKeyJsonPropertyName] = key
-            };
-
-            File.WriteAllText(_clientKeyStoreJsonFilePath, json.ToString());
+            File.WriteAllText(clientKeyStoreJsonFilePath, DefaultJsonContents);
         }
+
+        var clientKeyStoreFileContents = File.ReadAllText(clientKeyStoreJsonFilePath);
+
+        if (string.IsNullOrWhiteSpace(clientKeyStoreFileContents))
+        {
+            clientKeyStoreFileContents = DefaultJsonContents;
+        }
+
+        var json = JObject.Parse(clientKeyStoreFileContents);
+
+        json[ipAddress] = new JObject
+        {
+            [ClientKeyJsonPropertyName] = key
+        };
+
+        File.WriteAllText(clientKeyStoreJsonFilePath, json.ToString());
     }
 }

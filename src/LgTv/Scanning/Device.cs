@@ -1,21 +1,13 @@
-﻿namespace LgTv.Scanning
+﻿namespace LgTv.Scanning;
+
+public class Device(
+    string id,
+    string name,
+    string ipAddress)
 {
-    public class Device
-    {
-        public Device(
-            string id,
-            string name,
-            string ipAddress)
-        {
-            Id = id;
-            Name = name;
-            IpAddress = ipAddress;
-        }
+    public string Id { get; } = id;
 
-        public string Id { get; }
+    public string Name { get; } = name;
 
-        public string Name { get; }
-
-        public string IpAddress { get; }
-    }
+    public string IpAddress { get; } = ipAddress;
 }

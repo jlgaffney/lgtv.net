@@ -1,22 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace LgTv.Clients;
 
-namespace LgTv.Clients
+public interface ILgTvClientController
 {
-    public interface ILgTvClientController
-    {
-        event EventHandler Connected;
+    event EventHandler Connected;
 
-        event EventHandler Disconnected;
+    event EventHandler Disconnected;
 
-        bool IsConnected { get; }
+    bool IsConnected { get; }
 
-        ILgTvClient Client { get; }
+    ILgTvClient Client { get; }
 
-        Task Connect(
-            HostConfiguration tvHostConfiguration,
-            HostConfiguration proxyHostConfiguration = null);
+    Task Connect(
+        HostConfiguration tvHostConfiguration,
+        HostConfiguration proxyHostConfiguration = null);
 
-        void Disconnect();
-    }
+    void Disconnect();
 }

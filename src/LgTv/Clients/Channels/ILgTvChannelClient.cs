@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Channels;
 
-namespace LgTv.Clients.Channels
+public interface ILgTvChannelClient
 {
-    public interface ILgTvChannelClient
-    {
-        Task<Channel> GetChannel(string id);
+    Task<Channel> GetChannel(string id);
 
-        Task<IEnumerable<Channel>> GetChannels();
+    Task<IEnumerable<Channel>> GetChannels();
 
-        Task<Channel> GetCurrentChannel();
+    Task<Channel> GetCurrentChannel();
 
-        Task GetCurrentChannelProgramInfo();
+    Task GetCurrentChannelProgramInfo();
 
-        Task ChannelUp();
+    Task ChannelUp();
 
-        Task ChannelDown();
+    Task ChannelDown();
 
-        Task SetChannel(string id);
-    }
+    Task SetChannel(string id);
 }

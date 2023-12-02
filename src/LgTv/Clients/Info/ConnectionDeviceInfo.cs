@@ -1,7 +1,6 @@
-﻿namespace LgTv.Clients.Info
+﻿namespace LgTv.Clients.Info;
+
+public class ConnectionDeviceInfo
 {
-    public class ConnectionDeviceInfo
-    {
-        public string MacAddress { get; set; }
-    }
+    public string MacAddress { get; set; }
 }

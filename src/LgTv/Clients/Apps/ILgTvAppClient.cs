@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Apps;
 
-namespace LgTv.Clients.Apps
+public interface ILgTvAppClient
 {
-    public interface ILgTvAppClient
-    {
-        Task<ForegroundAppInfo> GetForegroundAppInfo();
+    Task<ForegroundAppInfo> GetForegroundAppInfo();
 
-        Task<App> GetApp(string id);
+    Task<App> GetApp(string id);
 
-        Task<IEnumerable<App>> GetApps();
+    Task<IEnumerable<App>> GetApps();
 
-        Task<string> LaunchApp(string id, Uri uri = null);
+    Task<string> LaunchApp(string id, Uri uri = null);
 
-        Task<string> LaunchYouTube(string videoId);
+    Task<string> LaunchYouTube(string videoId);
 
-        Task<string> LaunchYouTube(Uri uri);
+    Task<string> LaunchYouTube(Uri uri);
 
-        Task<string> LaunchWebBrowser(Uri uri);
+    Task<string> LaunchWebBrowser(Uri uri);
 
-        Task<string> CloseApp(string id);
-    }
+    Task<string> CloseApp(string id);
 }

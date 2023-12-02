@@ -1,7 +1,6 @@
-namespace LgTv.Connections
+namespace LgTv.Connections;
+
+public enum MessageType
 {
-    public enum MessageType
-    {
-        Request
-    }
+    Request
 }

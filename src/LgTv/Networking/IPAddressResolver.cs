@@ -1,21 +1,20 @@
 ﻿using System.Net;
 
-namespace LgTv.Networking
+namespace LgTv.Networking;
+
+internal class IPAddressResolver
 {
-    internal class IPAddressResolver
+    public static string GetIPAddress(string hostname)
     {
-        public static string GetIPAddress(string hostname)
+        var hostEntry = Dns.GetHostEntry(hostname);
+
+        // You might get more than one ip for a hostname since 
+        // DNS supports more than one record
+        if (hostEntry.AddressList.Length <= 0)
         {
-            var hostEntry = Dns.GetHostEntry(hostname);
-
-            // You might get more than one ip for a hostname since 
-            // DNS supports more than one record
-            if (hostEntry.AddressList.Length <= 0)
-            {
-                return null;
-            }
-
-            return hostEntry.AddressList[0].ToString();
+            return null;
         }
+
+        return hostEntry.AddressList[0].ToString();
     }
 }

@@ -1,50 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LgTv.Connections;
+﻿using LgTv.Connections;
 
-namespace LgTv.Clients.Inputs
+namespace LgTv.Clients.Inputs;
+
+internal class LgTvInputClient(ILgTvConnection connection) : ILgTvInputClient
 {
-    internal class LgTvInputClient : ILgTvInputClient
+    public async Task<Input> GetInput(string id)
     {
-        private readonly ILgTvConnection _connection;
+        return (await GetInputs()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
+    }
 
-        public LgTvInputClient(
-            ILgTvConnection connection)
+    public async Task<IEnumerable<Input>> GetInputs()
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.GetInputs.Prefix, LgTvCommands.GetInputs.Uri);
+        var response = await connection.SendCommandAsync(requestMessage);
+
+        var inputs = new List<Input>();
+        foreach (var device in response.devices)
         {
-            _connection = connection;
-        }
-
-        public async Task<Input> GetInput(string id)
-        {
-            return (await GetInputs()).FirstOrDefault(x => string.Equals(id, x.Id, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public async Task<IEnumerable<Input>> GetInputs()
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.GetInputs.Prefix, LgTvCommands.GetInputs.Uri);
-            var response = await _connection.SendCommandAsync(requestMessage);
-
-            var inputs = new List<Input>();
-            foreach (var device in response.devices)
+            inputs.Add(new Input
             {
-                inputs.Add(new Input
-                {
-                    Id = device.id,
-                    Label = device.label,
-                    Icon = device.icon,
-                    Connected = (bool) device.connected
-                });
-            }
-
-            return inputs;
+                Id = device.id,
+                Label = device.label,
+                Icon = device.icon,
+                Connected = (bool) device.connected
+            });
         }
 
-        public async Task SetInput(string id)
-        {
-            var requestMessage = new RequestMessage(LgTvCommands.SetInput.Uri, new { inputId = id });
-            await _connection.SendCommandAsync(requestMessage);
-        }
+        return inputs;
+    }
+
+    public async Task SetInput(string id)
+    {
+        var requestMessage = new RequestMessage(LgTvCommands.SetInput.Uri, new { inputId = id });
+        await connection.SendCommandAsync(requestMessage);
     }
 }

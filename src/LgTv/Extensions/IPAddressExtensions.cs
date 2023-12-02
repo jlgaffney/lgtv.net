@@ -1,12 +1,11 @@
 ﻿using System.Net;
 
-namespace LgTv.Extensions
+namespace LgTv.Extensions;
+
+public static class IPAddressExtensions
 {
-    public static class IPAddressExtensions
+    public static bool IsIPAddress(this string value)
     {
-        public static bool IsIPAddress(this string value)
-        {
-            return IPAddress.TryParse(value, out _);
-        }
+        return IPAddress.TryParse(value, out _);
     }
 }

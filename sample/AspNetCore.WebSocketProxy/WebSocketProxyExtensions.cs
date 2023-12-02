@@ -1,11 +1,8 @@
-﻿using System;
 using System.Net.WebSockets;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 
-namespace AspNetCore.WebSocketProxy
-{
+namespace AspNetCore.WebSocketProxy;
+
     public static class WebSocketProxyExtensions
     {
         public static IApplicationBuilder UseWebSocketProxy(this IApplicationBuilder app)
@@ -17,11 +14,7 @@ namespace AspNetCore.WebSocketProxy
                 if (context.WebSockets.IsWebSocketRequest && context.Request.Path.HasValue)
                 {
                     // TODO Make proxy more configurable
-                    var path = context.Request.Path.Value;
-                    if (path.StartsWith('/'))
-                    {
-                        path = path[1..];
-                    }
+                var path = context.Request.Path.Value?.Trim('/');
 
                     if (!string.IsNullOrWhiteSpace(path))
                     {
@@ -56,4 +49,3 @@ namespace AspNetCore.WebSocketProxy
             await consumer.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
     }
-}

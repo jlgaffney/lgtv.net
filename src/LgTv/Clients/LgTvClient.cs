@@ -1,5 +1,3 @@
-﻿using System;
-using System.Threading.Tasks;
 using LgTv.Clients.Apps;
 using LgTv.Clients.Audio;
 using LgTv.Clients.Channels;
@@ -15,8 +13,8 @@ using LgTv.Extensions;
 using LgTv.Networking;
 using LgTv.Stores;
 
-namespace LgTv.Clients
-{
+namespace LgTv.Clients;
+
     public class LgTvClient : ILgTvClient
     {
         public const int DefaultInsecurePort = 3000;
@@ -64,15 +62,11 @@ namespace LgTv.Clients
             IClientKeyStore keyStore,
             LgTvClientConfiguration configuration)
         {
-            if (configuration == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
             _connectionFactory = connectionFactory;
             _connection = connectionFactory();
             _keyStore = keyStore;
 
-            Configuration = configuration;
+        Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
             string url;
             if (Configuration.Proxy == null)

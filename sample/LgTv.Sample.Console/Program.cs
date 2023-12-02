@@ -5,8 +5,8 @@ using LgTv.Clients.Mouse;
 using LgTv.Connections;
 using LgTv.Stores;
 
-namespace LgTv.Sample.Console
-{
+namespace LgTv.Sample.Console;
+
     public class Program
     {
         private const string ClientKeyStoreFileName = "client-keys.json";
@@ -65,4 +65,3 @@ namespace LgTv.Sample.Console
             await client.Power.TurnOff();
         }
     }
-}

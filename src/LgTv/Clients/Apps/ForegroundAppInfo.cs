@@ -1,11 +1,10 @@
-﻿namespace LgTv.Clients.Apps
+﻿namespace LgTv.Clients.Apps;
+
+public class ForegroundAppInfo
 {
-    public class ForegroundAppInfo
-    {
-        public string AppId { get; set; }
+    public string AppId { get; set; }
 
-        public string WindowId { get; set; }
+    public string WindowId { get; set; }
 
-        public string ProcessId { get; set; }
-    }
+    public string ProcessId { get; set; }
 }

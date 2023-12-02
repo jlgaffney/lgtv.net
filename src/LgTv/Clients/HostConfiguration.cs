@@ -1,7 +1,5 @@
-﻿using System;
+﻿namespace LgTv.Clients;
 
-namespace LgTv.Clients
-{
     public class HostConfiguration
     {
         public HostConfiguration(

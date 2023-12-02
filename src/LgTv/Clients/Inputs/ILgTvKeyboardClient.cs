@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿namespace LgTv.Clients.Inputs;
 
-namespace LgTv.Clients.Inputs
+public interface ILgTvKeyboardClient
 {
-    public interface ILgTvKeyboardClient
-    {
-        Task InsertText(string text, int replace = 0);
+    Task InsertText(string text, int replace = 0);
 
-        Task DeleteCharacters(int count = 1);
+    Task DeleteCharacters(int count = 1);
 
-        Task SendEnterKey();
-    }
+    Task SendEnterKey();
 }

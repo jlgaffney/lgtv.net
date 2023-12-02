@@ -1,15 +1,12 @@
-using System.Threading.Tasks;
+namespace LgTv.Clients.Notifications;
 
-namespace LgTv.Clients.Notifications
+public interface ILgTvNotificationClient
 {
-    public interface ILgTvNotificationClient
-    {
-        /// <returns>Unique toast identifier</returns>
-        Task<string> ShowToast(string message);
+    /// <returns>Unique toast identifier</returns>
+    Task<string> ShowToast(string message);
 
-        /// <returns>Unique toast identifier</returns>
-        Task<string> ShowToast(string message, byte[] iconData, string iconExtension);
+    /// <returns>Unique toast identifier</returns>
+    Task<string> ShowToast(string message, byte[] iconData, string iconExtension);
 
-        Task CloseToast(string toastId);
-    }
+    Task CloseToast(string toastId);
 }
