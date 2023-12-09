@@ -1,33 +1,35 @@
 ﻿@page "/apps/{Id}"
 @inject ILgTvClientController Controller
 
-@if (_app == null)
+@if (_item == null)
 {
-    <h3>App</h3>
+    <MudProgressLinear Indeterminate />
+    return;
+}
 
-    <br />
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">@_item.Title</MudText>
+    </MudCardHeader>
     
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <img alt="@_app.Title Icon" style="background: @(!string.IsNullOrWhiteSpace(_app.IconColorHex) ? _app.IconColorHex : "#000000"); border: 1px solid black;" src="@_app.LargeIcon" />
-
-    <h3 style="margin: 0.55rem 0">@_app.Title</h3>
-
-    <button class="btn btn-primary" @onclick="() => Controller.Client.Apps.LaunchApp(_app.Id)">
-        <span class="oi oi-share-boxed" aria-hidden="true"></span> Launch
-    </button>
-}
+    <MudCardContent>
+        <MudImage Alt="@($"{_item.Title} Icon")" Src="@_item.LargeIcon" Width="130" Height="130" Elevation="3"
+                  Style="@($"background: {(!string.IsNullOrWhiteSpace(_item.IconColorHex) ? _item.IconColorHex : "black")}")" />
+    </MudCardContent>
+    
+    <MudCardActions>
+        <MudButton OnClick="() => Controller.Client.Apps.LaunchApp(_item.Id)" StartIcon="@Icons.Material.Filled.Launch">Launch</MudButton>
+    </MudCardActions>
+</MudCard>
 
 @code {
-    private LgTv.Clients.Apps.App _app;
+    private LgTv.Clients.Apps.App _item;
 
     [Parameter]
     public string Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _app = await Controller.Client.Apps.GetApp(Id);
+        _item = await Controller.Client.Apps.GetApp(Id);
     }
 }

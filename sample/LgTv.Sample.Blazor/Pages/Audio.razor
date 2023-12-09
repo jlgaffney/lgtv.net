@@ -1,34 +1,31 @@
 ﻿@page "/audio"
 @inject ILgTvClientController Controller
 
-<h3>Audio</h3>
-
-<br />
-
-<p>
-    <b>Output: </b>
-    @if (_soundOutput == null)
-    {
-        <em>Loading...</em>
-    }
-    else
-    {
-        @_soundOutput
-    }
-</p>
-
-
-<button class="btn btn-primary" @onclick="Controller.Client.Audio.VolumeUp" title="Increase Volume"><span class="oi oi-plus" aria-hidden="true"></span></button>
-
-<br />
-<br />
-
-<button class="btn btn-primary" @onclick="Controller.Client.Audio.VolumeDown" title="Decrease Volume"><span class="oi oi-minus" aria-hidden="true"></span></button>
-
-<br />
-<br />
-
-<button class="btn btn-primary" @onclick="ToggleMute" title="@(_isMuted ? "Unmute" : "Mute")"><span class="oi oi-volume-@(_isMuted ? "off" : "high")" aria-hidden="true"></span></button>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Audio</MudText>
+    </MudCardHeader>
+    
+    <MudCardContent>
+        @if (_soundOutput == null)
+        {
+            <MudProgressLinear Indeterminate />
+        }
+        else
+        {
+            <MudField Label="Output">@_soundOutput</MudField>
+        }
+    </MudCardContent>
+    
+    <MudCardActions>
+        <MudStack Row Spacing="1">
+            <MudIconButton Icon="@(_isMuted ? Icons.Material.Filled.VolumeMute : Icons.Material.Filled.VolumeOff)" Title="@(_isMuted ? "Unmute" : "Mute")" OnClick="ToggleMute" />
+            
+            <MudIconButton Icon="@Icons.Material.Filled.VolumeDown" Title="Decrease Volume" OnClick="Controller.Client.Audio.VolumeDown" />
+            <MudIconButton Icon="@Icons.Material.Filled.VolumeUp" Title="Increase Volume" OnClick="Controller.Client.Audio.VolumeUp" />
+        </MudStack>
+    </MudCardActions>
+</MudCard>
 
 @code {
     private bool _isMuted;

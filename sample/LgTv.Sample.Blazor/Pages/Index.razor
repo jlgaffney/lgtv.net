@@ -1,36 +1,32 @@
 ﻿@page "/"
 @inject ILgTvClientController Controller
 
-<h1>LG TV Controller - Sample Blazor App</h1>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Activity</MudText>
+    </MudCardHeader>
 
-<br />
+    @if (_app == null)
+    {
+        <MudCardContent>
+            <MudText Typo="Typo.h6">Unknown</MudText>
+        </MudCardContent>
+    }
+    else
+    {
+        <MudCardContent>
+            <MudStack Row AlignItems="AlignItems.Center">
+                <MudImage Alt="@($"{_app.Title} Icon")" Src="@_app.Icon" Width="40" Height="40" Elevation="3"
+                          Style="@($"background: {(!string.IsNullOrWhiteSpace(_app.IconColorHex) ? _app.IconColorHex : "black")}")"/>
+                <MudText Typo="Typo.h6">@_app.Title</MudText>
+            </MudStack>
+        </MudCardContent>
 
-@if (_app != null)
-{
-    <div class="card">
-        <div class="card-header">
-            <h5 style="margin-bottom: 0;">Activity</h5>
-        </div>
-
-        <div class="card-body" style="display: flex">
-            <img alt="@_app.Title Icon" style="background: @(!string.IsNullOrWhiteSpace(_app.IconColorHex) ? _app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@_app.Icon" />
-            
-            <div style="height: 40px; line-height: 40px; text-align: center; margin-left: 0.6rem">
-                <span style="display: inline-block; vertical-align: middle; line-height: normal; font-size: 1.5rem">
-                    @_app.Title
-                </span>
-            </div>
-        </div>
-        
-        <div class="card-footer">
-            <button class="btn btn-primary" @onclick="CloseCurrentApp">
-                <span class="oi oi-plus" aria-hidden="true" style="transform: rotate(45deg)"></span> Close
-            </button>
-        </div>
-    </div>
-}
-
-<br />
+        <MudCardActions>
+            <MudButton StartIcon="@Icons.Material.Filled.Close" OnClick="CloseCurrentApp">Close</MudButton>
+        </MudCardActions>
+    }
+</MudCard>
 
 @code {
     private LgTv.Clients.Apps.App _app;
@@ -48,7 +44,6 @@
         _app = null;
 
         var foregroundAppInfo = await Controller.Client.Apps.GetForegroundAppInfo();
-
         if (foregroundAppInfo == null)
         {
             return;
@@ -68,5 +63,4 @@
 
         await LoadCurrentApp();
     }
-
 }

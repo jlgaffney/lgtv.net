@@ -1,16 +1,23 @@
 ﻿@page "/playback"
 @inject ILgTvClientController Controller
 
-<h3>Playback</h3>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Playback</MudText>
+    </MudCardHeader>
 
-<br />
-
-<button class="btn btn-primary" @onclick="Controller.Client.Playback.Play" title="Play"><span class="oi oi-media-play" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="Controller.Client.Playback.Pause" title="Pause"><span class="oi oi-media-pause" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="Controller.Client.Playback.Stop" title="Stop"><span class="oi oi-media-stop" aria-hidden="true"></span></button>
-
-<br />
-<br />
-
-<button class="btn btn-primary" @onclick="Controller.Client.Playback.Rewind" title="Rewind"><span class="oi oi-media-skip-backward" aria-hidden="true"></span></button>
-<button class="btn btn-primary" @onclick="Controller.Client.Playback.FastForward" title="Fast Forward"><span class="oi oi-media-skip-forward" aria-hidden="true"></span></button>
+    <MudCardContent>
+        <MudStack Row Spacing="1">
+            <MudIconButton OnClick="Controller.Client.Playback.Play" Icon="@Icons.Material.Filled.PlayArrow" Size="Size.Large" />
+            <MudIconButton OnClick="Controller.Client.Playback.Pause" Icon="@Icons.Material.Filled.Pause" Size="Size.Large" />
+            <MudIconButton OnClick="Controller.Client.Playback.Stop" Icon="@Icons.Material.Filled.Stop" Size="Size.Large" />
+        </MudStack>
+    </MudCardContent>
+    
+    <MudCardActions>
+        <MudStack Row Spacing="1">
+            <MudIconButton OnClick="Controller.Client.Playback.Rewind" Icon="@Icons.Material.Filled.SkipPrevious" />
+            <MudIconButton OnClick="Controller.Client.Playback.FastForward" Icon="@Icons.Material.Filled.SkipNext" />
+        </MudStack>
+    </MudCardActions>
+</MudCard>

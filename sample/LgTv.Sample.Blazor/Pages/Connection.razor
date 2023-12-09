@@ -1,101 +1,84 @@
 ﻿@page "/connection"
 @inject ILgTvClientController Controller
 @inject HttpClient HttpClient
-@inject IJSRuntime JS
 @inject IOptions<ProxyHostConfiguration> ProxyHostConfiguration
 @inject NavigationManager NavigationManager
-
-<h3>Connection</h3>
-
-<br />
+@inject IDialogService DialogService
 
 @if (Controller.IsConnected)
 {
-    <button class="btn btn-primary" @onclick="Disconnect">
-        <span class="oi oi-link-broken" aria-hidden="true"></span> Disconnect
-    </button>
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Connection</MudText>
+        </MudCardHeader>
+
+        <MudCardContent>
+	        <MudField Label="Host">@Controller.Client.Configuration.Tv.Host</MudField>
+
+            <MudField Label="Port">@Controller.Client.Configuration.Tv.Port</MudField>
+        </MudCardContent>
+
+        <MudCardActions>
+            <MudButton StartIcon="@Icons.Material.Filled.LinkOff" OnClick="Disconnect">Disconnect</MudButton>
+        </MudCardActions>
+    </MudCard>
+    return;
 }
-else
-{
-    <div class="card">
-        <div class="card-header">
-            <h5 style="margin-bottom: 0;">Details</h5>
-        </div>
 
-        <div class="card-body">
-            <label style="margin: 0">IP Address</label>
-            <input @ref="_ipAddressInput" type="text" @bind-value="_ipAddress" placeholder="IP Address" style="width: 100%"/>
-
-            <br/>
-            <br/>
-
-            <label style="margin: 0">Port</label>
-            <input type="number" min="0" max="65353" @bind-value="_port" placeholder="Port" style="width: 100%" />
-        </div>
-        
-        <div class="card-footer">
-            <button class="btn btn-primary" @onclick="Connect">
-                <span class="oi oi-link-intact" aria-hidden="true"></span> Connect
-            </button>
-        </div>
-    </div>
+<MudStack Spacing="4">
+    <MudText Typo="@Typo.h4" GutterBottom>Connect</MudText>
     
-    <br />
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Details</MudText>
+        </MudCardHeader>
+    
+        <MudCardContent>
+	        <MudTextField Label="Host" @bind-Value="_ipAddress" AutoFocus />
 
-    <div class="card">
-        <div class="card-header">
-            <h5 style="margin-bottom: 0;">Available Devices</h5>
-        </div>
+            <MudNumericField Label="Port" @bind-Value="_port" />
+        </MudCardContent>
+    
+        <MudCardActions>
+            <MudButton StartIcon="@Icons.Material.Filled.Link" OnClick="Connect">Connect</MudButton>
+        </MudCardActions>
+    </MudCard>
+    
+    @if (_devices == null)
+    {
+        <MudCard>
+            <MudCardHeader>
+                <MudText Typo="Typo.h5">Available Devices</MudText>
+            </MudCardHeader>
+    
+            <MudCardContent>
+                <MudProgressLinear Indeterminate />
+            </MudCardContent>
+        </MudCard>
+    }
+    else
+    {
+        <MudDataGrid T="Device" Items="_devices" RowStyle="cursor: pointer" Hover RowClick="x => SetConnectionDetails(x.Item)"
+                     Loading="_devices == null" LoadingProgressColor="Color.Inherit">
+            <ToolBarContent>
+                <MudText Typo="Typo.h5">Available Devices</MudText>
+            </ToolBarContent>
 
-        <div class="card-body">
-            @if (_devices == null)
-            {
-                <p style="margin-bottom: 0"><em>Loading...</em></p>
-            }
-            else if (_devices.Count == 0)
-            {
-                <p style="margin-bottom: 0">No devices found</p>
-            }
-            else
-            {
-                <div style="margin: -1.25rem; max-height: 20rem; overflow: auto;">
-                    <table class="table" style="margin-bottom: 0">
-                        <colgroup>
-                            <col>
-                            <col>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>IP Address</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach (var device in _devices)
-                        {
-                            <tr class="link" @onclick="() => SetConnectionDetails(device)">
-                                <td>@device.Name</td>
-                                <td>@device.IpAddress</td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </div>
-        
-        @if (_devices != null)
-        {
-            <div class="card-footer">
-                <button class="btn btn-primary" @onclick="LoadScannableDevices">
-                    <span class="oi oi-reload" aria-hidden="true"></span> Refresh
-                </button>
-            </div>
-        }
-    </div>
-}
+            <Columns>
+                <PropertyColumn Property="x => x.Name" Title="Name"/>
+                <PropertyColumn Property="x => x.IpAddress" Title="IP Address"/>
+            </Columns>
 
-<br />
+            <NoRecordsContent>
+                <MudText Typo="Typo.subtitle1">No Devices Found</MudText>
+            </NoRecordsContent>
+
+            <PagerContent>
+                <MudButton Class="ma-2" StartIcon="@Icons.Material.Filled.Refresh" OnClick="LoadScannableDevices">Refresh</MudButton>
+            </PagerContent>
+        </MudDataGrid>
+    }
+</MudStack>
 
 @code {
     private const string HttpScheme = "http";
@@ -103,7 +86,6 @@ else
 
     private IReadOnlyList<Device> _devices;
 
-    private ElementReference _ipAddressInput;
     private string _ipAddress;
     private int _port = LgTvClient.DefaultPort;
     
@@ -115,21 +97,11 @@ else
         }
     }
     
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender || Controller.IsConnected)
-        {
-            return;
-        }
-
-        await _ipAddressInput.FocusAsync();
-    }
-
     private async Task Connect()
     {
         if (!_ipAddress.IsIPAddress())
         {
-            await JS.InvokeVoidAsync("alert", "IP address is invalid");
+            await DialogService.ShowMessageBox("Unable To Connect", "IP address is invalid");
             return;
         }
 
@@ -137,13 +109,13 @@ else
 
         var tvHostConfiguration = new HostConfiguration
         {
-	        Host = _ipAddress,
-	        Port = _port
+            Host = _ipAddress,
+            Port = _port
         };
 
         await Controller.Connect(tvHostConfiguration);
 
-        NavigationManager.NavigateTo("");
+        NavigationManager.NavigateTo(string.Empty);
     }
 
     private async Task Disconnect()
@@ -172,7 +144,7 @@ else
     private async Task WakeOnLanDevice(string ipAddress)
     {
         var url = new UriBuilder(
-	        ProxyHostConfiguration.Value.Secure ? HttpsScheme : HttpScheme,
+            ProxyHostConfiguration.Value.Secure ? HttpsScheme : HttpScheme,
             ProxyHostConfiguration.Value.Endpoint.Host,
             ProxyHostConfiguration.Value.Endpoint.Port,
             FormattableString.Invariant($"wakeonlan/{ipAddress}"))

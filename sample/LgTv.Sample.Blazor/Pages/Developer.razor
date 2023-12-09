@@ -1,47 +1,51 @@
 ﻿@page "/developer"
 @inject ILgTvClientController Controller
 
-<h3>Developer</h3>
+<MudStack Spacing="4">
+    <MudText Typo="@Typo.h4" GutterBottom>Developer</MudText>
 
-<br />
+	<MudCard>
+		<MudCardHeader>
+			<MudText Typo="Typo.h5">Request</MudText>
+		</MudCardHeader>
 
-<h4>Request</h4>
-<div>
-    <input type="text" @bind-value="_prefix" placeholder="Prefix" style="width: 100%; font-family: 'Courier New', monospace;" />
+		<MudCardContent>
+			<MudTextField Label="Prefix" @bind-Value="_prefix" Style="font-family: 'Courier New', monospace" />
+            
+			<MudTextField Label="URI" @bind-Value="_uri" Style="font-family: 'Courier New', monospace" />
 
-    <br />
-    <br />
-
-    <input type="text" @bind-value="_uri" placeholder="URI" style="width: 100%; font-family: 'Courier New', monospace;" />
-
-    <br />
-    <br />
-
-    <textarea @bind="_payloadJson" placeholder="Payload JSON:
-{
-}" rows="6" style="width: 100%; font-family: 'Courier New', monospace;"></textarea>
-</div>
-
-<br />
-
-<button class="btn btn-primary" @onclick="SendCommand">Send Command</button>
-
-<br />
-<br />
-
-@if (!string.IsNullOrWhiteSpace(_responseJson))
-{
-    <h4>Response</h4>
-    <textarea placeholder="Response JSON" rows="@Math.Min(20, _responseJson.Split("\n").Length))" readonly style="width: 100%; font-family: 'Courier New', monospace;">@_responseJson</textarea>
-}
+			<MudTextField Label="Payload JSON" @bind-Value="_payloadJson" AutoGrow Lines="GetLineCount(DefaultPayloadJson)" MaxLines="10"
+			              Style="font-family: 'Courier New', monospace" />
+		</MudCardContent>
+		
+		<MudCardActions>
+			<MudButton OnClick="SendCommand">Send Command</MudButton>
+		</MudCardActions>
+	</MudCard>
+    
+	@if (!string.IsNullOrWhiteSpace(_responseJson))
+	{
+		<MudCard>
+	        <MudCardHeader>
+	            <MudText Typo="Typo.h5">Response</MudText>
+	        </MudCardHeader>
+            
+			<MudCardContent>
+				<MudTextField Label="Response JSON" Value="@_responseJson" Lines="@Math.Min(20, GetLineCount(_responseJson))" ReadOnly
+				              Style="font-family: 'Courier New', monospace" />
+			</MudCardContent>
+	    </MudCard>
+	}
+</MudStack>
 
 @code {
     private const string DefaultPayloadJson = @"{
+  
 }";
 
     private string _prefix;
     private string _uri;
-    private string _payloadJson;
+    private string _payloadJson = DefaultPayloadJson;
 
     private string _responseJson;
 
@@ -71,4 +75,9 @@
 
         _responseJson = JsonConvert.SerializeObject(response, Formatting.Indented);
     }
+
+	private static int GetLineCount(string content)
+	{
+		return content.Split("\n").Length;
+	}
 }

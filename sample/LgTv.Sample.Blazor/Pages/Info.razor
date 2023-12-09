@@ -1,215 +1,126 @@
 ﻿@page "/info"
 @inject ILgTvClientController Controller
 
-<h3>Info</h3>
+<MudStack Spacing="4">
+    <MudText Typo="@Typo.h4" GutterBottom>Info</MudText>
+    
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Connection</MudText>
+        </MudCardHeader>
 
-<br />
+        <MudCardContent>
+            @if (_softwareInfo == null)
+            {
+                <MudProgressLinear Indeterminate />
+            }
+            else
+            {
+                <MudField Label="Subscribed">@(_connectionInfo.Subscribed ? "Yes" : "No")</MudField>
 
-<div class="card">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0;">Time</h5>
-    </div>
+                @if (_connectionInfo.P2PInfo != null ||
+                     _connectionInfo.WifiInfo != null ||
+                     _connectionInfo.WiredInfo != null)
+                {
+	                <br />
+                }
 
-    <div class="card-body">
-        @if (_systemInfo == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <label style="margin-bottom: 0">@_currentSystemTime.ToString()</label>
-        }
-    </div>
-</div>
-
-<br />
-
-<div class="card">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0;">Connection</h5>
-    </div>
-
-    <div class="card-body">
-        @if (_softwareInfo == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <div>
-                <label class="heading">Subscribed</label>
-                <p>@(_connectionInfo.Subscribed ? "Yes" : "No")</p>
+	            <MudText Typo="Typo.h6">MAC Addresses</MudText>
 
                 @if (_connectionInfo.P2PInfo != null)
                 {
-                    <label class="heading">P2P</label>
-                    <p>MAC Address: @_connectionInfo.P2PInfo.MacAddress</p>
+                    <MudField Label="P2P">@_connectionInfo.P2PInfo.MacAddress</MudField>
                 }
 
                 @if (_connectionInfo.WifiInfo != null)
                 {
-                    <label class="heading">WiFi</label>
-                    <p>MAC Address: @_connectionInfo.WifiInfo.MacAddress</p>
+                    <MudField Label="WiFi">@_connectionInfo.WifiInfo.MacAddress</MudField>
                 }
 
                 @if (_connectionInfo.WiredInfo != null)
                 {
-                    <label class="heading">Wired</label>
-                    <p>MAC Address: @_connectionInfo.WiredInfo.MacAddress</p>
+                    <MudField Label="Wired">@_connectionInfo.WiredInfo.MacAddress</MudField>
                 }
+            }
+        </MudCardContent>
+    </MudCard>
 
-            </div>
-        }
-    </div>
-</div>
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">System</MudText>
+        </MudCardHeader>
 
-<br />
+        <MudCardContent>
+            @if (_softwareInfo == null)
+            {
+                <MudProgressLinear Indeterminate />
+            }
+            else
+            {
+                <MudText Typo="Typo.h6">Features</MudText>
+	            <MudField Label="3D">@(_systemInfo.Features._3D ? "Yes" : "No")</MudField>
+	            <MudField Label="DVR">@(_systemInfo.Features.DVR ? "Yes" : "No")</MudField>
 
-<div class="card">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0;">System</h5>
-    </div>
+	            <br/>
 
-    <div class="card-body">
-        @if (_systemInfo == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <div>
-                <label class="heading">Features</label><br />
-                <label>3D: @(_systemInfo.Features._3D ? "Enabled" : "Disabled")</label><br />
-                <label>DVR: @(_systemInfo.Features.DVR ? "Enabled" : "Disabled")</label>
+                <MudField Label="Receiver Type">@_systemInfo.ReceiverType</MudField>
 
-                <br />
-                <br />
+                <MudField Label="Model">@_systemInfo.ModelName</MudField>
 
-                <label class="heading">Receiver Type</label><br />
-                <label>@_systemInfo.ReceiverType</label>
+                <MudField Label="Program Mode">@_systemInfo.ProgramMode</MudField>
+            }
+        </MudCardContent>
+    </MudCard>
 
-                <br />
-                <br />
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5">Software</MudText>
+        </MudCardHeader>
 
-                <label class="heading">Model</label><br />
-                <label>@_systemInfo.ModelName</label>
+        <MudCardContent>
+            @if (_softwareInfo == null)
+            {
+                <MudProgressLinear Indeterminate />
+            }
+            else
+            {
+                <MudField Label="Product">@_softwareInfo.ProductName</MudField>
 
-                <br />
-                <br />
+                <MudField Label="Model">@_softwareInfo.ModelName</MudField>
 
-                <label class="heading">Program Mode</label><br />
-                <label style="margin-bottom: 0">@_systemInfo.ProgramMode</label>
-            </div>
-        }
-    </div>
-</div>
+                <MudField Label="Software Type">@_softwareInfo.SoftwareType</MudField>
 
-<br />
+                <MudField Label="Major Version">@_softwareInfo.MajorVersion</MudField>
 
-<div class="card">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0;">Software</h5>
-    </div>
+                <MudField Label="Minor Version">@_softwareInfo.MinorVersion</MudField>
 
-    <div class="card-body">
-        @if (_softwareInfo == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <div>
-                <label class="heading">Product Name</label><br />
-                <label>@_softwareInfo.ProductName</label>
+                <MudField Label="Country">@_softwareInfo.Country</MudField>
 
-                <br />
-                <br />
+                <MudField Label="Country Group">@_softwareInfo.CountryGroup</MudField>
 
-                <label class="heading">Model</label><br />
-                <label>@_softwareInfo.ModelName</label>
+                <MudField Label="Device ID">@_softwareInfo.DeviceId</MudField>
 
-                <br />
-                <br />
+                <MudField Label="Auth Flag">@_softwareInfo.AuthFlag</MudField>
 
-                <label class="heading">Software Type</label><br />
-                <label>@_softwareInfo.SoftwareType</label>
+                <MudField Label="Ignore Disable">@_softwareInfo.IgnoreDisable</MudField>
 
-                <br />
-                <br />
+                <MudField Label="Eco Info">@_softwareInfo.EcoInfo</MudField>
 
-                <label class="heading">Major Version</label><br />
-                <label>@_softwareInfo.MajorVersion</label>
+                <MudField Label="Config Key">@_softwareInfo.ConfigKey</MudField>
 
-                <br />
-                <br />
-
-                <label class="heading">Minor Version</label><br />
-                <label>@_softwareInfo.MinorVersion</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Country</label><br />
-                <label>@_softwareInfo.Country</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Country Group</label><br />
-                <label>@_softwareInfo.CountryGroup</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Device ID</label><br />
-                <label>@_softwareInfo.DeviceId</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Auth Flag</label><br />
-                <label>@_softwareInfo.AuthFlag</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Ignore Disable</label><br />
-                <label>@_softwareInfo.IgnoreDisable</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Eco Info</label><br />
-                <label>@_softwareInfo.EcoInfo</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Config Key</label><br />
-                <label>@_softwareInfo.ConfigKey</label>
-
-                <br />
-                <br />
-
-                <label class="heading">Language</label><br />
-                <label>@_softwareInfo.Language.Name</label>
-            </div>
-        }
-    </div>
-</div>
-
-<br />
+                <MudField Label="Language">@_softwareInfo.Language.Name</MudField>
+            }
+        </MudCardContent>
+    </MudCard>
+</MudStack>
 
 @code {
-    private DateTime? _currentSystemTime;
-
     private SystemInformation _systemInfo;
     private SoftwareInformation _softwareInfo;
     private ConnectionInformation _connectionInfo;
 
     protected override async Task OnInitializedAsync()
     {
-        _currentSystemTime = await Controller.Client.Info.GetCurrentTime();
         _systemInfo = await Controller.Client.Info.GetSystemInfo();
         _softwareInfo = await Controller.Client.Info.GetSoftwareInfo();
         _connectionInfo = await Controller.Client.Info.GetConnectionInfo();

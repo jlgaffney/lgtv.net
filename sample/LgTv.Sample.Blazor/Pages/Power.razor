@@ -1,8 +1,12 @@
 ﻿@page "/power"
 @inject ILgTvClientController Controller
 
-<h3>Power</h3>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Power</MudText>
+    </MudCardHeader>
 
-<br />
-
-<button class="btn btn-primary" @onclick="Controller.Client.Power.TurnOff"><span class="oi oi-power-standby" aria-hidden="true"></span> Off</button>
+    <MudCardActions>
+        <MudButton OnClick="Controller.Client.Power.TurnOff">Off</MudButton>
+    </MudCardActions>
+</MudCard>

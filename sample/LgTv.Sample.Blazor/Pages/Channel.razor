@@ -1,31 +1,34 @@
 ﻿@page "/channels/{Id}"
 @inject ILgTvClientController Controller
 
-@if (_channel == null)
+@if (_item == null)
 {
-    <h3>Channel</h3>
-
-    <br />
-
-    <p><em>Loading...</em></p>
+    <MudProgressLinear Indeterminate />
+    return;
 }
-else
-{
-    <h3>@_channel.Name</h3>
 
-    <br />
-
-    <button class="btn btn-primary" @onclick="() => Controller.Client.Channels.SetChannel(_channel.Id)">Select</button>
-}
+<MudCard>
+    <MudCardHeader>
+        <MudAvatar>@_item.Number</MudAvatar>
+    </MudCardHeader>
+    
+    <MudCardContent>
+        <MudText Typo="Typo.h4">@_item.Name</MudText>
+    </MudCardContent>
+    
+    <MudCardActions>
+        <MudButton OnClick="() => Controller.Client.Channels.SetChannel(_item.Id)">Select</MudButton>
+    </MudCardActions>
+</MudCard>
 
 @code {
-    private LgTv.Clients.Channels.Channel _channel;
+    private LgTv.Clients.Channels.Channel _item;
 
     [Parameter]
     public string Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _channel = await Controller.Client.Channels.GetChannel(Id);
+        _item = await Controller.Client.Channels.GetChannel(Id);
     }
 }

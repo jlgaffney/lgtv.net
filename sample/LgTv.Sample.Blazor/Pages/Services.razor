@@ -1,44 +1,31 @@
 ﻿@page "/services"
 @inject ILgTvClientController Controller
 
-<h3>Services</h3>
+<MudText Typo="Typo.h5" GutterBottom>Services</MudText>
 
-<br />
+@if (_items == null)
+{
+    <MudProgressLinear Indeterminate />
+    return;
+}
 
-@if (_services == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <colgroup>
-            <col style="width: calc(100% - 120px);">
-            <col style="width: 120px;">
-        </colgroup>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Version</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var service in _services)
-            {
-                <tr class="link" style="cursor: default">
-                    <td>@service.Name</td>
-                    <td>@service.Version</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<MudDataGrid T="Service" Items="_items" Hover>
+    <ColGroup>
+        <col style="width: calc(100% - 120px)">
+        <col style="width: 120px">
+    </ColGroup>
+
+    <Columns>
+        <PropertyColumn Property="x => x.Name" Title="Name"/>
+        <PropertyColumn Property="x => x.Version" Title="Version"/>
+    </Columns>
+</MudDataGrid>
 
 @code {
-    private Service[] _services;
+    private Service[] _items;
 
     protected override async Task OnInitializedAsync()
     {
-        _services = (await Controller.Client.Info.GetServices()).ToArray();
+        _items = (await Controller.Client.Info.GetServices()).ToArray();
     }
 }

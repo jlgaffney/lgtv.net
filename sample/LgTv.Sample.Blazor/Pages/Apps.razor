@@ -2,51 +2,34 @@
 @inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
-<h3>Apps</h3>
+<MudText Typo="Typo.h5" GutterBottom>Apps</MudText>
 
-<br />
+@if (_items == null)
+{
+    <MudProgressLinear Indeterminate />
+    return;
+}
 
-@if (_apps == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-<table class="table">
-    <colgroup>
-        <col style="width: 80px;">
-        <col style="width: calc(100% - 80px);">
-    </colgroup>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var app in _apps)
-        {
-            <tr class="link" @onclick="() => NavigateToApp(app.Id)">
-                <td style="text-align: center;">
-                    <img alt="@app.Title Icon" style="background: @(!string.IsNullOrWhiteSpace(app.IconColorHex) ? app.IconColorHex : "#000000"); border: 1px solid black; width: 40px; height: 40px;" src="@app.Icon" />
-                </td>
-                <td>@app.Title</td>
-            </tr>
-        }
-    </tbody>
-</table>
-}
+<MudTable T="LgTv.Clients.Apps.App" Items="_items" Hover RowClass="cursor-pointer" OnRowClick="args => NavigateToItem(args.Item.Id)">
+    <RowTemplate>
+        <MudTd>
+            <MudImage Class="mr-2" Alt="@($"{context.Title} Icon")" Src="@context.Icon" Width="40" Height="40" Elevation="3"
+                      Style="@($"background: {(!string.IsNullOrWhiteSpace(context.IconColorHex) ? context.IconColorHex : "black")}")" />
+            @context.Title
+        </MudTd>
+    </RowTemplate>
+</MudTable>
 
 @code {
-    private LgTv.Clients.Apps.App[] _apps;
+    private IEnumerable<LgTv.Clients.Apps.App> _items;
 
     protected override async Task OnInitializedAsync()
     {
-        _apps = (await Controller.Client.Apps.GetApps()).ToArray();
+        _items = await Controller.Client.Apps.GetApps();
     }
 
-    private void NavigateToApp(string appId)
+    private void NavigateToItem(string id)
     {
-        NavigationManager.NavigateTo($"apps/{appId}");
+        NavigationManager.NavigateTo($"apps/{id}");
     }
 }

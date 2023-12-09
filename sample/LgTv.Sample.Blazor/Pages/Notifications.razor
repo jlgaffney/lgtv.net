@@ -2,29 +2,29 @@
 @inject ILgTvClientController Controller
 @inject HttpClient HttpClient
 
-<h3>Notifications</h3>
+<MudCard>
+	<MudCardHeader>
+        <MudText Typo="Typo.h5">Notifications</MudText>
+	</MudCardHeader>
 
-<br />
-
-<input type="text" @bind-value="_toastMessage" placeholder="Toast Message" style="width: 100%" />
-
-<br />
-<br />
-
-<input id="showWithIcon" type="checkbox" @bind-value="_showWithIcon" />
-<label for="showWithIcon">Show With Icon</label>
-
-@if (_showWithIcon)
-{
-    <br/>
-
-    <input type="text" @bind-value="_iconUrl" placeholder="Icon URL"/>
-}
-
-<br />
-<br />
-
-<button class="btn btn-primary" @onclick="ShowToast">Show Toast</button>
+	<MudCardContent>
+		<MudTextField Label="Toast Message" @bind-Value="_toastMessage" AutoFocus />
+        
+		<br />
+        
+		<MudCheckBox T="bool" Label="Show With Icon" @bind-Checked="_showWithIcon" />
+        @if (_showWithIcon)
+		{
+			<MudTextField Label="Icon URL" @bind-Value="_iconUrl" AutoFocus />
+		}
+	</MudCardContent>
+    
+	<MudCardActions>
+		<MudStack Row Spacing="1">
+			<MudButton OnClick="ShowToast">Show Toast</MudButton>
+		</MudStack>
+	</MudCardActions>
+</MudCard>
 
 @code {
     private string _toastMessage;

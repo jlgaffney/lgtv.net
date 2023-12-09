@@ -1,122 +1,44 @@
-﻿@inject ILgTvClientController Controller
+﻿@implements IDisposable
+@inject ILgTvClientController Controller
 
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">LG TV Controller</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<MudNavMenu>
     @if (!Controller.IsConnected)
     {
-        <ul class="nav flex-column">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="connection">
-                    <span class="oi oi-link-intact" aria-hidden="true"></span> Connect
-                </NavLink>
-            </li>
-        </ul>
+        <MudNavLink Href="connection" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Link">Connect</MudNavLink>
     }
     else
     {
-        <ul class="nav flex-column">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Home
-                </NavLink>
-            </li>
+        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+        <MudNavLink Href="power" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PowerSettingsNew">Power</MudNavLink>
+        <MudNavLink Href="audio" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.VolumeUp">Audio</MudNavLink>
+        <MudNavLink Href="display" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Tv">Display</MudNavLink>
+        <MudNavLink Href="playback" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PlayArrow">Playback</MudNavLink>
+        <MudNavLink Href="keyboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Keyboard">Keyboard</MudNavLink>
+        <MudNavLink Href="dpad" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Gamepad">D-Pad</MudNavLink>
+        <MudNavLink Href="apps" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Apps">Apps</MudNavLink>
+        <MudNavLink Href="channels" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Channels</MudNavLink>
+        <MudNavLink Href="inputs" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Cable">Inputs</MudNavLink>
+        <MudNavLink Href="notifications" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Notifications">Notifications</MudNavLink>
+        <MudNavLink Href="services" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.MiscellaneousServices">Services</MudNavLink>
+        <MudNavLink Href="info" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">Info</MudNavLink>
 
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="power">
-                    <span class="oi oi-power-standby" aria-hidden="true"></span> Power
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="audio">
-                    <span class="oi oi-volume-high" aria-hidden="true"></span> Audio
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="display">
-                    <span class="oi oi-monitor" aria-hidden="true"></span> Display
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="playback">
-                    <span class="oi oi-media-play" aria-hidden="true"></span> Playback
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="keyboard">
-                    <span class="oi oi-header" aria-hidden="true"></span> Keyboard
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="mouse">
-                    <span class="oi oi-move" aria-hidden="true"></span> Mouse
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="apps">
-                    <span class="oi oi-grid-three-up" aria-hidden="true"></span> Apps
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="channels">
-                    <span class="oi oi-list" aria-hidden="true"></span> Channels
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="inputs">
-                    <span class="oi oi-hard-drive" aria-hidden="true"></span> Inputs
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="notifications">
-                    <span class="oi oi-comment-square" aria-hidden="true"></span> Notifications
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="services">
-                    <span class="oi oi-cog" aria-hidden="true"></span> Services
-                </NavLink>
-            </li>
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="info">
-                    <span class="oi oi-info" aria-hidden="true"></span> Info
-                </NavLink>
-            </li>
+        <MudNavLink Href="developer" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Terminal">Developer</MudNavLink>
 
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="developer">
-                    <span class="oi oi-terminal" aria-hidden="true"></span> Developer
-                </NavLink>
-            </li>
-            
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="connection">
-                    <span class="oi oi-link-broken" aria-hidden="true"></span> Disconnect
-                </NavLink>
-            </li>
-        </ul>
+        <MudNavLink Href="connection" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.LinkOff">Disconnect</MudNavLink>
     }
-</div>
+</MudNavMenu>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
     protected override void OnInitialized()
     {
         Controller.Connected += ControllerOnConnected;
         Controller.Disconnected += ControllerOnDisconnected;
+    }
+
+    public void Dispose()
+    {
+        Controller.Connected -= ControllerOnConnected;
+        Controller.Disconnected -= ControllerOnDisconnected;
     }
 
     private void ControllerOnDisconnected(object sender, EventArgs e)

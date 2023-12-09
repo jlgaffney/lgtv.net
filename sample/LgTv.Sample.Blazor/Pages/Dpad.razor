@@ -1,0 +1,45 @@
+﻿@page "/dpad"
+@implements IDisposable
+@inject ILgTvClientController Controller
+@using ButtonType = LgTv.Clients.Mouse.ButtonType
+
+<MudCard>
+	<MudCardHeader>
+		<MudText Typo="Typo.h5" GutterBottom>D-Pad</MudText>
+	</MudCardHeader>
+
+	<MudCardActions>
+        <MudStack>
+            <div style="display: grid; grid-template-columns: auto auto auto">
+	            <div></div>
+                <MudIconButton Icon="@Icons.Material.Filled.KeyboardArrowUp" Title="Up" OnClick="() => _mouse.SendButton(ButtonType.Up)" />
+                <div></div>
+            
+                <MudIconButton Icon="@Icons.Material.Filled.KeyboardArrowLeft" Title="Left" OnClick="() => _mouse.SendButton(ButtonType.Left)"/>
+                <MudIconButton Icon="@Icons.Material.Filled.FiberManualRecord" Title="OK" OnClick="() => _mouse.SendButton(ButtonType.Ok)"/>
+                <MudIconButton Icon="@Icons.Material.Filled.KeyboardArrowRight" Title="Right" OnClick="() => _mouse.SendButton(ButtonType.Right)"/>
+            
+                <div></div>
+                <MudIconButton Icon="@Icons.Material.Filled.KeyboardArrowDown" Title="Down" OnClick="() => _mouse.SendButton(ButtonType.Down)"/>
+                <div></div>
+            </div>
+            
+            <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="() => _mouse.SendButton(ButtonType.Back)">Back</MudButton>
+        </MudStack>
+	</MudCardActions>
+</MudCard>
+
+@code {
+    private ILgWebOsMouseClient _mouse;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _mouse = await Controller.Client.GetMouse();
+    }
+
+
+    public void Dispose()
+    {
+        _mouse?.Dispose();
+    }
+}

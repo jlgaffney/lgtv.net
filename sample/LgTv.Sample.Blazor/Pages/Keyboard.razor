@@ -1,31 +1,24 @@
 ﻿@page "/keyboard"
 @inject ILgTvClientController Controller
 
-<h3>Keyboard</h3>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Keyboard</MudText>
+    </MudCardHeader>
 
-<br />
-
-<textarea @bind="_text" placeholder="Text" style="width: 100%"></textarea>
-
-<br />
-<br />
-
-<button class="btn btn-primary" @onclick="InsertText">Insert</button>
-
-<button class="btn btn-primary" @onclick="DeleteCharacters">Delete</button>
-
-<button class="btn btn-primary" @onclick="Controller.Client.Keyboard.SendEnterKey">Enter</button>
+	<MudCardContent>
+		<MudTextField Label="Text" @bind-Value="_text" AutoFocus />
+	</MudCardContent>
+    
+    <MudCardActions>
+        <MudStack Row Spacing="1">
+            <MudButton OnClick="() => Controller.Client.Keyboard.InsertText(_text)">Insert</MudButton>
+            <MudButton OnClick="() => Controller.Client.Keyboard.DeleteCharacters()">Delete</MudButton>
+            <MudButton OnClick="Controller.Client.Keyboard.SendEnterKey">Enter</MudButton>
+        </MudStack>
+    </MudCardActions>
+</MudCard>
 
 @code {
     private string _text;
-
-    private async Task InsertText()
-    {
-        await Controller.Client.Keyboard.InsertText(_text);
-    }
-
-    private async Task DeleteCharacters()
-    {
-        await Controller.Client.Keyboard.DeleteCharacters();
-    }
 }

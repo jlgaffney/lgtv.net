@@ -2,55 +2,37 @@
 @inject ILgTvClientController Controller
 @inject NavigationManager NavigationManager
 
-<h3>Channels</h3>
+<MudText Typo="Typo.h5" GutterBottom>Channels</MudText>
 
-<br />
-
-<button class="btn btn-primary btn-arrow" @onclick="() => Controller.Client.Channels.ChannelUp()" title="Up"><span class="oi oi-caret-top" aria-hidden="true"></span></button>
-<button class="btn btn-primary btn-arrow" @onclick="() => Controller.Client.Channels.ChannelDown()" title="Up"><span class="oi oi-caret-bottom" aria-hidden="true"></span></button>
-
-<br />
-<br />
-
-@if (_channels == null)
+@if (_items == null)
 {
-    <p><em>Loading...</em></p>
+    <MudProgressLinear Indeterminate />
+    return;
 }
-else
-{
-    <table class="table">
-        <colgroup>
-            <col style="width: 120px;">
-            <col style="width: calc(100% - 120px);">
-        </colgroup>
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var channel in _channels)
-            {
-                <tr class="link" @onclick="() => NavigateToChannel(channel.Id)">
-                    <td>@channel.Number</td>
-                    <td>@channel.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+<MudTable T="LgTv.Clients.Channels.Channel" Items="_items" Hover RowClass="cursor-pointer" OnRowClick="args => NavigateToItem(args.Item.Id)">
+    <ToolBarContent>
+        <MudIconButton Icon="@Icons.Material.Filled.KeyboardArrowUp" Title="Channel Up" OnClick="Controller.Client.Channels.ChannelUp" />
+        <MudIconButton Icon="@Icons.Material.Filled.KeyboardArrowDown" Title="Channel Down" OnClick="Controller.Client.Channels.ChannelDown" />
+    </ToolBarContent>
+    <RowTemplate>
+        <MudTd>
+            <MudAvatar Class="mr-2">@context.Number</MudAvatar>
+            @context.Name
+        </MudTd>
+    </RowTemplate>
+</MudTable>
 
 @code {
-    private LgTv.Clients.Channels.Channel[] _channels;
+    private IEnumerable<LgTv.Clients.Channels.Channel> _items;
 
     protected override async Task OnInitializedAsync()
     {
-        _channels = (await Controller.Client.Channels.GetChannels()).ToArray();
+        _items = await Controller.Client.Channels.GetChannels();
     }
 
-    private void NavigateToChannel(string channelId)
+    private void NavigateToItem(string id)
     {
-        NavigationManager.NavigateTo($"channels/{channelId}");
+        NavigationManager.NavigateTo($"channels/{id}");
     }
 }

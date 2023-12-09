@@ -1,13 +1,16 @@
 ﻿@page "/display"
 @inject ILgTvClientController Controller
 
-<h3>Display</h3>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">Display</MudText>
+    </MudCardHeader>
 
-<br />
+    <MudCardActions>
+        <MudStack Row Spacing="1">
+	        <MudButton OnClick="Controller.Client.Display.TurnOn3D">3D On</MudButton>
 
-<button class="btn btn-primary" @onclick="Controller.Client.Display.TurnOn3D">3D On</button>
-
-<br />
-<br />
-
-<button class="btn btn-primary" @onclick="Controller.Client.Display.TurnOff3D">3D Off</button>
+            <MudButton OnClick="Controller.Client.Display.TurnOff3D">3D Off</MudButton>
+        </MudStack>
+    </MudCardActions>
+</MudCard>

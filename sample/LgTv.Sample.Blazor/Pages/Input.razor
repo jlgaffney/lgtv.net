@@ -1,33 +1,38 @@
 ﻿@page "/inputs/{Id}"
 @inject ILgTvClientController Controller
 
-@if (_input == null)
+@if (_item == null)
 {
-    <h3>Input</h3>
-
-    <br />
-
-    <p><em>Loading...</em></p>
+    <MudProgressLinear Indeterminate />
+    return;
 }
-else
-{
-    <img alt="@_input.Label Icon" style="background: #D6DBDB; border: 1px solid black;" src="@_input.Icon" />
 
-    <h3 style="margin: 0.55rem 0">@_input.Label</h3>
+<MudCard>
+    <MudCardHeader>
+        <MudText Typo="Typo.h5">@_item.Label</MudText>
+    </MudCardHeader>
 
-    <p>@(_input.Connected ? "Connected" : "Not connected")</p>
+    <MudCardContent>
+        <MudStack Row AlignItems="AlignItems.Center">
+            <MudImage Alt="@($"{_item.Label} Icon")" Src="@_item.Icon" Width="80" Height="80" Elevation="3" Style="background: #D6DBDB" />
 
-    <button class="btn btn-primary" @onclick="() => Controller.Client.Inputs.SetInput(_input.Id)">Select</button>
-}
+            <MudText Typo="Typo.h6">@(_item.Connected ? "Connected" : "Not connected")</MudText>
+        </MudStack>
+    </MudCardContent>
+
+    <MudCardActions>
+        <MudButton OnClick="() => Controller.Client.Inputs.SetInput(_item.Id)">Select</MudButton>
+    </MudCardActions>
+</MudCard>
 
 @code {
-    private LgTv.Clients.Inputs.Input _input;
+    private LgTv.Clients.Inputs.Input _item;
 
     [Parameter]
     public string Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _input = await Controller.Client.Inputs.GetInput(Id);
+        _item = await Controller.Client.Inputs.GetInput(Id);
     }
 }
