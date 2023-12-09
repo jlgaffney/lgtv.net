@@ -70,7 +70,7 @@ public class LgTvConnection : ILgTvConnection
 
             messageLength = 0;
             Array.Clear(bufferBytes, 0, BufferSize);
-            messageStream.Dispose();
+            await messageStream.DisposeAsync();
             messageStream = new MemoryStream();
 
             var message = Encoding.UTF8.GetString(messageBytes);
@@ -78,7 +78,7 @@ public class LgTvConnection : ILgTvConnection
             ProcessMessage(message);
         }
 
-        messageStream.Dispose();
+        await messageStream.DisposeAsync();
     }
 
 
