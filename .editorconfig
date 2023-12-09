@@ -1,0 +1,35 @@
+###############################################################################
+# Top-most EditorConfig File
+###############################################################################
+root = true
+
+###############################################################################
+# .NET Code Files
+###############################################################################
+[*.{cs,vb}]
+
+#### Core EditorConfig Options ####
+
+# Indentation and spacing
+charset = utf-8-bom
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+# New line preferences
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+csharp_qualified_using_at_nested_scope = true
+
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+dotnet_diagnostic.CA1031.severity = silent
+dotnet_diagnostic.CA1819.severity = silent
+dotnet_diagnostic.CA1848.severity = silent
+dotnet_diagnostic.CA2007.severity = silent
+dotnet_diagnostic.CS1591.severity = silent
+dotnet_diagnostic.SA1413.severity = silent
+dotnet_diagnostic.SA1600.severity = silent
+dotnet_diagnostic.SA1642.severity = silent
