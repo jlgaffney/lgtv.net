@@ -99,11 +99,11 @@ public class LgTvInfoClient(ILgTvConnection connection) : ILgTvInfoClient
             Subscribed = response.subscribed
         };
 
-        if (response.P2PInfo != null)
+        if (response.p2pInfo != null)
         {
             info.P2PInfo = new ConnectionDeviceInfo
             {
-                MacAddress = response.P2PInfo.macAddress
+                MacAddress = response.p2pInfo.macAddress
             };
         }
 
