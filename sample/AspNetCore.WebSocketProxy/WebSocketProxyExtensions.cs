@@ -47,7 +47,15 @@ public static class WebSocketProxyExtensions
         while (!result.CloseStatus.HasValue)
         {
             await consumer.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
-            result = await producer.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+            try
+            {
+                result = await producer.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            }
+            catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely)
+            {
+                result = new WebSocketReceiveResult(0, WebSocketMessageType.Close, true, WebSocketCloseStatus.NormalClosure, string.Empty);
+            }
         }
         await consumer.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
     }
