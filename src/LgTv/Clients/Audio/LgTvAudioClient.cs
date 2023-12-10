@@ -13,22 +13,9 @@ internal class LgTvAudioClient(ILgTvConnection connection) : ILgTvAudioClient
 
     public async Task<int> GetVolume()
     {
-        // {
-        //     "type": "response",
-        //     "id": "status_1",
-        //     "payload": {
-        //         "muted": false,
-        //         "scenario": "mastervolume_tv_speaker",
-        //         "active": false,
-        //         "action": "requested",
-        //         "volume": 7,
-        //         "returnValue": true,
-        //         "subscribed": true
-        //     }
-        // }
         var requestMessage = new RequestMessage(LgTvCommands.GetVolume.Prefix, LgTvCommands.GetVolume.Uri);
         var response = await connection.SendCommandAsync(requestMessage);
-        return (bool) response.muted ? -1 : int.Parse((string) response.volume);
+        return int.Parse((string) response.volumeStatus.volume);
     }
 
     public async Task<bool> IsMuted()
@@ -52,9 +39,14 @@ internal class LgTvAudioClient(ILgTvConnection connection) : ILgTvAudioClient
 
     public async Task SetVolume(int value)
     {
-        if (value < 0 || value > 100)
+        if (value < 0)
         {
-            return;
+            value = 0;
+        }
+
+        if (value > 100)
+        {
+            value = 100;
         }
 
         var requestMessage = new RequestMessage(LgTvCommands.SetVolume.Uri, new { volume = value });
