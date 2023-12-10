@@ -3,9 +3,12 @@
 
 @if (_item == null)
 {
+    <PageTitle>Loading…</PageTitle>
     <MudProgressLinear Indeterminate />
     return;
 }
+
+<PageTitle>@_item.Label</PageTitle>
 
 <MudCard>
     <MudCardHeader>

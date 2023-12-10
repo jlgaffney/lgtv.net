@@ -5,6 +5,8 @@
 @inject NavigationManager NavigationManager
 @inject IDialogService DialogService
 
+<PageTitle>Connection</PageTitle>
+
 @if (Controller.IsConnected)
 {
     <MudCard>
@@ -34,7 +36,7 @@
         </MudCardHeader>
     
         <MudCardContent>
-	        <MudTextField Label="Host" @bind-Value="_ipAddress" AutoFocus />
+	        <MudTextField Label="Host" @bind-Value="_host" AutoFocus />
 
             <MudNumericField Label="Port" @bind-Value="_port" />
         </MudCardContent>
@@ -44,7 +46,7 @@
         </MudCardActions>
     </MudCard>
     
-    @if (_devices == null)
+     @if (_availableDevices == null)
     {
         <MudCard>
             <MudCardHeader>
@@ -58,8 +60,8 @@
     }
     else
     {
-        <MudDataGrid T="Device" Items="_devices" RowStyle="cursor: pointer" Hover RowClick="x => SetConnectionDetails(x.Item)"
-                     Loading="_devices == null" LoadingProgressColor="Color.Inherit">
+        <MudDataGrid T="Device" Items="_availableDevices" RowStyle="cursor: pointer" Hover RowClick="x => SetConnectionDetails(x.Item)"
+                      Loading="_availableDevices == null" LoadingProgressColor="Color.Inherit">
             <ToolBarContent>
                 <MudText Typo="Typo.h5">Available Devices</MudText>
             </ToolBarContent>
@@ -70,11 +72,11 @@
             </Columns>
 
             <NoRecordsContent>
-                <MudText Typo="Typo.subtitle1">No Devices Found</MudText>
+                <MudText Typo="Typo.subtitle1">None</MudText>
             </NoRecordsContent>
 
             <PagerContent>
-                <MudButton Class="ma-2" StartIcon="@Icons.Material.Filled.Refresh" OnClick="LoadScannableDevices">Refresh</MudButton>
+                 <MudButton Class="ma-2" StartIcon="@Icons.Material.Filled.Refresh" OnClick="LoadAvailableDevices">Refresh</MudButton>
             </PagerContent>
         </MudDataGrid>
     }
@@ -84,32 +86,32 @@
     private const string HttpScheme = "http";
     private const string HttpsScheme = "https";
 
-    private IReadOnlyList<Device> _devices;
+    private IReadOnlyList<Device> _availableDevices;
 
-    private string _ipAddress;
+    private string _host;
     private int _port = LgTvClient.DefaultPort;
     
     protected override async Task OnInitializedAsync()
     {
         if (!Controller.IsConnected)
         {
-            await LoadScannableDevices();
+            await LoadAvailableDevices();
         }
     }
     
     private async Task Connect()
     {
-        if (!_ipAddress.IsIPAddress())
+        if (!_host.IsIPAddress())
         {
-            await DialogService.ShowMessageBox("Unable To Connect", "IP address is invalid");
+            await DialogService.ShowMessageBox("Unable To Connect", "Host IP address is invalid");
             return;
         }
 
-        await WakeOnLanDevice(_ipAddress);
+        await WakeOnLanDevice(_host);
 
         var tvHostConfiguration = new HostConfiguration
         {
-            Host = _ipAddress,
+            Host = _host,
             Port = _port
         };
 
@@ -122,12 +124,12 @@
     {
         Controller.Disconnect();
 
-        await LoadScannableDevices();
+        await LoadAvailableDevices();
     }
 
-    private async Task LoadScannableDevices()
+    private async Task LoadAvailableDevices()
     {
-        _devices = null;
+        _availableDevices = null;
 
         var url = new UriBuilder(
             ProxyHostConfiguration.Value.Secure ? HttpsScheme : HttpScheme,
@@ -136,9 +138,9 @@
             "scan")
             .ToString();
         
-        var devices = await HttpClient.GetFromJsonAsync<IReadOnlyList<Device>>(url);
+        var availableHosts = await HttpClient.GetFromJsonAsync<IReadOnlyList<Device>>(url);
 
-        _devices = devices?.ToArray() ?? Array.Empty<Device>();
+	    _availableDevices = availableHosts?.ToArray() ?? Array.Empty<Device>();
     }
 
     private async Task WakeOnLanDevice(string ipAddress)
@@ -155,7 +157,6 @@
 
     private void SetConnectionDetails(Device device)
     {
-        _ipAddress = device?.IpAddress ?? string.Empty;
+	    _host = device?.IpAddress ?? string.Empty;
     }
-
 }
