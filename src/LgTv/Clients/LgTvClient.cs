@@ -1,7 +1,6 @@
 ﻿using LgTv.Clients.Apps;
 using LgTv.Clients.Audio;
 using LgTv.Clients.Channels;
-using LgTv.Clients.Display;
 using LgTv.Clients.Info;
 using LgTv.Clients.Inputs;
 using LgTv.Clients.Mouse;
@@ -91,7 +90,6 @@ public class LgTvClient : ILgTvClient
         Info = new LgTvInfoClient(_connection);
         Power = new LgTvPowerClient(_connection, _ipAddress);
         Audio = new LgTvAudioClient(_connection);
-        Display = new LgTvDisplayClient(_connection);
         Playback = new LgTvPlaybackClient(_connection);
         Keyboard = new LgTvKeyboardClient(_connection);
         Channels = new LgTvChannelClient(_connection);
@@ -148,8 +146,6 @@ public class LgTvClient : ILgTvClient
     public ILgTvPowerClient Power { get; }
 
     public ILgTvAudioClient Audio { get; }
-
-    public ILgTvDisplayClient Display { get; }
 
     public ILgTvPlaybackClient Playback { get; }
 

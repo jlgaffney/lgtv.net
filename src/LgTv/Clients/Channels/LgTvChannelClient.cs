@@ -46,14 +46,6 @@ internal class LgTvChannelClient(ILgTvConnection connection) : ILgTvChannelClien
         };
     }
 
-    public async Task GetCurrentChannelProgramInfo()
-    {
-        var requestMessage = new RequestMessage(LgTvCommands.GetCurrentChannelProgramInfo.Prefix, LgTvCommands.GetCurrentChannelProgramInfo.Uri);
-        var response = await connection.SendCommandAsync(requestMessage);
-
-        // TODO Get info from response
-    }
-
     public async Task ChannelUp()
     {
         await connection.SendCommandAsync(new RequestMessage(LgTvCommands.SetChannelUp.Prefix, LgTvCommands.SetChannelUp.Uri));

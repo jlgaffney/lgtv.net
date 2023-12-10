@@ -13,6 +13,8 @@ public static class LgTvCommands
 
     public static readonly LgTvCommand GetSoundOutput = new("status", "ssap://com.webos.service.apiadapter/audio/getSoundOutput");
 
+    // TODO ssap://com.webos.service.apiadapter/audio/changeSoundOutput
+
     public static readonly LgTvCommand GetVolume = new("status", "ssap://audio/getVolume");
 
     public static readonly LgTvCommand GetVolumeIsMuted = new("status", "ssap://audio/getStatus");
@@ -24,17 +26,6 @@ public static class LgTvCommands
     public static readonly LgTvCommand SetVolume = new("ssap://audio/setVolume");
 
     public static readonly LgTvCommand SetMute = new("ssap://audio/setMute");
-
-    #endregion
-
-
-    #region Display Commands
-
-    public static readonly LgTvCommand Set3DOn = new("3d", "ssap://com.webos.service.tv.display/set3DOn");
-
-    public static readonly LgTvCommand Set3DOff = new("3d", "ssap://com.webos.service.tv.display/set3DOff");
-
-    public static readonly LgTvCommand Get3DStatus = new("status3D", "ssap://com.webos.service.tv.display/get3DStatus");
 
     #endregion
 
@@ -78,8 +69,6 @@ public static class LgTvCommands
 
     public static readonly LgTvCommand GetCurrentChannel = new("channels", "ssap://tv/getCurrentChannel");
 
-    public static readonly LgTvCommand GetCurrentChannelProgramInfo = new("programinfo", "ssap://tv/getChannelProgramInfo");
-
     public static readonly LgTvCommand SetChannelUp = new("channelUp", "ssap://tv/channelUp");
 
     public static readonly LgTvCommand SetChannelDown = new("channelDown", "ssap://tv/channelDown");
@@ -109,6 +98,8 @@ public static class LgTvCommands
     public static readonly LgTvCommand OpenApp = new("ssap://system.launcher/open");
 
     public static readonly LgTvCommand CloseApp = new("ssap://system.launcher/close");
+
+    // TODO ssap://com.webos.service.appstatus/getAppStatus // 404 no such service or method
 
     #endregion
 

@@ -8,8 +8,6 @@ public interface ILgTvChannelClient
 
     Task<Channel> GetCurrentChannel();
 
-    Task GetCurrentChannelProgramInfo();
-
     Task ChannelUp();
 
     Task ChannelDown();

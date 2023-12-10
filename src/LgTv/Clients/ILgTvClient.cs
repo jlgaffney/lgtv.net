@@ -1,7 +1,6 @@
 ﻿using LgTv.Clients.Apps;
 using LgTv.Clients.Audio;
 using LgTv.Clients.Channels;
-using LgTv.Clients.Display;
 using LgTv.Clients.Info;
 using LgTv.Clients.Inputs;
 using LgTv.Clients.Mouse;
@@ -10,14 +9,6 @@ using LgTv.Clients.Playback;
 using LgTv.Clients.Power;
 
 namespace LgTv.Clients;
-
-public enum ControlButtons
-{
-    Up, Down, Left, Right,
-    OK,
-    Back,
-    Exit
-}
 
 public interface ILgTvClient : IDisposable
 {
@@ -36,8 +27,6 @@ public interface ILgTvClient : IDisposable
     ILgTvPowerClient Power { get; }
 
     ILgTvAudioClient Audio { get; }
-
-    ILgTvDisplayClient Display { get; }
 
     ILgTvPlaybackClient Playback { get; }
 
