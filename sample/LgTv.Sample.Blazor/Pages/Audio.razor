@@ -17,34 +17,65 @@
         {
             <MudField Label="Output">@_soundOutput</MudField>
         }
+        
+        <br />
+        
+        @if (_volume == -1)
+        {
+	        <MudProgressLinear Indeterminate />
+        }
+        else
+        {
+            <MudText Typo="Typo.subtitle2">Volume</MudText>
+            <MudSlider T="int" Min="0" Max="100" Step="1" Value="_volume" ValueChanged="SetVolume" Immediate="false" />
+        }
     </MudCardContent>
     
     <MudCardActions>
         <MudStack Row Spacing="1">
             <MudIconButton Icon="@(_isMuted ? Icons.Material.Filled.VolumeMute : Icons.Material.Filled.VolumeOff)" Title="@(_isMuted ? "Unmute" : "Mute")" OnClick="ToggleMute" />
             
-            <MudIconButton Icon="@Icons.Material.Filled.VolumeDown" Title="Decrease Volume" OnClick="Controller.Client.Audio.VolumeDown" />
-            <MudIconButton Icon="@Icons.Material.Filled.VolumeUp" Title="Increase Volume" OnClick="Controller.Client.Audio.VolumeUp" />
+            <MudIconButton Icon="@Icons.Material.Filled.VolumeDown" Title="Decrease Volume" OnClick="VolumeDown" />
+            <MudIconButton Icon="@Icons.Material.Filled.VolumeUp" Title="Increase Volume" OnClick="VolumeUp" />
         </MudStack>
     </MudCardActions>
 </MudCard>
 
 @code {
-    private bool _isMuted;
-
     private string _soundOutput;
-
+    private int _volume = -1;
+    private bool _isMuted;
+    
     protected override async Task OnInitializedAsync()
     {
-        _isMuted = await Controller.Client.Audio.IsMuted();
-
         _soundOutput = await Controller.Client.Audio.GetOutput();
+        _volume = await Controller.Client.Audio.GetVolume();
+        _isMuted = await Controller.Client.Audio.IsMuted();
     }
-
+    
+    private async Task SetVolume(int value)
+    {
+        await Controller.Client.Audio.SetVolume(value);
+    
+        _volume = value;
+    }
+    
     private async Task ToggleMute()
     {
         await Controller.Client.Audio.SetMute(!_isMuted);
-
+    
         _isMuted = !_isMuted;
     }
+
+	private async Task VolumeUp()
+	{
+		await Controller.Client.Audio.VolumeUp();
+		_volume = await Controller.Client.Audio.GetVolume();
+	}
+
+	private async Task VolumeDown()
+	{
+		await Controller.Client.Audio.VolumeDown();
+		_volume = await Controller.Client.Audio.GetVolume();
+	}
 }
