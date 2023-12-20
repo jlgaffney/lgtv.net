@@ -1,5 +1,5 @@
 ﻿@page "/channels/{Id}"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 
 @if (_item == null)
 {
@@ -25,7 +25,7 @@
 </MudCard>
 
 @code {
-    private LgTv.Clients.Channels.Channel _item;
+    private Features.Channels.Channel _item;
 
     [Parameter]
     public string Id { get; set; }

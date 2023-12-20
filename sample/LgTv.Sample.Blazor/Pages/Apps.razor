@@ -1,5 +1,5 @@
 ﻿@page "/apps"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 @inject NavigationManager NavigationManager
 
 <PageTitle>Apps</PageTitle>
@@ -12,7 +12,7 @@
     return;
 }
 
-<MudTable T="LgTv.Clients.Apps.App" Items="_items" Hover RowClass="cursor-pointer" OnRowClick="args => NavigateToItem(args.Item.Id)">
+<MudTable T="Features.Apps.App" Items="_items" Hover RowClass="cursor-pointer" OnRowClick="args => NavigateToItem(args.Item.Id)">
     <RowTemplate>
         <MudTd>
             <MudImage Class="mr-2" Alt="@($"{context.Title} Icon")" Src="@context.Icon" Width="40" Height="40" Elevation="3"
@@ -23,7 +23,7 @@
 </MudTable>
 
 @code {
-    private IEnumerable<LgTv.Clients.Apps.App> _items;
+    private IEnumerable<Features.Apps.App> _items;
 
     protected override async Task OnInitializedAsync()
     {

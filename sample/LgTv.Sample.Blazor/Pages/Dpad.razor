@@ -1,7 +1,7 @@
 ﻿@page "/dpad"
-@implements IDisposable
-@inject ILgTvClientController Controller
-@using ButtonType = LgTv.Clients.Mouse.ButtonType
+@implements IAsyncDisposable
+@inject IClientController Controller
+@using ButtonType = LgTv.Interaction.ButtonType
 
 <PageTitle>D-Pad</PageTitle>
 
@@ -32,16 +32,19 @@
 </MudCard>
 
 @code {
-    private ILgWebOsMouseClient _mouse;
+    private IMouse _mouse;
 
     protected override async Task OnInitializedAsync()
     {
-        _mouse = await Controller.Client.GetMouse();
+        _mouse = await Controller.Client.Mouse;
     }
 
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        _mouse?.Dispose();
+	    if (_mouse != null)
+	    {
+		    await _mouse.DisposeAsync();
+	    }
     }
 }

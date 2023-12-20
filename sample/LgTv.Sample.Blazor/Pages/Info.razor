@@ -1,5 +1,5 @@
 ﻿@page "/info"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 
 <PageTitle>Info</PageTitle>
 
@@ -59,17 +59,20 @@
             }
             else
             {
-                <MudText Typo="Typo.h6">Features</MudText>
+	            <MudField Label="Receiver Type">@_systemInfo.ReceiverType</MudField>
+
+	            <MudField Label="Model">@_systemInfo.ModelName</MudField>
+
+	            <MudField Label="Program Mode">@_systemInfo.ProgramMode</MudField>
+
+                @if (_systemInfo.Features != null)
+                {
+	                <br/>
+                }
+
+	            <MudText Typo="Typo.h6">Features</MudText>
 	            <MudField Label="3D">@(_systemInfo.Features._3D ? "Yes" : "No")</MudField>
 	            <MudField Label="DVR">@(_systemInfo.Features.DVR ? "Yes" : "No")</MudField>
-
-	            <br/>
-
-                <MudField Label="Receiver Type">@_systemInfo.ReceiverType</MudField>
-
-                <MudField Label="Model">@_systemInfo.ModelName</MudField>
-
-                <MudField Label="Program Mode">@_systemInfo.ProgramMode</MudField>
             }
         </MudCardContent>
     </MudCard>
@@ -117,14 +120,14 @@
 </MudStack>
 
 @code {
+	private ConnectionInformation _connectionInfo;
     private SystemInformation _systemInfo;
     private SoftwareInformation _softwareInfo;
-    private ConnectionInformation _connectionInfo;
 
     protected override async Task OnInitializedAsync()
     {
+	    _connectionInfo = await Controller.Client.Info.GetConnectionInfo();
         _systemInfo = await Controller.Client.Info.GetSystemInfo();
         _softwareInfo = await Controller.Client.Info.GetSoftwareInfo();
-        _connectionInfo = await Controller.Client.Info.GetConnectionInfo();
     }
 }

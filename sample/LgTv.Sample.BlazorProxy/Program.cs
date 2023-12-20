@@ -1,4 +1,4 @@
-using AspNetCore.WebSocketProxy;
+﻿using AspNetCore.WebSocketProxy;
 using LgTv.Networking;
 using LgTv.Scanning;
 
@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors();
 
-builder.Services.AddSingleton<ILgTvScanner, LgTvScanner>();
+builder.Services.AddSingleton<ITvScanner, TvScanner>();
 
 var app = builder.Build();
 
@@ -18,18 +18,18 @@ app.UseCors(x => x
 
 app.UseHttpsRedirection();
 
-app.MapGet("/scan", async (ILgTvScanner scanner) =>
+app.MapGet("/scan", async (ITvScanner scanner) =>
 {
     var devices = await scanner.GetDevices();
 
     return devices ?? Enumerable.Empty<Device>();
 });
 
-app.MapPost("/wakeonlan/{ipAddress}", async (string ipAddress) =>
+app.MapPost("/wol/{ipAddress}", async (IMacAddressResolver macAddressResolver, IWakeOnLan wakeOnLan, string ipAddress) =>
 {
-    var macAddress = MacAddressResolver.GetMacAddress(ipAddress);
+    var macAddress = await macAddressResolver.ResolveAsync(ipAddress);
 
-    await WakeOnLan.SendMagicPacket(macAddress);
+    await wakeOnLan.SendMagicPacketAsync(macAddress);
 });
 
 app.UseWebSocketProxy();

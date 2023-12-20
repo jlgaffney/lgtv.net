@@ -1,5 +1,5 @@
 ﻿@page "/connection"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 @inject HttpClient HttpClient
 @inject IOptions<ProxyHostConfiguration> ProxyHostConfiguration
 @inject NavigationManager NavigationManager
@@ -15,9 +15,9 @@
         </MudCardHeader>
 
         <MudCardContent>
-	        <MudField Label="Host">@Controller.Client.Configuration.Tv.Host</MudField>
+	        <MudField Label="Host">@Controller.Client.Tv.Host</MudField>
 
-            <MudField Label="Port">@Controller.Client.Configuration.Tv.Port</MudField>
+            <MudField Label="Port">@Controller.Client.Tv.Port</MudField>
         </MudCardContent>
 
         <MudCardActions>
@@ -86,10 +86,10 @@
     private const string HttpScheme = "http";
     private const string HttpsScheme = "https";
 
-    private IReadOnlyList<Device> _availableDevices;
+    private IReadOnlyList<Scanning.Device> _availableDevices;
 
     private string _host;
-    private int _port = LgTvClient.DefaultPort;
+    private int _port = Client.DefaultPort;
     
     protected override async Task OnInitializedAsync()
     {
@@ -122,7 +122,7 @@
 
     private async Task Disconnect()
     {
-        Controller.Disconnect();
+        await Controller.Disconnect();
 
         await LoadAvailableDevices();
     }
@@ -149,7 +149,7 @@
             ProxyHostConfiguration.Value.Secure ? HttpsScheme : HttpScheme,
             ProxyHostConfiguration.Value.Endpoint.Host,
             ProxyHostConfiguration.Value.Endpoint.Port,
-            FormattableString.Invariant($"wakeonlan/{ipAddress}"))
+            FormattableString.Invariant($"wol/{ipAddress}"))
             .ToString();
         
         await HttpClient.PostAsync(url, null);

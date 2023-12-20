@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 
 <PageTitle>Activity</PageTitle>
 
@@ -31,7 +31,7 @@
 </MudCard>
 
 @code {
-    private LgTv.Clients.Apps.App _app;
+    private Features.Apps.App _app;
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,5 +1,5 @@
 ﻿@page "/apps/{Id}"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 
 @if (_item == null)
 {
@@ -26,7 +26,7 @@
 </MudCard>
 
 @code {
-    private LgTv.Clients.Apps.App _item;
+    private Features.Apps.App _item;
 
     [Parameter]
     public string Id { get; set; }

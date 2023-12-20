@@ -1,5 +1,5 @@
 ﻿@page "/inputs/{Id}"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 
 @if (_item == null)
 {
@@ -29,7 +29,7 @@
 </MudCard>
 
 @code {
-    private LgTv.Clients.Inputs.Input _item;
+    private Features.Inputs.Input _item;
 
     [Parameter]
     public string Id { get; set; }

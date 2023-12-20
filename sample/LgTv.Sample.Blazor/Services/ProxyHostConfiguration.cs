@@ -1,6 +1,4 @@
-﻿using LgTv.Clients;
-
-namespace LgTv.Sample.Blazor.Services;
+﻿namespace LgTv.Sample.Blazor.Services;
 
 public class ProxyHostConfiguration
 {

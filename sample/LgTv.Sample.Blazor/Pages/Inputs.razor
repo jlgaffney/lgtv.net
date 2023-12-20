@@ -1,5 +1,5 @@
 ﻿@page "/inputs"
-@inject ILgTvClientController Controller
+@inject IClientController Controller
 @inject NavigationManager NavigationManager
 
 <PageTitle>Inputs</PageTitle>
@@ -12,7 +12,7 @@
     return;
 }
 
-<MudTable T="LgTv.Clients.Inputs.Input" Items="_items" Hover RowClass="cursor-pointer" OnRowClick="args => NavigateToItem(args.Item.Id)">
+<MudTable T="Features.Inputs.Input" Items="_items" Hover RowClass="cursor-pointer" OnRowClick="args => NavigateToItem(args.Item.Id)">
     <HeaderContent>
         <MudTh>Input</MudTh>
         <MudTh>Connected</MudTh>
@@ -29,7 +29,7 @@
 </MudTable>
 
 @code {
-    private IEnumerable<LgTv.Clients.Inputs.Input> _items;
+    private IEnumerable<Features.Inputs.Input> _items;
 
     protected override async Task OnInitializedAsync()
     {
