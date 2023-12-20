@@ -1,0 +1,22 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.KeyboardView"
+                       BindingContext="{services:Service TypeName=viewModels:KeyboardViewModel}"
+                       Title="Keyboard">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <Entry Placeholder="Enter Text" Text="{Binding Text}" />
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
+                <Button Text="Insert" WidthRequest="80" Command="{Binding InsertTextCommand}" />
+                <Button Text="Delete" WidthRequest="80" Command="{Binding DeleteCharactersCommand}" />
+                <Button Text="Enter" WidthRequest="80" Command="{Binding SendEnterKeyCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>

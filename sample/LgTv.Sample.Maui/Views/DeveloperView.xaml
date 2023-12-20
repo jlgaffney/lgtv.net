@@ -1,0 +1,31 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.DeveloperView"
+                       BindingContext="{services:Service TypeName=viewModels:DeveloperViewModel}"
+                       Title="Developer">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <Entry Placeholder="Prefix" Text="{Binding Prefix}" />
+            <Entry Placeholder="Uri" Text="{Binding Uri}" />
+
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Payload JSON" />
+                <Editor Text="{Binding PayloadJson}" AutoSize="TextChanges" />
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
+                <Button Text="Send Command" Command="{Binding SendCommandCommand}" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Spacing="10" IsVisible="{Binding ResponseJson, Converter={StaticResource IsStringNotNullOrWhiteSpaceConverter}}">
+                <Label Text="Response" />
+                <Editor Text="{Binding ResponseJson}" AutoSize="TextChanges" IsReadOnly="True" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>

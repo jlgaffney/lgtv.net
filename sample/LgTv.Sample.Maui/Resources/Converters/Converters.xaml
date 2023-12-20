@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:converters="clr-namespace:LgTv.Sample.Maui.Converters">
+
+    <converters:ServiceLocatorConverter x:Key="ServiceLocator" />
+    <converters:BoolToYesNoConverter x:Key="BoolToYesNoConverter" />
+    <converters:CustomUriImageSourceConverter x:Key="UriImageSourceConverter" />
+    <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    <toolkit:IsNullConverter x:Key="IsNullConverter" />
+    <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+    <toolkit:IsStringNotNullOrWhiteSpaceConverter x:Key="IsStringNotNullOrWhiteSpaceConverter" />
+
+</ResourceDictionary>

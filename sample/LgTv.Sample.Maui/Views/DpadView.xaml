@@ -1,0 +1,42 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+                       x:Class="LgTv.Sample.Maui.Views.DpadView"
+                       BindingContext="{services:Service TypeName=viewModels:DpadViewModel}"
+                       Title="D-Pad">
+
+    <ScrollView Padding="20">
+        <Grid HorizontalOptions="End">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+        
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="60" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="2" Text="{icons:Material Icon=KeyboardArrowUp}" Command="{Binding UpCommand}" />
+            <Button Grid.Row="4" Grid.Column="2" Text="{icons:Material Icon=KeyboardArrowDown}" Command="{Binding DownCommand}" />
+            <Button Grid.Row="2" Grid.Column="0" Text="{icons:Material Icon=KeyboardArrowLeft}" Command="{Binding LeftCommand}" />
+            <Button Grid.Row="2" Grid.Column="4" Text="{icons:Material Icon=KeyboardArrowRight}" Command="{Binding RightCommand}" />
+
+            <Button Grid.Row="2" Grid.Column="2" Text="{icons:Material Icon=FiberManualRecord}" Command="{Binding OkCommand}" />
+
+            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" Text="Back" Command="{Binding BackCommand}" />
+        </Grid>
+    </ScrollView>
+
+</views:ApplicationPage>

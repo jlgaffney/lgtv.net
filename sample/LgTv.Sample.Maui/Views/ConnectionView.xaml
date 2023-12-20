@@ -1,0 +1,79 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+                       x:Class="LgTv.Sample.Maui.Views.ConnectionView"
+                       BindingContext="{services:Service TypeName=viewModels:ConnectionViewModel}"
+                       Title="Connection">
+
+    <ScrollView Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <VerticalStackLayout Grid.Row="0" Spacing="20" IsVisible="{Binding Controller.IsConnected}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Host" />
+                    <Entry Text="{Binding Controller.Client.Tv.Host}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Port" />
+                    <Entry Text="{Binding Controller.Client.Tv.Port}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <Button Text="Disconnect" Command="{Binding DisconnectCommand}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="0" Spacing="20" IsVisible="{Binding Controller.IsConnected, Converter={StaticResource InvertedBoolConverter}}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Host" />
+                    <Entry Text="{Binding Host}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Port" />
+                    <Entry Text="{Binding Port}" Keyboard="Numeric" />
+                </VerticalStackLayout>
+
+                <Button Text="Connect" Command="{Binding ConnectCommand}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="2" Spacing="20" IsVisible="{Binding Controller.IsConnected, Converter={StaticResource InvertedBoolConverter}}">
+                <Label Text="Available Devices" FontAttributes="Bold" />
+
+                <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center"
+                                   IsRunning="True" IsVisible="{Binding AvailableDevices, Converter={StaticResource IsNullConverter}}" />
+
+                <Button Text="{icons:Material Icon=Refresh}" IsVisible="{Binding AvailableDevices, Converter={StaticResource IsNotNullConverter}}"
+                        HorizontalOptions="Start" Command="{Binding LoadCommand}" />
+                <ListView ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedDevice}"
+                          IsPullToRefreshEnabled="True" RefreshCommand="{Binding LoadCommand}"
+                          IsVisible="{Binding AvailableDevices, Converter={StaticResource IsNotNullConverter}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="15,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="15" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" Text="{Binding Name}" FontAttributes="Bold" />
+                                    <Label Grid.Column="2" Text="{Binding IpAddress}" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+
+</views:ApplicationPage>

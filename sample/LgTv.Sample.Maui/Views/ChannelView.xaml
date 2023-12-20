@@ -1,0 +1,28 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.ChannelView"
+                       BindingContext="{services:Service TypeName=viewModels:ChannelViewModel}"
+                       Title="{Binding Item.Number}">
+
+    <ScrollView Padding="20">
+        <Grid>
+            <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center"
+                               IsRunning="True" IsVisible="{Binding Item, Converter={StaticResource IsNullConverter}}" />
+
+            <VerticalStackLayout Spacing="20" IsVisible="{Binding Item, Converter={StaticResource IsNotNullConverter}}">
+                <Label Text="{Binding Item.Name}"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+            
+                <Button Text="Select"
+                        HorizontalOptions="Center"
+                        Command="{Binding SetChannelCommand}" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+
+</views:ApplicationPage>

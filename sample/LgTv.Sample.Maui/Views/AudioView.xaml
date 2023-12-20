@@ -1,0 +1,35 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+                       x:Class="LgTv.Sample.Maui.Views.AudioView"
+                       BindingContext="{services:Service TypeName=viewModels:AudioViewModel}"
+                       Title="Audio">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="True" IsVisible="{Binding SoundOutput, Converter={StaticResource IsNullConverter}}" />
+            <VerticalStackLayout Spacing="5" IsVisible="{Binding SoundOutput, Converter={StaticResource IsNotNullConverter}}">
+                <Label Text="Output" />
+                <Entry Text="{Binding SoundOutput}" IsReadOnly="True" />
+            </VerticalStackLayout>
+
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="True" IsVisible="{Binding Volume, Converter={StaticResource IsNullConverter}}" />
+            <VerticalStackLayout IsVisible="{Binding Volume, Converter={StaticResource IsNotNullConverter}}">
+                <Label Text="Volume" />
+                <Slider Minimum="0" Maximum="100" Value="{Binding Volume}" DragCompletedCommand="{Binding SetVolumeCommand}" />
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="{icons:Material Icon=VolumeMute}" Command="{Binding ToggleMuteCommand}" IsVisible="{Binding IsMuted}" />
+                <Button Text="{icons:Material Icon=VolumeOff}" Command="{Binding ToggleMuteCommand}" IsVisible="{Binding IsMuted, Converter={StaticResource InvertedBoolConverter}}" />
+
+                <Button Text="{icons:Material Icon=VolumeDown}" Command="{Binding VolumeDownCommand}" />
+                <Button Text="{icons:Material Icon=VolumeUp}" Command="{Binding VolumeUpCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>

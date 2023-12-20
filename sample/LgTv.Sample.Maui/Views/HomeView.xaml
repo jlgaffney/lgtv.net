@@ -1,0 +1,35 @@
+﻿<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.HomeView"
+                       BindingContext="{services:Service TypeName=viewModels:HomeViewModel}"
+                       Title="Home">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <Label Text="Activity" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True" IsVisible="{Binding Loading}" />
+
+            <VerticalStackLayout Spacing="20" IsVisible="{Binding Loading, Converter={StaticResource InvertedBoolConverter}}">
+                <Label Text="Unknown" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" IsVisible="{Binding App, Converter={StaticResource IsNullConverter}}" />
+                
+                <VerticalStackLayout Spacing="20" IsVisible="{Binding App, Converter={StaticResource IsNotNullConverter}}">
+                    <Image Source="{Binding App.LargeIcon, Converter={StaticResource UriImageSourceConverter}}"
+                           BackgroundColor="{Binding App.IconColorHex}"
+                           Aspect="AspectFill"
+                           HeightRequest="130"
+                           WidthRequest="130"
+                           HorizontalOptions="Center" />
+                
+                    <Label Text="{Binding App.Title}" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" />
+                
+                    <Button Text="Close" HorizontalOptions="Center" Command="{Binding CloseCurrentAppCommand}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>

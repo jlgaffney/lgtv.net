@@ -1,0 +1,25 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.NotificationsView"
+                       BindingContext="{services:Service TypeName=viewModels:NotificationsViewModel}"
+                       Title="Notifications">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="10">
+            <Entry Placeholder="Toast Message" Text="{Binding ToastMessage}" />
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowWithIcon}" VerticalOptions="Center" />
+                <Label Text="Show with icon" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Entry Placeholder="Icon URL" Text="{Binding IconUrl}" IsVisible="{Binding ShowWithIcon}" />
+
+            <Button Text="Show Toast" HorizontalOptions="Start" Margin="0,10,0,0" Command="{Binding ShowToastCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>

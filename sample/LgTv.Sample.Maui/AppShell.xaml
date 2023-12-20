@@ -1,0 +1,113 @@
+<Shell x:Class="LgTv.Sample.Maui.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+       xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+       Title="LG TV Controller">
+
+    <ShellContent
+        x:Name="HomeItem"
+        Title="Home"
+        Icon="{icons:Material Icon=Home}"
+        ContentTemplate="{DataTemplate views:HomeView}"
+        Route="home" />
+
+    <ShellContent
+        x:Name="ConnectItem"
+        Title="Connect"
+        Icon="{icons:Material Icon=Link}"
+        ContentTemplate="{DataTemplate views:ConnectionView}"
+        Route="connect" />
+
+    <ShellContent
+        x:Name="PowerItem"
+        Title="Power"
+        Icon="{icons:Material Icon=PowerSettingsNew}"
+        ContentTemplate="{DataTemplate views:PowerView}"
+        Route="power" />
+
+    <ShellContent
+        x:Name="AudioItem"
+        Title="Audio"
+        Icon="{icons:Material Icon=VolumeUp}"
+        ContentTemplate="{DataTemplate views:AudioView}"
+        Route="audio" />
+
+    <ShellContent
+        x:Name="PlaybackItem"
+        Title="Playback"
+        Icon="{icons:Material Icon=PlayArrow}"
+        ContentTemplate="{DataTemplate views:PlaybackView}"
+        Route="playback" />
+
+    <ShellContent
+        x:Name="KeyboardItem"
+        Title="Keyboard"
+        Icon="{icons:Material Icon=Keyboard}"
+        ContentTemplate="{DataTemplate views:KeyboardView}"
+        Route="keyboard" />
+
+    <ShellContent
+        x:Name="DpadItem"
+        Title="D-Pad"
+        Icon="{icons:Material Icon=Gamepad}"
+        ContentTemplate="{DataTemplate views:DpadView}"
+        Route="dpad" />
+
+    <ShellContent
+        x:Name="AppsItem"
+        Title="Apps"
+        Icon="{icons:Material Icon=Apps}"
+        ContentTemplate="{DataTemplate views:AppsView}"
+        Route="apps" />
+
+    <ShellContent
+        x:Name="ChannelsItem"
+        Title="Channels"
+        Icon="{icons:Material Icon=List}"
+        ContentTemplate="{DataTemplate views:ChannelsView}"
+        Route="channels" />
+
+    <ShellContent
+        x:Name="InputsItem"
+        Title="Inputs"
+        Icon="{icons:Material Icon=Cable}"
+        ContentTemplate="{DataTemplate views:InputsView}"
+        Route="inputs" />
+
+    <ShellContent
+        x:Name="NotificationsItem"
+        Title="Notifications"
+        Icon="{icons:Material Icon=Notifications}"
+        ContentTemplate="{DataTemplate views:NotificationsView}"
+        Route="notifications" />
+
+    <ShellContent
+        x:Name="ServicesItem"
+        Title="Services"
+        Icon="{icons:Material Icon=MiscellaneousServices}"
+        ContentTemplate="{DataTemplate views:ServicesView}"
+        Route="services" />
+
+    <ShellContent
+        x:Name="InfoItem"
+        Title="Info"
+        Icon="{icons:Material Icon=Info}"
+        ContentTemplate="{DataTemplate views:InfoView}"
+        Route="info" />
+
+    <ShellContent
+        x:Name="DeveloperItem"
+        Title="Developer"
+        Icon="{icons:Material Icon=Terminal}"
+        ContentTemplate="{DataTemplate views:DeveloperView}"
+        Route="developer" />
+
+    <ShellContent
+        x:Name="DisconnectItem"
+        Title="Disconnect"
+        Icon="{icons:Material Icon=LinkOff}"
+        ContentTemplate="{DataTemplate views:ConnectionView}"
+        Route="disconnect" />
+
+</Shell>

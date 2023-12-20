@@ -1,0 +1,52 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+                       x:Class="LgTv.Sample.Maui.Views.ChannelsView"
+                       BindingContext="{services:Service TypeName=viewModels:ChannelsViewModel}"
+                       Title="Channels">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <HorizontalStackLayout Grid.Row="0" Margin="10" Spacing="10" HorizontalOptions="Start">
+            <Button Text="{icons:Material Icon=KeyboardArrowUp}" Command="{Binding ChannelUpCommand}" />
+            <Button Text="{icons:Material Icon=KeyboardArrowDown}" Command="{Binding ChannelDownCommand}" />
+        </HorizontalStackLayout>
+
+        <ActivityIndicator Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center"
+                           IsRunning="True" IsVisible="{Binding Items, Converter={StaticResource IsNullConverter}}" />
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+                  IsVisible="{Binding Items, Converter={StaticResource IsNotNullConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0"
+                                   Text="{Binding Number}"
+                                   FontAttributes="Bold"
+                                   VerticalTextAlignment="Center" />
+                            <Label Grid.Column="2"
+                                   Text="{Binding Name}"
+                                   FontSize="Small"
+                                   VerticalTextAlignment="Center" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
+</views:ApplicationPage>

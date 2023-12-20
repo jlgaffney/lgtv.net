@@ -1,0 +1,18 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.PowerView"
+                       BindingContext="{services:Service TypeName=viewModels:PowerViewModel}"
+                       Title="Power">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout>
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Off" HorizontalOptions="Center" Command="{Binding TurnOffCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>

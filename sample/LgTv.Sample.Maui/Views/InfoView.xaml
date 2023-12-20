@@ -1,0 +1,142 @@
+<views:ApplicationPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:services="clr-namespace:LgTv.Sample.Maui.Services"
+                       xmlns:views="clr-namespace:LgTv.Sample.Maui.Views"
+                       xmlns:viewModels="clr-namespace:LgTv.Sample.Maui.ViewModels"
+                       x:Class="LgTv.Sample.Maui.Views.InfoView"
+                       BindingContext="{services:Service TypeName=viewModels:InfoViewModel}"
+                       Title="Info">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="10">
+            <Label Text="Connection" FontSize="22" FontAttributes="Bold" />
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="True" IsVisible="{Binding ConnectionInfo, Converter={StaticResource IsNullConverter}}" />
+            <VerticalStackLayout Spacing="20" IsVisible="{Binding ConnectionInfo, Converter={StaticResource IsNotNullConverter}}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Subscribed" />
+                    <Entry Text="{Binding ConnectionInfo.Subscribed, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" IsReadOnly="True" />
+                </VerticalStackLayout>
+                
+                <Label Text="MAC Addresses" FontSize="16" FontAttributes="Bold" />
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="P2P" />
+                    <Entry Text="{Binding ConnectionInfo.P2PInfo.MacAddress}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="WiFi" />
+                    <Entry Text="{Binding ConnectionInfo.WifiInfo.MacAddress}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Wired" />
+                    <Entry Text="{Binding ConnectionInfo.WiredInfo.MacAddress}" IsReadOnly="True" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+
+            <Label Text="System" FontSize="22" FontAttributes="Bold" Margin="0,30,0,0" />
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="True" IsVisible="{Binding SystemInfo, Converter={StaticResource IsNullConverter}}" />
+            <VerticalStackLayout Spacing="20" IsVisible="{Binding SystemInfo, Converter={StaticResource IsNotNullConverter}}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Receiver Type" />
+                    <Entry Text="{Binding SystemInfo.ReceiverType}" IsReadOnly="True" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Model" />
+                    <Entry Text="{Binding SystemInfo.ModelName}" IsReadOnly="True" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Program Mode" />
+                    <Entry Text="{Binding SystemInfo.ProgramMode}" IsReadOnly="True" />
+                </VerticalStackLayout>
+                
+                <Label Text="Features" FontSize="16" FontAttributes="Bold" />
+                
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="3D" />
+                    <Entry Text="{Binding SystemInfo.Features._3D, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" IsReadOnly="True" />
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="DVR" />
+                    <Entry Text="{Binding SystemInfo.Features.DVR, Mode=OneWay, Converter={StaticResource BoolToYesNoConverter}}" IsReadOnly="True" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+
+            <Label Text="Software" FontSize="22" FontAttributes="Bold" Margin="0,30,0,0" />
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="True" IsVisible="{Binding SoftwareInfo, Converter={StaticResource IsNullConverter}}" />
+            <VerticalStackLayout Spacing="20" IsVisible="{Binding SoftwareInfo, Converter={StaticResource IsNotNullConverter}}">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Product" />
+                    <Entry Text="{Binding SoftwareInfo.ProductName}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Model" />
+                    <Entry Text="{Binding SoftwareInfo.ModelName}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Software Type" />
+                    <Entry Text="{Binding SoftwareInfo.SoftwareType}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Major Version" />
+                    <Entry Text="{Binding SoftwareInfo.MajorVersion}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Minor Version" />
+                    <Entry Text="{Binding SoftwareInfo.MinorVersion}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Country" />
+                    <Entry Text="{Binding SoftwareInfo.Country}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Country Group" />
+                    <Entry Text="{Binding SoftwareInfo.CountryGroup}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Device ID" />
+                    <Entry Text="{Binding SoftwareInfo.DeviceId}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Auth Flag" />
+                    <Entry Text="{Binding SoftwareInfo.AuthFlag}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Ignore Disable" />
+                    <Entry Text="{Binding SoftwareInfo.IgnoreDisable}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Eco Info" />
+                    <Entry Text="{Binding SoftwareInfo.EcoInfo}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Config Key" />
+                    <Entry Text="{Binding SoftwareInfo.ConfigKey}" IsReadOnly="True" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Language" />
+                    <Entry Text="{Binding SoftwareInfo.Language.Name}" IsReadOnly="True" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</views:ApplicationPage>
