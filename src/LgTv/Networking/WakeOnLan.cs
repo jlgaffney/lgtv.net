@@ -6,10 +6,13 @@ using LgTv.Extensions;
 
 namespace LgTv.Networking;
 
-/// <remarks>Not supported on browser</remarks>
-public static class WakeOnLan
+/// <inheritdoc />
+/// <remarks>Not supported on browser.</remarks>
+public class WakeOnLan : IWakeOnLan
 {
-    public static async Task SendMagicPacket(string macAddress)
+    /// <inheritdoc />
+    /// <remarks>Not supported on browser.</remarks>
+    public async Task SendMagicPacketAsync(string macAddress)
     {
         if (Environment.OSVersion.IsBrowserPlatform())
         {
@@ -50,10 +53,9 @@ public static class WakeOnLan
                     continue;
                 }
 
-                using (var client = new UdpClient(new IPEndPoint(unicastIPAddressInformation.Address, 0)))
-                {
-                    await client.SendAsync(magicPacket, magicPacket.Length, new IPEndPoint(multicastIpAddress, 9));
-                }
+                using var client = new UdpClient(new IPEndPoint(unicastIPAddressInformation.Address, 0));
+
+                await client.SendAsync(magicPacket, magicPacket.Length, new IPEndPoint(multicastIpAddress, 9));
             }
         }
     }
@@ -81,13 +83,13 @@ public static class WakeOnLan
 
         for (var i = 0; i < hex.Length >> 1; ++i)
         {
-            arr[i] = (byte) ((GetHexVal(hex[i << 1]) << 4) + GetHexVal(hex[(i << 1) + 1]));
+            arr[i] = (byte) ((GetHexValue(hex[i << 1]) << 4) + GetHexValue(hex[(i << 1) + 1]));
         }
 
         return arr;
     }
 
-    private static int GetHexVal(char hex)
+    private static int GetHexValue(char hex)
     {
         var val = (int) hex;
 

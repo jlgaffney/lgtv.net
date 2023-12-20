@@ -7,16 +7,16 @@ public class JsonFileClientKeyStore(string clientKeyStoreJsonFilePath) : IClient
     private const string DefaultJsonContents = "{\n}";
     private const string ClientKeyJsonPropertyName = "client-key";
 
+    private readonly string _clientKeyStoreJsonFilePath = clientKeyStoreJsonFilePath ?? throw new ArgumentNullException(nameof(clientKeyStoreJsonFilePath));
+
     public async Task<string> GetClientKey(string ipAddress)
     {
-        await Task.CompletedTask;
-
-        if (!File.Exists(clientKeyStoreJsonFilePath))
+        if (!File.Exists(_clientKeyStoreJsonFilePath))
         {
             return null;
         }
 
-        var clientKeyStoreFileContents = File.ReadAllText(clientKeyStoreJsonFilePath);
+        var clientKeyStoreFileContents = await File.ReadAllTextAsync(_clientKeyStoreJsonFilePath);
 
         if (string.IsNullOrWhiteSpace(clientKeyStoreFileContents))
         {
@@ -32,14 +32,12 @@ public class JsonFileClientKeyStore(string clientKeyStoreJsonFilePath) : IClient
 
     public async Task SetClientKey(string ipAddress, string key)
     {
-        await Task.CompletedTask;
-
-        if (!File.Exists(clientKeyStoreJsonFilePath))
+        if (!File.Exists(_clientKeyStoreJsonFilePath))
         {
-            File.WriteAllText(clientKeyStoreJsonFilePath, DefaultJsonContents);
+            await File.WriteAllTextAsync(_clientKeyStoreJsonFilePath, DefaultJsonContents);
         }
 
-        var clientKeyStoreFileContents = File.ReadAllText(clientKeyStoreJsonFilePath);
+        var clientKeyStoreFileContents = await File.ReadAllTextAsync(_clientKeyStoreJsonFilePath);
 
         if (string.IsNullOrWhiteSpace(clientKeyStoreFileContents))
         {
@@ -53,6 +51,6 @@ public class JsonFileClientKeyStore(string clientKeyStoreJsonFilePath) : IClient
             [ClientKeyJsonPropertyName] = key
         };
 
-        File.WriteAllText(clientKeyStoreJsonFilePath, json.ToString());
+        await File.WriteAllTextAsync(_clientKeyStoreJsonFilePath, json.ToString());
     }
 }
