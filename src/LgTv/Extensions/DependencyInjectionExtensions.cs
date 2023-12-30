@@ -8,6 +8,16 @@ namespace LgTv.Extensions;
 
 public static class DependencyInjectionExtensions
 {
+    public static IServiceCollection AddNetworkServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IIPAddressResolver, IPAddressResolver>();
+        services.AddSingleton<IMacAddressResolver, MacAddressResolver>();
+        services.AddSingleton<IWakeOnLan, WakeOnLan>();
+        services.AddSingleton<ITvScanner, TvScanner>();
+
+        return services;
+    }
+
     public static IServiceCollection AddLgTvClient<TClientKeyStore>(
         this IServiceCollection services,
         Action<ClientConfiguration> configure)
@@ -73,16 +83,6 @@ public static class DependencyInjectionExtensions
                 proxyHostConfig ?? configuration.Value.Proxy);
         });
         services.AddSingleton<IClientController, ClientController>();
-
-        return services;
-    }
-
-    private static IServiceCollection AddNetworkServices(this IServiceCollection services)
-    {
-        services.AddSingleton<IIPAddressResolver, IPAddressResolver>();
-        services.AddSingleton<IMacAddressResolver, MacAddressResolver>();
-        services.AddSingleton<IWakeOnLan, WakeOnLan>();
-        services.AddSingleton<ITvScanner, TvScanner>();
 
         return services;
     }

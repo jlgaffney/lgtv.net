@@ -1,14 +1,13 @@
 ﻿using AspNetCore.WebSocketProxy;
+using LgTv.Extensions;
 using LgTv.Networking;
 using LgTv.Scanning;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors();
-
-builder.Services.AddSingleton<ITvScanner, TvScanner>();
-builder.Services.AddSingleton<IMacAddressResolver, MacAddressResolver>();
-builder.Services.AddSingleton<IWakeOnLan, WakeOnLan>();
+builder.Services
+    .AddCors()
+    .AddNetworkServices();
 
 var app = builder.Build();
 
