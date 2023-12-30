@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
 
 builder.Services.AddSingleton<ITvScanner, TvScanner>();
+builder.Services.AddSingleton<IMacAddressResolver, MacAddressResolver>();
+builder.Services.AddSingleton<IWakeOnLan, WakeOnLan>();
 
 var app = builder.Build();
 
